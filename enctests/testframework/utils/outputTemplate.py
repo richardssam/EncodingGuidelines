@@ -70,6 +70,8 @@ def processTemplate(test_configs, otio_info):
   for track in tracks:
       results = []
       default_media = None
+      if 'aswf_enctests' not in track.metadata:
+        continue
       for ref_name, test_info in track.media_references().items():
           if ref_name == "DEFAULT_MEDIA":
               basename = Path(track.name).stem

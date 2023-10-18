@@ -580,7 +580,6 @@ def run_tests(args, test_configs, timeline):
 
             # Run tests and get a dict of resulting media references
             results = encoder.run_wedges()
-
             comparisontests = [{'testtype': 'vmaf'}]
             if "comparisontest" in test_config:
                 comparisontests = test_config.get("comparisontest")
@@ -622,6 +621,15 @@ def run_tests(args, test_configs, timeline):
 
             # Update dict of references
             references.update(results)
+            for test_name, test_ref in results.items():
+                if test_name not in track_map:
+                    track_map[test_name] = otio.schema.Track(name=test_name)
+                track2 = track_map[test_name]
+                test_ref_clip= otio.schema.Clip(name=Path(test_ref.target_url).stem)
+                test_ref_clip.source_range = source_clip.source_range
+                test_ref_clip.start_frame = 0 # These are encoded movies
+                test_ref_clip.media_reference = test_ref
+                track2.append(test_ref_clip)
 
         # Add media references to clip
         source_clip.set_media_references(

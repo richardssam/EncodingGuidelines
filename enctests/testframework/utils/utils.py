@@ -182,7 +182,7 @@ def create_clip(config):
 
     # Source range
     clip.source_range = get_source_range(config)
-    clip.start_frame = config.get('in')
+    clip.start_frame = 0 #config.get('in')
 
     # Check if we have an image sequence source
     is_sequence = config.get('images', False)

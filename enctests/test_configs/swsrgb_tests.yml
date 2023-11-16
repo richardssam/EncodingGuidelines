@@ -1,0 +1,118 @@
+
+
+test_sws_422:
+  app: ffmpeg
+  comparisontest:
+  - extracttemplate: echo {newfile} {newpngfile}
+    testtype: idiff
+    compare_image: ../sourceimages/smptehdbars_8_yuv422p.png
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: SWS tests.
+  encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"
+  name: test_sws_422
+  sources:
+  - ../sourceimages/smptehdbars_8_yuv422p.y4m.yml
+  suffix: .png
+  wedges:
+    default:  &base_args
+      -frames:v: 1
+      -loglevel: verbose
+      -sws_flags: print_info
+      -pix_fmt: rgb24
+      -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
+
+    area:
+      << : *base_args
+      -sws_flags: area+print_info
+
+    spline:
+      << : *base_args
+      -sws_flags: spline+print_info
+
+    lanczos:
+      << : *base_args
+      -sws_flags: lanczos+print_info
+
+    bicubic:
+      << : *base_args
+      -sws_flags: bicubic+print_info
+
+    accurate_rnd:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+print_info
+
+    full_chroma_int:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+full_chroma_int+print_info
+
+    full_chroma_inp:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+full_chroma_int+full_chroma_inp+print_info
+
+
+test_sws_420:
+  app: ffmpeg
+  comparisontest:
+  - extracttemplate: echo {newfile} {newpngfile}
+    testtype: idiff
+    compare_image: ../sourceimages/smptehdbars_8_yuv420p.png
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: SWS tests.
+  encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"
+  name: test_sws_420
+  sources:
+  - ../sourceimages/smptehdbars_8_yuv420p.y4m.yml
+  suffix: .png
+  wedges:
+    default:  &base_args2
+      -frames:v: 1
+      -loglevel: verbose
+      -sws_flags: print_info
+      -pix_fmt: rgb24
+      -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
+
+    area:
+      << : *base_args2
+      -sws_flags: area+print_info
+
+    spline:
+      << : *base_args2
+      -sws_flags: spline+print_info
+
+    lanczos:
+      << : *base_args2
+      -sws_flags: lanczos+print_info
+
+    bicubic:
+      << : *base_args2
+      -sws_flags: bicubic+print_info
+
+    accurate_rnd:
+      << : *base_args2
+      -sws_flags: area+accurate_rnd+print_info
+
+    full_chroma_int:
+      << : *base_args2
+      -sws_flags: area+accurate_rnd+full_chroma_int+print_info
+
+    full_chroma_inp:
+      << : *base_args2
+      -sws_flags: area+accurate_rnd+full_chroma_int+full_chroma_inp+print_info
+
+---
+reports:
+  description: This is testing different sws_flags
+  directory: swsrgb-encode
+  name: swsrgb-tests
+  templatefile: colorweb.html.jinja
+  title: Ffmpeg Filter options

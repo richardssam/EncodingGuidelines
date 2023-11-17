@@ -15,7 +15,7 @@ test_mp4:
             -pix_fmt: yuv420p10le
             -crf: 18
             -preset: slow
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd+full_chroma_int
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_primaries: tv
             -colorspace: bt709
@@ -33,7 +33,7 @@ test_mp4:
             -preset: slow
             -svtav1-params: tune=0
             -preset: 9
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_primaries: tv
             -colorspace: bt709
@@ -52,7 +52,7 @@ test_mp4:
             -row-mt: 1
             -b:v: 0
             -crf: 22
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_primaries: tv
             -colorspace: bt709
@@ -86,7 +86,7 @@ test_mp4:
             -crf: 20
             -preset: medium
             -tag:v: hvc1
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_primaries: tv
             -colorspace: bt709

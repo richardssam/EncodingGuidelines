@@ -15,7 +15,7 @@ test_mp4:
             -pix_fmt: yuv420p10le
             -crf: 18
             -preset: slow
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: 1
             -colorspace: 1
@@ -83,7 +83,7 @@ test_mov:
             -c:v: dnxhd
             -pix_fmt: yuv422p10le
             -profile:v: dnxhr_hqx
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: 1
             -colorspace: 1

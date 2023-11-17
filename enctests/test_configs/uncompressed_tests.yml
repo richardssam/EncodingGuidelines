@@ -94,7 +94,7 @@ test_mov:
             -c:v: dnxhd
             -pix_fmt: yuv444p10le
             -profile:v: dnxhr_444
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: 1
             -colorspace: 1

@@ -76,10 +76,10 @@ test_uncompressed:
       << : *base_args
       -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
       -sws_flags: accurate_rnd+full_chroma_int
-    10bit_libswscale_spline+accurate_rnd+full_chroma_int:
+    10bit_libswscale_area+accurate_rnd+full_chroma_int:
       << : *base_args
       -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
-      -sws_flags: spline+accurate_rnd+full_chroma_int
+      -sws_flags: area+accurate_rnd+full_chroma_int
 ---
 reports:
   description: This is testing the different options for doing RGB to YCrCb and then back to RGB using y4m as an intermediate container of raw YCrCb data. The pass rate for max-error is 0.00195 = 2/1024 = 1/512. So it has to be 1-bit better than 8-bit values.

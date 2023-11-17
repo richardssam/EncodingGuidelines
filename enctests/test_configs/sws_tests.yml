@@ -16,6 +16,7 @@ test_sws_444:
   name: test_sws_444
   sources:
   - ../sourceimages/smptehdbars_16.png.yml
+  #- ../sourceimages/hcw_mmtest_close.png.yml
   suffix: .y4m
   wedges:
     16bit_default:
@@ -48,9 +49,21 @@ test_sws_444:
       << : *base_args
       -sws_flags: bicubic+print_info
 
+    accurate_rnd:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+print_info
+
+    full_chroma_int:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+full_chroma_int+print_info
+
+    full_chroma_inp:
+      << : *base_args
+      -sws_flags: area+accurate_rnd+full_chroma_int+full_chroma_inp+print_info
 
 
-test_sws_d:
+
+test_sws_422_d:
   app: ffmpeg
   comparisontest:
   - extracttemplate: ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -sws_flags print_info -pix_fmt rgb48be -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 {newpngfile}
@@ -81,7 +94,7 @@ test_sws_d:
       -color_trc: bt709
       -colorspace: bt709
 
-test_sws_s:
+test_sws_422_s:
   app: ffmpeg
   comparisontest:
   - extracttemplate: ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -sws_flags spline+accurate_rnd -pix_fmt rgb48be -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 {newpngfile}
@@ -133,16 +146,32 @@ test_sws_422_a:
   - ../sourceimages/smptehdbars_10.dpx.yml
   suffix: .y4m
   wedges:
-    area: 
+    default:   &base_args3
       -strict: -1
       -loglevel: verbose
-      -sws_flags: area+print_info
+      -sws_flags: print_info
       -pix_fmt: yuv422p10le
       -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
       -color_primaries: bt709
       -color_range: tv
       -color_trc: bt709
       -colorspace: bt709
+
+    area:
+      << : *base_args3
+      -sws_flags: area+print_info
+
+    accurate_rnd:
+      << : *base_args3
+      -sws_flags: area+accurate_rnd+print_info
+
+    full_chroma_int:
+      << : *base_args3
+      -sws_flags: area+accurate_rnd+full_chroma_int+print_info
+
+    full_chroma_inp:
+      << : *base_args3
+      -sws_flags: area+accurate_rnd+full_chroma_int+full_chroma_inp+print_info
 
 test_sws_422_b:
   app: ffmpeg

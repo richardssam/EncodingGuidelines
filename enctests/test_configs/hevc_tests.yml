@@ -17,7 +17,7 @@ test_preset_yuv420p:
             -crf: 18
             -x264-params: '"keyint=15:no-deblock=1"'
             -pix_fmt: yuv420p
-            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -sws_flags: area+accurate_rnd
             -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: 1
             -colorspace: 1

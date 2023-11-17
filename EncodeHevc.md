@@ -50,7 +50,7 @@ comparisontest:
 -->
 ```
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 -c:v libx265 \
-    -pix_fmt yuv420p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int \
+    -pix_fmt yuv420p10le -crf 22 -preset slow -sws_flags area+accurate_rnd \
     -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
     -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 2 -y outputfile.mp4
 ```

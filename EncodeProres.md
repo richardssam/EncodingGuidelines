@@ -61,7 +61,7 @@ Using this with the usual color space flags, seems to work well with the excepti
 
 ```console
 ffmpeg -i INPUTFILE.mov -compression_level 10 -pred mixed -pix_fmt rgba64be \
-   -sws_flags spline+accurate_rnd+full_chroma_int -vframes 1 \
+   -sws_flags area+accurate_rnd -vframes 1 \
    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 OUTPUTFILE.png
 ```
 
@@ -112,7 +112,7 @@ sources:
 comparisontest:
    - testtype: idiff
      compare_image: ../sourceimages/chip-chart-1080-16bit-noicc-yuv422p10le.png
-     extracttemplate: "ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -pix_fmt rgb48be  -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -sws_flags spline+accurate_rnd+full_chroma_int {newpngfile}"
+     extracttemplate: "ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -pix_fmt rgb48be  -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -sws_flags area+accurate_rnd+full_chroma_int {newpngfile}"
    - testtype: assertresults
      tests:
      - assert: less

@@ -42,7 +42,7 @@ comparisontest:
 ```
 ffmpeg -r 24 -start_number 100 -i inputfile.%04d.png -frames:v 200 -c:v libx264 \
         -pix_fmt yuv420p10le -crf 18 -preset slow \
-        -sws_flags spline+accurate_rnd+full_chroma_int \
+        -sws_flags area+accurate_rnd \
         -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
         -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 2 -y outputfile.mp4
 ```

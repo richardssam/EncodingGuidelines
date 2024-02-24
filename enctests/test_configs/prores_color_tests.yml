@@ -1,0 +1,140 @@
+test_prores_alt:
+  app: ffmpeg
+  comparisontest:
+  - testtype: idiff
+    extracttemplate: ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -pix_fmt
+      rgb48be  -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709
+      -sws_flags spline+accurate_rnd+full_chroma_int {newpngfile}
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: prores color tests of different pix-fmts
+  encoding_template: '{ffmpeg_bin} -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"'
+  name: test_prores_alt
+  sources:
+  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  - ../sourceimages/smptehdbars_10.dpx.yml
+  suffix: .mov
+  wedges:
+    prores-yuv444p10le: &baseprores
+      -c:v: prores_ks
+      -profile:v: 4444xq
+      -qscale:v: 0
+      -color_primaries: bt709
+      -color_range: tv
+      -color_trc: bt709
+      -colorspace: bt709
+      -pix_fmt: yuv444p10le
+      -strict: experimental
+---
+test_prores_color:
+  app: ffmpeg
+  comparisontest:
+  - testtype: idiff
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: prores color tests of different pix-fmts
+  encoding_template: '{ffmpeg_bin} -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"'
+  name: test_prores_color
+  sources:
+  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  - ../sourceimages/smptehdbars_10.dpx.yml
+  suffix: .mov
+  wedges:
+    prores-yuv444p10le: &baseprores
+      -c:v: prores_ks
+      -profile:v: 4444xq
+      -qscale:v: 0
+      -color_primaries: bt709
+      -color_range: tv
+      -color_trc: bt709
+      -colorspace: bt709
+      -pix_fmt: yuv444p10le
+      -strict: experimental
+      #-preset: 3
+      #-tag:v: hvc1
+
+
+      #-profile:v: main444-10
+
+    prores-yuv444p10le-filter:
+      << : *baseprores
+      -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
+    
+    quickstart:
+      -pix_fmt: yuv444p10le
+      -c:v: prores_ks
+      -profile:v: '4444'
+      -qscale:v: '9'
+      -vf: scale=in_color_matrix=bt709:out_color_matrix=bt709
+
+    prores_docs:
+      -pix_fmt: yuv422p10le
+      -vf: scale=in_color_matrix=bt709:out_color_matrix=bt709
+      -c:v: prores_ks
+      -profile:v: '3'
+      -vendor: apl0
+      '-qscale:v:': '10'
+      -color_range: tv
+      -colorspace: bt709
+      -color_primaries: bt709
+      -color_trc: iec61966-2-1
+
+    videotoolbox:
+      -pix_fmt: yuv422p10le
+      -c:v: prores_videotoolbox
+      -profile:v: 'xq'
+      -color_range: tv
+      -colorspace: bt709
+      -color_primaries: bt709
+      -color_trc: bt709
+
+    videotoolbox_filter:
+      -pix_fmt: yuv444p10le
+      -vf: scale=in_color_matrix=bt709:out_color_matrix=bt709
+      -c:v: prores_videotoolbox
+      -profile:v: 'xq'
+      -color_range: tv
+      -colorspace: bt709
+      -color_primaries: bt709
+      -color_trc: bt709
+
+---
+reports:
+  graphs:
+  - args:
+      color: name
+      height: 400
+      barmode: group
+      x: media
+      y: max_error
+    name: max_error.png
+    type: bar
+  - args:
+      color: name
+      height: 400
+      x: media
+      barmode: group
+      y: encode_time
+    name: encode_time.png
+    type: bar
+  - args:
+      color: name
+      height: 400
+      x: media
+      barmode: group
+      y: filesize
+    name: filesize.png
+    type: bar
+  description: This is testing ProRes_ks color encoding.
+  directory: prores-color-encode
+  name: prores-color-tests
+  templatefile: colorweb.html.jinja
+  title: Prores_ks encoding guide tests

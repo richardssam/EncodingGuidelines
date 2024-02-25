@@ -1,21 +1,25 @@
 test_prores_alt:
   app: ffmpeg
   comparisontest:
-  - testtype: idiff
-    extracttemplate: ffmpeg -y -i {newfile} -compression_level 10 -pred mixed -pix_fmt
-      rgb48be  -frames:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709
-      -sws_flags spline+accurate_rnd+full_chroma_int {newpngfile}
+  - testtype: identity
+    compare_image: ../sourceimages/smptehdbars_10_yuv444p10le_resolvedpx.y4m
   - testtype: assertresults
     tests:
-    - assert: less
-      value: max_error
-      less: 0.00195
+    - assert: equal
+      value: Y
+      equal: 1
+    - assert: equal
+      value: U
+      equal: 1
+    - assert: equal
+      value: V
+      equal: 1
   description: prores color tests of different pix-fmts
   encoding_template: '{ffmpeg_bin} -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"'
   name: test_prores_alt
   sources:
-  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  #- ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
   - ../sourceimages/smptehdbars_10.dpx.yml
   suffix: .mov
   wedges:
@@ -33,18 +37,25 @@ test_prores_alt:
 test_prores_color:
   app: ffmpeg
   comparisontest:
-  - testtype: idiff
+  - testtype: identity
+    compare_image: ../sourceimages/smptehdbars_10_yuv444p10le_resolvedpx.y4m
   - testtype: assertresults
     tests:
-    - assert: less
-      value: max_error
-      less: 0.00195
+    - assert: equal
+      value: Y
+      equal: 1
+    - assert: equal
+      value: U
+      equal: 1
+    - assert: equal
+      value: V
+      equal: 1
   description: prores color tests of different pix-fmts
   encoding_template: '{ffmpeg_bin} -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"'
   name: test_prores_color
   sources:
-  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  #- ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
   - ../sourceimages/smptehdbars_10.dpx.yml
   suffix: .mov
   wedges:
@@ -114,7 +125,7 @@ reports:
       height: 400
       barmode: group
       x: media
-      y: max_error
+      y: Y
     name: max_error.png
     type: bar
   - args:
@@ -136,5 +147,5 @@ reports:
   description: This is testing ProRes_ks color encoding.
   directory: prores-color-encode
   name: prores-color-tests
-  templatefile: colorweb.html.jinja
+  templatefile: basicimagecompare.html.jinja
   title: Prores_ks encoding guide tests

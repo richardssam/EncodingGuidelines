@@ -1,0 +1,104 @@
+
+test_preset_yuv420p:
+    name: test_colorspace_yuv420p
+    description: variations of colorspace yuv420p
+    app: ffmpeg
+    suffix: .mov
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    sources:
+    - sources/enc_sources/chimera_cars_srgb/chimera_cars_srgb.%05d.png.yml
+    - sources/enc_sources/chimera_coaster_srgb/chimera_coaster_srgb.%06d.png.yml
+    - sources/enc_sources/chimera_fountains_srgb/chimera_fountains_srgb.%05d.png.yml
+    - sources/hdr_sources/sparks_srgb/sparks_srgb.%05d.png.yml
+    wedges:
+        default_crf_18: &base_args2
+            -c:v: hevc_nvenc
+            -rc-lookahead: 25
+            -preset: p6
+            -spatial-aq: 1
+            -temporal_aq: 1
+            -cq: 26
+            -pix_fmt: yuv420p
+            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
+            -color_range: 1
+            -colorspace: 1
+            -color_primaries: 1
+            -color_trc: 2
+
+        cq5:
+            << : *base_args2
+            -cq: 5
+
+
+        cq50:
+            << : *base_args2
+            -cq: 50
+
+        cq10:
+            << : *base_args2
+            -cq: 10
+
+        cq20:
+            << : *base_args2
+            -cq: 20
+
+        hq:
+            << : *base_args2
+            -preset: hq
+
+        hq_2pass:
+            << : *base_args2
+            -preset: hq
+            -2pass: 1
+
+        p6_b100k:
+            << : *base_args2
+            -b:v: 100k
+            -cbr: 1
+
+        p6_b1m:
+            << : *base_args2
+            -b:v: 1m
+            -cbr: 1
+
+
+        p6_b10m:
+            << : *base_args2
+            -b:v: 10m
+            -cbr: 1
+
+---
+
+reports:
+    graphs:
+    - args:
+        color: name
+        height: 400
+        barmode: group
+        x: media
+        y: vmaf_harmonic_mean
+      name: vmaf_harmonic_mean.png
+      type: bar
+    - args:
+        color: name
+        height: 400
+        x: media
+        barmode: group
+        y: encode_time
+      name: encode_time.png
+      type: bar
+    - args:
+        color: name
+        height: 400
+        x: media
+        barmode: group
+        y: filesize
+      name: filesize.png
+      type: bar
+    name: hevc-nvenc-test
+    title: HEVC Preset Comparison
+    description: This is a comparison of different Preset values for HEVC encoding, with CRF = 18.
+    directory: hevc-nvenc-encode
+    templatefile: basic.html.jinja
+

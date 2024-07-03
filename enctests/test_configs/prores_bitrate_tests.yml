@@ -1,0 +1,69 @@
+test_prores:
+    name: test_prores_quality
+    description: variations of prores_quality
+    app: ffmpeg
+    suffix: .mov
+    encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    sources:
+    - sources/enc_sources/chimera_cars_srgb/chimera_cars_srgb.%05d.png.yml
+    #- sources/enc_sources/chimera_coaster_srgb/chimera_coaster_srgb.%06d.png.yml
+    #- sources/enc_sources/chimera_fountains_srgb/chimera_fountains_srgb.%05d.png.yml
+    wedges:
+        bit_45: &base_args
+            -c:v: prores_ks
+            -profile:v: 3
+            -b:v: 45M
+            -pix_fmt: yuv422p10le
+            -color_range: tv
+            -colorspace: bt709
+            -color_primaries: bt709
+            -color_trc: iec61966-2-1 
+
+
+        bit_110:
+            << : *base_args
+            -b:v: 110M
+
+        bit_220:
+            << : *base_args
+            -b:v: 220M
+
+        bit_300:
+            << : *base_args
+            -b:v: 300M
+            
+
+
+---
+
+reports:
+    graphs:
+    - args:
+        color: media
+        height: 400
+        x: -b:v
+        y: vmaf_harmonic_mean
+        markers: True
+      name: vmaf_harmonic_mean.png
+      sortby: name
+    - args:
+        color: media
+        height: 400
+        x: -b:v
+        y: encode_time
+        markers: True
+      name: encode_time.png
+      sortby: name
+    - args:
+        color: media
+        height: 400
+        x: -b:v
+        y: filesize
+        markers: True
+      name: filesize.png
+      sortby: name
+    name: prores-bitrate-tests
+    title: Prores quality comparison.
+    description: This is a comparison of different bitrate settings for the prores_ks encoder.
+    directory: prores-bitrate-encode
+    templatefile: basic.html.jinja

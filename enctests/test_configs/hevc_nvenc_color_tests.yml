@@ -1,0 +1,104 @@
+
+---
+test_h265_color:
+  app: ffmpeg
+  comparisontest:
+  - testtype: idiff
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: h265 color tests of different pix-fmts
+  encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"
+  name: test_h265_color
+  sources:
+  - ../sourceimages/chip-chart-1080-noicc.png.yml
+  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  - ../sourceimages/smptehdbars_16.png.yml
+  suffix: .mp4
+  wedges:
+    yuv444p16lex265: &basex265
+      -c:v: hevc_nvenc
+      -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
+      -color_primaries: bt709
+      -color_range: tv
+      -color_trc: bt709
+      -colorspace: bt709
+      -pix_fmt: yuv444p16le
+      -preset: slow
+      -x265-params: lossless=1
+      -tag:v: hvc1
+      -profile:v: main10
+
+
+    bgr0x265:
+      << : *basex265
+      #-vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=full:out_color_matrix=bt709"'
+      -color_range: pc
+      -colorspace: rgb
+      -pix_fmt: bgr0
+
+    rgb0x265:
+      << : *basex265
+      #-vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=full:out_color_matrix=bt709"'
+      -color_range: pc
+      -colorspace: rgb
+      -pix_fmt: rgb0
+
+    x2rgb10lex265:
+      << : *basex265
+      #-vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=full:out_color_matrix=bt709"'
+      -color_range: pc
+      -colorspace: rgb
+      -profile:v: main10
+      -pix_fmt: x2bgr10le
+
+    
+
+---
+test_h265_color_420:
+  app: ffmpeg
+  comparisontest:
+  - testtype: idiff
+    compare_image: ../sourceimages/chip-chart-1080-16bit-noicc-yuv420p10le.png
+  - testtype: assertresults
+    tests:
+    - assert: less
+      value: max_error
+      less: 0.00195
+  description: h265 color tests of different pix-fmts
+  encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
+    -y "{outfile}"
+  name: test_h265_color
+  sources:
+  - ../sourceimages/chip-chart-1080-16bit-noicc.png.yml
+  suffix: .mp4
+  wedges:
+    yuv420ple: &basex265
+      -c:v: hevc_nvenc
+      -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
+      -color_primaries: bt709
+      -color_range: tv
+      -color_trc: bt709
+      -colorspace: bt709
+      -pix_fmt: yuv420p
+      -preset: slow
+      -x265-params: lossless=1
+      -tag:v: hvc1
+      -profile:v: main10
+
+    yuv420p10le-full:
+      << : *basex265
+      -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=full:out_color_matrix=bt709"'
+      -color_range: pc
+  
+
+---
+reports:
+  description: This is testing h265 color encoding on nvidia GPUs.
+  directory: hevc-nvenc-color-encode
+  name: hevc-nvenc-color-tests
+  templatefile: colorweb.html.jinja
+  title: Ffmpeg nevc_nvenc color tests.

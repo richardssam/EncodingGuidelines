@@ -4,6 +4,7 @@ test_osx-oapv:
     app: ffmpeg
     comparisontest:
     - testtype: vmaf3
+    - testtype: ffmpeg_psnr
     suffix: .mov
     encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
     sources:
@@ -16,14 +17,16 @@ test_osx-oapv:
     #- sources/hdr_sources/sparks_srgb/sparks_srgb.%05d.png.yml
     wedges:
         oapv_422p10le: &base_args
-            -c:v: liboapv
+            -c:v: oapv
 #            -profile:v: 4444
 #            -qscale:v: 16
             -pix_fmt: yuv422p10le
+            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: tv
             -colorspace: bt709
             -color_primaries: bt709
-#            -color_trc: iec61966-2-1 
+            -color_trc: iec61966-2-1 
 
 
         oapv_422p10le_qp15:
@@ -63,10 +66,12 @@ test_osx-oapv:
             -profile:v: 3
 #            -qscale:v: 16
             -pix_fmt: yuv422p10le
+            -sws_flags: spline+accurate_rnd+full_chroma_int
+            -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
             -color_range: tv
             -colorspace: bt709
             -color_primaries: bt709
-#            -color_trc: iec61966-2-1 
+            -color_trc: iec61966-2-1 
 
 
         prores_videotoolbox_yuv422p10le_hq:
@@ -74,6 +79,12 @@ test_osx-oapv:
             -c:v: prores_videotoolbox
             -profile:v: hq
             -pix_fmt: yuv422p10le
+
+        prores_videotoolbox_yuv444p12le_xq:
+            << : *base_args2
+            -c:v: prores_videotoolbox
+            -profile:v: 4444
+            -pix_fmt: yuv444p12le
 
         prores_videotoolbox_yuv444p12le_xq:
             << : *base_args2
@@ -87,7 +98,7 @@ reports:
     graphs:
     - args:
         color: wedge
-        height: 400
+        height: 500
         barmode: group
         x: media
         y: psnr_y_harmonic_mean
@@ -95,7 +106,7 @@ reports:
       type: bar
     - args:
         color: wedge
-        height: 400
+        height: 500
         barmode: group
         x: media
         y: vmaf_harmonic_mean
@@ -106,7 +117,7 @@ reports:
       type: bar
     - args:
         color: wedge
-        height: 400
+        height: 500
         x: media
         barmode: group
         y: encode_time
@@ -114,7 +125,7 @@ reports:
       type: bar
     - args:
         color: wedge
-        height: 400
+        height: 500
         x: media
         barmode: group
         y: filesize
@@ -122,15 +133,15 @@ reports:
       type: bar
     - args:
         color: wedge
-        height: 400
+        height: 500
         x: media
         barmode: group
         y: psnr_y_harmonic_mean
       name: psnr_y_harmonic_mean.png
       type: bar
-    name: osx-videotoolbox
-    title: OSX Videotoolbox Comparison
-    description: This is a comparison of different videotoolbox encodes.
+    name: osx-videotoolbox-oapv
+    title: OSX Videotoolbox vs. oapv Comparison
+    description: This is a comparison of different videotoolbox and oapv encodes.
     directory: osx-oapv-encode
     templatefile: basic2.html.jinja
 

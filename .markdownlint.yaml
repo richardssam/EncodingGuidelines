@@ -1,0 +1,11 @@
+# Disable line length rule
+MD013: false
+
+# Allow inline HTML
+MD033: false
+
+#Images requiring alt text.
+MD045: false
+
+#Its incorrectly flagging multiple root headings.
+MD025: false

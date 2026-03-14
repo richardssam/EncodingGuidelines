@@ -16,7 +16,6 @@ While it does compress quickly, and maintains its quality fairly well, we would 
 mjpeg has a limited range of pixel formats:
 yuvj420p yuvj422p yuvj444p yuv420p yuv422p yuv444p
 
-
 Example encoding:
 
 <!---
@@ -31,18 +30,16 @@ comparisontest:
        value: max_error
        less: 0.00195
 -->
-```
+```console
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 \
    -c:v mjpeg -qscale:v 2  outputfile.mov
 
 ```
 
-
 ## Recommended Flags
 
 | --- | --- |
 | **-qscale:v 2** | This is the compression factor, which goes from 2 to 31 where 2 is the best quality. See alternative approach for better encoding. |
-
 
 ### qscale:v Comparison
 
@@ -56,11 +53,14 @@ Below is a comparison of different Qscale rates
 ## Alternative approach
 
 You can generate the individual jpeg files using another tool, and then use ffmpeg to stitch them together. For example, to convert a series of png frames to jpeg, you can use oiiotool:
-```
+
+```console
 oiiotool -v --parallel-frames -i PNGFILES.%05d.png --compression jpeg:95 -o JPEGFILES.%05d.jpg
 ```
+
 and then stitch them together with:
-```
+
+```console
 ffmpeg -f image2 -r 24 -i JPEGFILES.%05d.jpg -vcodec copy outputfile.mov
 ```
 

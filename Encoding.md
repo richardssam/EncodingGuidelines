@@ -20,16 +20,16 @@ has_children: true
 Ffmpeg supports over 100 video codecs, but only a fraction of those are really worth a deeper dive.
 
 We are going to focus on codecs that match one of the following conditions:
-   * Supported by common web browsers.
-   * Have good compression ratios with good color fidelity.
-   * Supported by common apps, e.g. Resolve, RV, AVID.
-   * Commonly requested as a delivery format by studios or clients.
 
+* Supported by common web browsers.
+* Have good compression ratios with good color fidelity.
+* Supported by common apps, e.g. Resolve, RV, AVID.
+* Commonly requested as a delivery format by studios or clients.
 
 ## Codecs reviewed <a name="encode"></a>
 
-| Codec Family | ffmpeg codec | Bit depth | Pixel format supported | Web Support | HDR | 
-|------------|------------|------------|------------|------------|------------|
+| Codec Family | ffmpeg codec | Bit depth | Pixel format supported | Web Support | HDR |
+| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
 | [h264](Encodeh264.html) | x264 | 8 10 | YUV-4:4:4 yuv-4:2:2 YUV-4:2:0 | All Browsers | HLG |
 | [VP9](EncodeVP9.html) | libvpx-vp9 | 8 10 12 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All Browsers | Yes |
 | [HEVC/H265](EncodeHevc.html) | libx265 | 8 10 12 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All browsers | Yes |
@@ -38,8 +38,7 @@ We are going to focus on codecs that match one of the following conditions:
 | [Prores](EncodeProres.html) | prores_ks | 10 | yuv-4:4:4:4 yuv-4:4:4 yuv-4:2:2 | Safari | ? |
 | [DNxHD](EncodeDNXHD.html) | dnxhd | 8 10 | yuv-4:2:2 yuv-4:4:4 rgb | no | ? |
 | [Mjpeg](EncodeMJPEG.html) | mjpeg | 8 | yuv-4:2:2 yuv-4:4:4 | no | no |
-| [OpenAPV](EncodeOpenAPV.html) | liboapv | 10 12 | yuv-4:4:4:4 yuv-4:4:4 yuv-4:2:2  | no | yes |
-
+| [OpenAPV](EncodeOpenAPV.html) | liboapv | 10 12 | yuv-4:4:4:4 yuv-4:4:4 yuv-4:2:2 | no | yes |
 
 For a high level comparison we have encoded 4 sets of media using our recommended settings, all with the aim of getting the VMAF score > 98.  libx264 libstvav1 and vp9 were all encoded 4:2:0 and DNxHD and Prores were at 10-bit 4:2:2.
 
@@ -54,7 +53,7 @@ For details on codec flags, and how we picked the parameters, do goto the page f
 
 [Y4m](https://wiki.multimedia.cx/index.php/YUV4MPEG2) is a terrific container for uncompressed media. It allows uncompressed raw YCrCb data to be stored with a simple header.
 
-## Uncompressed Codecs.
+## Uncompressed Codecs
 
 Ffmpeg has support for a small number of uncompressed codecs that are worth using for testing. We don't recommend any of them for day-to-day use.
 
@@ -67,7 +66,7 @@ Ffmpeg has support for a small number of uncompressed codecs that are worth usin
 | r210 | RGB 10-bit |
 | png | PNG inside a Quicktime, either 8 or 16-bit with or without alpha | rgb24 rgba rgb48be rgba64be pal8 gray ya8 gray16be ya16be monob |
 
-## Other codecs worth considering.
+## Other codecs worth considering
 
 Below are other codecs that may be worth considering at some point.
 
@@ -76,10 +75,10 @@ Below are other codecs that may be worth considering at some point.
 | hap | HAP and HAPQ codec | rgba |  [HAP](https://hap.video/using-hap.html) - Fast GPU decompression, at the expense of file-size |
 | LCEVC | | | [Low Complexity Enhancement Video Coding](https://docs.v-nova.com/v-nova/lcevc/reference-applications/ffmpeg) |
 
-
 See:
-   * https://blog.frame.io/2017/02/13/compare-50-intermediate-codecs/
-   
+
+* <https://blog.frame.io/2017/02/13/compare-50-intermediate-codecs/>
 
 ### See Also
-   * Another good reference for encoding options is here: [https://trac.ffmpeg.org/wiki/Encode/VFX](https://trac.ffmpeg.org/wiki/Encode/VFX) although the page is a little out of date.
+
+* Another good reference for encoding options is here: [https://trac.ffmpeg.org/wiki/Encode/VFX](https://trac.ffmpeg.org/wiki/Encode/VFX) although the page is a little out of date.

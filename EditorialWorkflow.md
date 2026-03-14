@@ -14,7 +14,6 @@ parent: Encoding Overview
 
 # Timecode and Editorial Workflow
 
-
 <details open markdown="block">
   <summary>
     Table of contents
@@ -30,8 +29,7 @@ This can be done with the -timecode flag:
 
 E.g.
 
-
-```
+```console
 ffmpeg -r 24 -start_number <STARTFRAME> -i inputfile.%04d.png \
         -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \
         -frames:v 100 -c:v libx264 -preset slow -pix_fmt yuv420p \
@@ -39,12 +37,11 @@ ffmpeg -r 24 -start_number <STARTFRAME> -i inputfile.%04d.png \
         outputfile.mp4
 ```
 
-
 There are three approaches for what to use for the timecode:
+
 * [Convert the start frame number](#start-frame-as-timecode) to the related timecode.
 * Use the timecode from the [original plate](#start-frame-as-original-plate-timecode)
 * A "fixed" timecode for all deliverables
-
 
 ## Start Frame as Timecode
 
@@ -60,7 +57,7 @@ By remapping the frame number to a timecode number, e.g. frame 1001 to 00:00:41:
 
 Converting the frame number to timecode can be done using OTIO:
 
-```
+```console
 import opentimelineio as otio
 start_frame = 1001
 frame_rate = 24.0
@@ -73,22 +70,19 @@ Another scenario is that the client is delivering a single clip, that your facil
 
 This has a similar benefit in terms of conform, you can add or remove frames, and the conform will do the right thing, but it does require *a lot* more tracking, since if the frames are trimmed off the beginning, you will need to calculate the new timecode. Equally problematic is if you have multiple plates since you would need to track which clip is the baseline in terms of timecode and make sure any deliveries for the shot are appropriately using that timecode.
 
-
 ## Reel Name
 
 While tracking the timecode for dailies may be too complex, it can be extremely useful for making proxies for source camera files. But the timecode alone is not enough, you also would need the reel-name, which typically is closely mapped to the filename of the original camera files.
 
 For a QuickTime the reel name can be defined with the -metadata:s:v:0 flag:
 
-```
+```console
 ffmpeg -f lavfi -i testsrc -t 1 -timecode 01:00:00:00 -metadata:s:v:0 reel_name=ABCD123 OUTPUT.mov
 ```
 
-
 For a Op1a mxf file it can be defined with a -metadata flag:
 
-
-```
+```console
 ffmpeg -f lavfi -i testsrc -t 1 -timecode 01:00:00:00 -metadata reel_name=ABCD123 OUTPUT.mxf
 ```
 
@@ -100,7 +94,7 @@ However, metadata for reel-name is not consistently supported across the applica
    </td>
    <td>Resolve
    </td>
-   <td>AVID MC 
+   <td>AVID MC
    </td>
    <td>Premiere
    </td>
@@ -157,16 +151,13 @@ However, metadata for reel-name is not consistently supported across the applica
   </tr>
 </table>
 
-
 To get resolve to import the Reel-name you need to change how the reel name is defined, which is set under the project settings (see below). NB this can be done after the media has been added to the media pool.
 
 ![Resolve Project Settings](sourceimages/ResolveProjectSettings.png)
 
-
 For media composer you will find much more flexibility wrapping the MXF file in an AAF (see below).
 
 For examples of the conform workflow, see: [VFX Subclipping relink](https://www.youtube.com/watch?app=desktop&v=gbReqyofLLE).
-
 
 ## AVID Media Composer Workflows
 
@@ -176,7 +167,7 @@ For details on creating MXF files, see [OpAtom](EncodeDNXHD.html#op-atom-mxf) an
 Part of the decision is whether you want a single file to also contain the audio, and whether you want to additionally use AAF files (see below).
 
 If an AVID imports a media file with no timecode, it will default to 01:00:00:00.
-For this reason it can be desirable to do one of the above approaches, but do work with editorial to confirm what they would like. 
+For this reason it can be desirable to do one of the above approaches, but do work with editorial to confirm what they would like.
 
 [OpAtom](EncodeDNXHD.html#op-atom-mxf) files do not get directly imported into the AVID, instead you copy them directly into the /Users/Shared/AvidMediaComposer/Avid MediaFiles/MXF/{NUMBER} folder (e.g. /Users/Shared/AvidMediaComposer/Avid MediaFiles/MXF/2) on OSX or C:\Avid MediaFiles\MXF\{NUMBER} on windows. You can make a higher number, but Media Composer will also scan existing folders. Media composer will scan for new files and create (or update) a msmMMOB.mdb file, which is a database of the MOB ID's of the files. This can then be dragged into a Avid Bin to import the new files.
 
@@ -189,7 +180,8 @@ If you are tightly integrating your pipeline into an AVID workflow, you should c
 Ideally with AAF files, you would be importing MXF files (like the example above) to minimize the import time to the AVID (so it doesn't require any media transcoding).
 
 A simple example of this is to convert all your clips to raw DNxHD files, e.g.:
-```
+
+```console
 ffmpeg -y -i <INPUTFILE> -pix_fmt yuv422p \
     -sws_flags lanczos -pix_fmt yuv422p \
     -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
@@ -200,6 +192,7 @@ ffmpeg -y -i <INPUTFILE> -pix_fmt yuv422p \
 ```
 
 and then to wrap these resulting files in an AAF with:
+
 ```python
 import aaf2
 import os, sys
@@ -245,8 +238,8 @@ for filename in sys.argv[1:]:
     # mob.import_audio_essence("sample.wav", edit_rate) #Modify if you have audio too.
 ```
 
-In this simplistic example, I'm overwriting the Shot and Scene metadata columns, which should then show up in the bin, when the resulting AAF files are dragged into a bin. For a more complex version of this see: [aaf_embed_media_tool](https://github.com/markreidvfx/pyaaf2/blob/main/examples/aaf_embed_media_tool.py). 
+In this simplistic example, I'm overwriting the Shot and Scene metadata columns, which should then show up in the bin, when the resulting AAF files are dragged into a bin. For a more complex version of this see: [aaf_embed_media_tool](https://github.com/markreidvfx/pyaaf2/blob/main/examples/aaf_embed_media_tool.py).
 
 ## See Also
-   * [Feature Turnover Guide](https://www.evanschiff.com/articles/feature-turnover-guide-vfx/)
-   
+
+* [Feature Turnover Guide](https://www.evanschiff.com/articles/feature-turnover-guide-vfx/)

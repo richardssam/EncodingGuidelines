@@ -7,16 +7,17 @@ parent: Codec Comparisons
 
 # VP9
 
-VP9 is an open-source and royalty free codec developed by the [Alliance for Open Media](https://trac.ffmpeg.org/wiki/Encode/VP9) (AOMedia), a non-profit industry consortium. It can be 20-50% higher efficiency than h264. 
+VP9 is an open-source and royalty free codec developed by the [Alliance for Open Media](https://trac.ffmpeg.org/wiki/Encode/VP9) (AOMedia), a non-profit industry consortium. It can be 20-50% higher efficiency than h264.
 
 General ffmpeg info on VP9 is [here](https://trac.ffmpeg.org/wiki/Encode/VP9), and on the encoder in general [https://developers.google.com/media/vp9/hdr-encoding](https://developers.google.com/media/vp9/hdr-encoding).
 
 VP9 has browser support in:
-   * Chrome - works on all configurations.
-   * Edge - works on all configurations.
-   * Firefox - works for 8-bit and 10-bit but fails with 12-bit.
-   * Opera - works on all configurations.
-   * Safari - works for 8-bit and 10-bit but fails on 10-bit 444 and 12-bit RGB.
+
+* Chrome - works on all configurations.
+* Edge - works on all configurations.
+* Firefox - works for 8-bit and 10-bit but fails with 12-bit.
+* Opera - works on all configurations.
+* Safari - works for 8-bit and 10-bit but fails on 10-bit 444 and 12-bit RGB.
 
 VP9 is supported by mp4 and webm containers, no support exists for mov.
 VP9 does support an alpha channel (via the yuva420p pixfmt).
@@ -24,6 +25,7 @@ VP9 does support an alpha channel (via the yuva420p pixfmt).
 Outside of the web browser, VP9 support is pretty much limited to Davinci Resolve (Mac R/W, windows Read-only), Houdini, Blender, ffmpeg and VLC.
 
 The two codecs we will cover are:
+
 * [libvpx-vp9](#libvpx-vp9)
 * vp9-nvenc
 
@@ -31,7 +33,6 @@ The two codecs we will cover are:
 
 libvpx-vp9 has a wide range of pixel formats:
 yuv420p yuva420p yuv422p yuv440p yuv444p yuv420p10le yuv422p10le yuv440p10le yuv444p10le yuv420p12le yuv422p12le yuv440p12le yuv444p12le gbrp gbrp10le gbrp12le
-
 
 Example encoding:
 
@@ -48,7 +49,7 @@ comparisontest:
        value: max_error
        less: 0.00195
 -->
-```
+```console
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 -c:v libvpx-vp9 \
    -pix_fmt yuv420p10le -crf 22 -cpu-used 2 -row-mt 1 -quality good -b:v 0\
    -sws_flags spline+accurate_rnd+full_chroma_int \
@@ -57,11 +58,9 @@ ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 -c:v libvpx-vp9
      -y outputfile.mp4
 ```
 
-
-
 ## Recommended Flags
 
-```
+```console
 -crf 22 -quality good -b:v 0  -cpu-used 2 -row-mt 1 
 ```
 
@@ -72,19 +71,17 @@ ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 -c:v libvpx-vp9
 | -cpu-used 2 | It sets how efficient the compression will be. The default is 0, changing this will increase encoding speed at the expense of having some impact on quality and rate control accuracy. (See below). |
 | -row-mt 1 | This enables row based multi-threading (see [here](https://trac.ffmpeg.org/wiki/Encode/VP9#rowmt)) which is not enabled by default. |
 
-Its possible you might want to change the [GOP](https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained/#:~:text=Simply%20put%2C%20a%20GOP%20is,30%20frames%2C%20or%201%20second.) values (changed with the -g flag), since the default is 240 frames. Unlike h264 and h265 VP9 does behave strangely with GOP values less than 10, the closer you get to 1, the longer the encoding takes and the larger the file (which is not true for other codecs). 
-
+Its possible you might want to change the [GOP](https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained/#:~:text=Simply%20put%2C%20a%20GOP%20is,30%20frames%2C%20or%201%20second.) values (changed with the -g flag), since the default is 240 frames. Unlike h264 and h265 VP9 does behave strangely with GOP values less than 10, the closer you get to 1, the longer the encoding takes and the larger the file (which is not true for other codecs).
 
 ### CRF Comparison
 
 Below is a comparison of different CRF rates, with -b:v 0 and -quality good
 
-
 If you are trying to map crf values from h264, [VS_Fan](http://forum.doom9.net/showthread.php?p=1940750) came up with the following remapping formula:
-```
+
+```console
 vp9_crf (x264_crf) = 1.98 * x264_crf − 14.46
 ```
-
 
 | ![](enctests/reference-results/vp9-crf-test-encode_time.png)  This is showing CRF values against encoding time. |
 | ![](enctests/reference-results/vp9-crf-test-filesize.png) This is showing CRF values against file size. |

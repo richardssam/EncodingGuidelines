@@ -1,4 +1,4 @@
-# ORI Video Encoding recommendations.
+# ORI Video Encoding recommendations
 
 The formatted documentation is at [https://academysoftwarefoundation.github.io/EncodingGuidelines/](https://academysoftwarefoundation.github.io/EncodingGuidelines/).
 
@@ -11,7 +11,6 @@ This work is being done as part of the [ASWF Open Review Initiative](https://ope
 
 The main wiki page for this for now is [here](https://lf-aswf.atlassian.net/wiki/spaces/PRWG/pages/11274685/Movie+Compression+with+ffmpeg+for+media+review.).
 
-
-### Acknowledgements  <a name="Acknowledgements"></a>
+## Acknowledgements  <a name="Acknowledgements"></a>
 
 This document is a result of feedback from many people, in particular I would like to thank Kevin Wheatley, Trevor Aylward, Mark Reid, Gates Roberg Clark, Rick Sayre, Wendy Heffner and J Schulte for their time and patience.  

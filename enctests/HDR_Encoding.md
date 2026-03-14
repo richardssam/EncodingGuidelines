@@ -142,11 +142,11 @@ The HDR metadata parameters really is what separates HDR10 from PQ10. The parame
 * [Master Display](#master-display)  
 * [Max-CLL/Max-FALL](#max-cllmaxfall)
 
-It's worth noting that the definition below is for H264/H265, and may not be transferable to other codecs. We will attempt to document other appropriate settings. For H264/H265 the Master-display metadata is stored in the Supplemental Enhancement Information (SEI) block within the H264/H265 stream for the gory details see: [T-REC-H.265-202407-I](https://www.itu.int/rec/T-REC-H.265-202407-I) 
+It's worth noting that the definition below is for H264/H265, and may not be transferable to other codecs. We will attempt to document other appropriate settings. For H264/H265 the Master-display metadata is stored in the Supplemental Enhancement Information (SEI) block within the H264/H265 stream for the gory details see: [T-REC-H.265-202407-S](https://www.itu.int/rec/T-REC-H.265-202407-S/en)
 
-##### Master Display {#master-display}
+#### Master Display {#master-display}
 
-It is possible to create encoded media without additional metadata (essentially the PQ10 standard), but [T-REC-H.265-202407-I](https://www.itu.int/rec/T-REC-H.265-202407-I)  defines some additional metadata fields which describe how the media was mastered, establishing the creative intent of the original media.
+It is possible to create encoded media without additional metadata (essentially the PQ10 standard), but [T-REC-H.265-202407-S](https://www.itu.int/rec/T-REC-H.265-202407-S/en) defines some additional metadata fields which describe how the media was mastered, establishing the creative intent of the original media.
 
 It's extremely rare to be doing the final color-correct on a monitor that fully supports rec2020, much more typical is one that has a P3 Gamut. The master-display parameter defines the colorimetry of the master display and the luminance range.
 

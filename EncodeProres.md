@@ -6,12 +6,14 @@ parent: Codec Comparisons
 ---
 
 # ProRes <a name="prores"></a>
+
 There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based OSX M1 encoder/decoder (ffmpeg version 5 or higher).
 
-If you are doing lighting or compositing reviews the recommendation is to use Prores_ks with -profile:v 3. If you are able we would recommend using [OpenAPV](https://academysoftwarefoundation.github.io/EncodingGuidelines/EncodeOpenAPV.html) or prores_videotoolbox over prores_ks, and look at a 444 10-bit or 12-bit encode, since they both give a superior result. 
+If you are doing lighting or compositing reviews the recommendation is to use Prores_ks with -profile:v 3. If you are able we would recommend using [OpenAPV](https://academysoftwarefoundation.github.io/EncodingGuidelines/EncodeOpenAPV.html) or prores_videotoolbox over prores_ks, and look at a 444 10-bit or 12-bit encode, since they both give a superior result.
 
 The two encoders we are reviewing are:
-* [Prores_ks](#Prores_ks)
+
+* [Prores_ks](#prores_ks)
 * [videotoolbox_prores](#videotoolbox_prores) - only available on osx.
 
 ## Prores_ks
@@ -52,10 +54,7 @@ Options that can be used include:
 | -vendor apl0 | tricks the codec into believing its from an Apple codec. |
 | -alpha_bits 16 | Allows you to specify how many bits to use for the alpha channel (default 16) |
 
-
-
 Using this with the usual color space flags, seems to work well with the exception of ffmpeg itself is unable to read a ProRes file, and convert it to a still frame. It needs the flags:`-vf scale=in_color_matrix=bt709:out_color_matrix=bt709` added to the command to ensure the right input colorspace is recognized, e.g.:
-
 
 ```console
 ffmpeg -i INPUTFILE.mov -compression_level 10 -pred mixed -pix_fmt rgba64be \
@@ -70,6 +69,7 @@ ffmpeg -i ./chip-chart-yuvconvert/basicnclc.mov -c copy \
    -bsf:v prores_metadata=color_primaries=bt709:color_trc=bt709:colorspace=bt709 \
    chip-chart-yuvconvert/basicnclcmetadata.mov
 ```
+
 ### Prores_ks profile
 
 Profile values can be one of:
@@ -90,8 +90,7 @@ To compare them:
 | ![](enctests/reference-results/prores-test-encode_time.png)  This is showing profile values against encoding time. | ![](enctests/reference-results/prores-test-filesize.png) This is showing profile values against file size. |
 | ![](enctests/reference-results/prores-test-vmaf_harmonic_mean.png) This is showing profile values against VMAF harmonic mean (quality)|
 
-
-### Prores_ks -qscale:v comparison.
+### Prores_ks -qscale:v comparison
 
 To help pick appropriate values with the -qscale:v , we have run the [Test Framework](enctests/README.html) through some of the [reference media](enctests/sources/enc_sources/README.html).
 
@@ -133,7 +132,7 @@ NOTE, it does not appear to allow `-color_trc iec61966-2-1` (sRGB) -- so this ne
 Similar to prores_ks, with the exception of xq. Profile values can be one of:
 
 | Profile | Number | Chroma | Data Rate HD @ 29.97 | Description |
-|:----------|:-----------|:-----------|:-----------|:-----------|
+| :---------- | :----------- | :----------- | :----------- | :----------- |
 | proxy | 0 | 4:2:2 | 45Mbps | Proxy |
 | lt | 1 | 4:2:2 | 102Mbps | Light |
 | standard | 2 | 4:2:2 | 147Mbps | Standard |

@@ -5,7 +5,7 @@ nav_order: 5.5
 parent: Encoding Overview
 ---
 
-# Useful Ffmpeg Filters.
+# Useful Ffmpeg Filters
 
 This is covering other things that can be done directly in ffmpeg that might be useful.
 
@@ -20,24 +20,26 @@ This is covering other things that can be done directly in ffmpeg that might be 
 
 ## Other FFmpeg Resources
 
-   * [GOP values explained](https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained/#:~:text=Simply%20put%2C%20a%20GOP%20is,30%20frames%2C%20or%201%20second)
-   * [ffimprovisr](https://amiaopensource.github.io/ffmprovisr/) is a great resource to find more friendly descriptions/examples of common ffmpeg use-cases.
+* [GOP values explained](https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained/#:~:text=Simply%20put%2C%20a%20GOP%20is,30%20frames%2C%20or%201%20second)
+* [ffimprovisr](https://amiaopensource.github.io/ffmprovisr/) is a great resource to find more friendly descriptions/examples of common ffmpeg use-cases.
 
 ## Audio
 
-```
+```console
 -filter_complex "[1:0]apad" -shortest
 ```
+
 This is a useful filter to add when adding an audio file, if the audio file might not match the length of the resulting movie. This will either pad the audio to match the video, if the audio is short, or truncate the audio to match the video.
 
 TODO - Provide full example of adding audio to the "quickstart" demo.
 
-## Image resizing.
+## Image resizing
 
-### Keeping the image height a factor of 2.
+### Keeping the image height a factor of 2
 
 There may be reasons that you want to do any image resizing directly inside ffmpeg, (e.g. when converting from another movie format). A number of the codecs require that the width and height be a factor of 2 (and sometimes 4). The expression below will ensure that the height is set correctly, assuming the width is 1920
-```
+
+```console
 -vf scale=1920:trunc(ow/a/2)*2:flags=lanczos
 ```
 
@@ -45,11 +47,9 @@ If you are downrezing, you will get the best results with the lancozs filter, ot
 
 TODO - this needs testing, to confirm filter quality.
 
-
 See: [https://trac.ffmpeg.org/wiki/Scaling](https://trac.ffmpeg.org/wiki/Scaling) for more info.
 
-
-## Concatenation of video files.
+## Concatenation of video files
 
 See: [https://trac.ffmpeg.org/wiki/Concatenate](https://trac.ffmpeg.org/wiki/Concatenate)
 
@@ -66,7 +66,7 @@ TODO - Provide some examples of speed improvement, as well as a sample command l
 | ffmpeg -h muxer=<MUXERNAME> | List of options for a particular muxer, e.g. ffmpeg -h muxer=mp4 |
 | ffmpeg -filters | list all filters
 | ffmpeg -codecs | list all codecs (encoders and decoders) |
-| ffmpeg -encoders | list just encoders | 
+| ffmpeg -encoders | list just encoders |
 | ffmpeg -h encoder=<ENCODERNAME> | List args for specified encoder, e.g. ffmpeg -h encoder=prores_ks. This also lists what supported pixel formats are supported. |
 | ffmpeg -h decoder=<DECODERNAME> | List args for specified decoder, e.g. ffmpeg -h decoder=exr |
 
@@ -76,37 +76,39 @@ Ffmpeg has a crazy number of filters (see [Ffmpeg filters](https://ffmpeg.org/ff
 
 ### stereo framepack
 
-https://www.ffmpeg.org/ffmpeg-filters.html#toc-framepack - Generate a frame packed stereoscopic video 
-```
+<https://www.ffmpeg.org/ffmpeg-filters.html#toc-framepack> - Generate a frame packed stereoscopic video
+
+```console
 ffmpeg -i LEFT -i RIGHT -filter_complex framepack=frameseq OUTPUT
 ```
 
-### stereo3d 
-https://www.ffmpeg.org/ffmpeg-filters.html#toc-stereo3d 
+### stereo3d
+
+<https://www.ffmpeg.org/ffmpeg-filters.html#toc-stereo3d>
 Re-pack an existing stereo movie into a different format
 
 ### SMPTE HD bars
 
-Creates a [SMPTE HD colorbars](https://en.wikipedia.org/wiki/SMPTE_color_bars) image. NOTE, this is actually created in YUV space, and only for 8-bit Y'CrCb. 
+Creates a [SMPTE HD colorbars](https://en.wikipedia.org/wiki/SMPTE_color_bars) image. NOTE, this is actually created in YUV space, and only for 8-bit Y'CrCb.
 
 ffmpeg does have a built-in SMPTE color bars, however by default, it does not create it in the right colorspace, so you do need to specify the color primaries, colorspace and colortrc to make it behave correctly.
 Also note, these are 8-bit only.
 
 This is an h264 output yuv422p
 
-```
+```console
 ffmpeg -re -color_primaries bt709 -colorspace bt709 -color_range tv -color_trc bt709 -f lavfi -i smptehdbars=duration=1:size=1920x1080:rate=1 -c:v h264 -crf 10  smptehdbars-h264.mov
 ```
 
 This is a 8-bit 444 raw encode.
 
-```
+```console
 ffmpeg -re -color_primaries bt709 -colorspace bt709 -color_range tv -color_trc bt709 -f lavfi -i smptehdbars=duration=1:size=1920x1080:rate=1,format=yuv444p -c:v v408 smptehdbars-v408.mov
 ```
 
 This is a PNG output, warning this would only be to the legal range, so the [pluge](https://en.wikipedia.org/wiki/Picture_line-up_generation_equipment) would be zeroed out:
 
-```
+```console
 ffmpeg -color_primaries bt709 -colorspace bt709 -color_trc bt709 -re -f lavfi -i smptehdbars=duration=1:size=1920x1080:rate=1 -vframes 1  smptehdbars.png
 ```
 
@@ -116,57 +118,60 @@ Creates a [Zoneplate test chart](https://ffmpeg.org/ffmpeg-filters.html#zoneplat
 
 Creating it with ffmpeg directly to RGB:
 
-```
+```console
 ffmpeg -f lavfi -i zoneplate=ku=512:kv=100:kt2=0:ky2=256:kx2=556:s=wvga:yo=0:kt=11:duration=1 -pix_fmt rgb48be zoneplate_rgb16.png
 ```
 
 Creating it with ffmpeg directly to YCrCb:
 
-```
+```console
 ffmpeg -f lavfi -i zoneplate=ku=512:kv=100:kt2=0:ky2=256:kx2=556:s=wvga:yo=0:kt=11:duration=1 -pix_fmt yuv420p10 -strict -1 zoneplate_yuv420p10.y4m
 ```
 
 ### Nullsrc
+
 A dummy source video signal.
 
 Creating a blank YUV h264 file of 1024 frames.
-```
+
+```console
 ffmpeg -r 24 -f lavfi -i nullsrc=s=1280x720,format=yuv444p -frames:v 1024 yuv444p.mov
 ```
 
 Creating a blank YUV 10-bit h264 file
-```
 
+```console
 ffmpeg -r 24 -f lavfi -i nullsrc=s=1280x720,format=yuv444p10le -frames:v 1024 yuv444p10le.mov
 ```
 
-THis is commonly used with geq.
+This is commonly used with geq.
 
 ### geq
 
-[geq](https://www.ffmpeg.org/ffmpeg-filters.html#geq)  Apply a generic equation to each pixel 
+[geq](https://www.ffmpeg.org/ffmpeg-filters.html#geq)  Apply a generic equation to each pixel
 
-```
+```console
 ffmpeg -r 24 -f lavfi -i nullsrc=s=512x512 -pix_fmt yuv444p -frames:v 1024 -vf geq=X/2:128:128 yuv444p_ramp.mov
 ```
 
 If you want other bit-depths, you do need to add an additional format flag for example:
-```
+
+```console
 ffmpeg -r 24 -f lavfi -i nullsrc=s=1024x512,format=yuv444p10le -frames:v 1024 -vf geq=X:512:512 yuv444p10_ramp.mov
 ```
-
 
 ### identity
 
 Calculate the differences between two image streams.
 [toc-identity](https://www.ffmpeg.org/ffmpeg-filters.html#toc-identity)
 
-```
+```console
 ffmpeg -i movie1.mov -i movie2.mov -lavfi identity -f null -
 ```
 
 Will output a line like:
-```
+
+```console
  identity Y:0.430940 U:0.516449 V:0.448389 average:0.465259 min:0.452062 max:0.480941``
 ```
 
@@ -181,16 +186,17 @@ The two images need to be the same resolution and pixel format (at least both RG
 Allows you to create a calculated LUT that is then applied to the picture.
 
 ### PSNR
+
 Obtain the average, maximum and minimum PSNR (Peak Signal to Noise Ratio) between two input videos
 [psnr](https://www.ffmpeg.org/ffmpeg-filters.html#toc-psnr)
 
-```
+```console
 ffmpeg -i movie1.mov -i movie2.mov -lavfi psnr -f null -
 ```
 
 Will output a line like:
 
-```
+```console
 PSNR y:46.121876 u:50.295497 v:48.852140 average:46.987439 min:45.790238 max:49.754820
 ```
 

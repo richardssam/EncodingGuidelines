@@ -4,7 +4,7 @@ nav_order: 1
 title: Introduction
 ---
 
-# ORI Video Encoding Guidelines.
+# ORI Video Encoding Guidelines
 
 This project is from the [ASWF Open Review Initiative](https://openreviewinitiative.org/). It attempts to establish best practices for encoding Video media for VFX/Animation media review. We aim to explain what various parameters do, and in what situations you might want to choose to modify them.
 
@@ -16,10 +16,9 @@ The main confluence page for this for now is [here](https://lf-aswf.atlassian.ne
 {: .highlight }
 We recommend usage of [VP9](EncodeVP9.html) and [AV1](EncodeAv1.html) over h264 and h265 where possible to encourage the usage of patent-free codecs, for more information on this see the white-paper [Next-gen codecs for VFX Community](https://docs.google.com/document/d/1EJ7Q_HhjL0ELNdjz5AgnPrraUvy7XCo52LL08WxgjtA/edit#heading=h.9rkn78tjmq48).  
 
+## Why is this needed
 
-## Why is this needed.
-
-There are a lot of excellent guides out there. But few addressing the needs of the VFX community. 
+There are a lot of excellent guides out there. But few addressing the needs of the VFX community.
 
 An example of why this is important is to compare:
 
@@ -37,27 +36,27 @@ You can see the default ffmpeg conversion introduces a dramatic color shift that
 4. [Color space conversion](ColorPreservation.html#Color-space-conversion)
 5. [Media Encoding with ffmpeg](ColorPreservation.html#encodestart)
     1. [Frame sequence specification](FfmpegInputs.html)
-	2. [RGB to YCrCb Conversion](ColorPreservation.html#yuv)
-	3. [TV vs. Full range.](ColorPreservation.html#tvfull)
-	4. [RGB encode](RGBEncoding.html)
-	5. [Useful Ffmpeg Filters.](OtherFfmpegArgs.html)
-	6. [HDR Encoding](enctests/HDR_Encoding.html)
-	7. [Adding Timecode and Editorial Workflow](EditorialWorkflow.html)
-	8. [Adding Metadata](EncodingMetadata.html)
+    2. [RGB to YCrCb Conversion](ColorPreservation.html#yuv)
+    3. [TV vs. Full range.](ColorPreservation.html#tvfull)
+    4. [RGB encode](RGBEncoding.html)
+    5. [Useful Ffmpeg Filters.](OtherFfmpegArgs.html)
+    6. [HDR Encoding](enctests/HDR_Encoding.html)
+    7. [Adding Timecode and Editorial Workflow](EditorialWorkflow.html)
+    8. [Adding Metadata](EncodingMetadata.html)
 6. [Codec Comparisons](Encoding.html#encode)
-	1. [h264](Encodeh264.html)
-	2. [ProRes](EncodeProres.html)
-	3. [AV1](EncodeAv1.html)
-	4. [HEVC/H.265](EncodeHevc.html)
-	5. [MJPEG](EncodeMJPEG.html)
-	6. [VP8](EncodeVP8.html)
-	6. [VP9](EncodeVP9.html)
-	7. [DNxHD](EncodeDNXHD.html)
-	8. [OpenAPV](EncodeOpenAPV.html)
-	9. [JPEG2000 - HTJ2K](EncodeHTJ2K.html)
+    1. [h264](Encodeh264.html)
+    2. [ProRes](EncodeProres.html)
+    3. [AV1](EncodeAv1.html)
+    4. [HEVC/H.265](EncodeHevc.html)
+    5. [MJPEG](EncodeMJPEG.html)
+    6. [VP8](EncodeVP8.html)
+    7. [VP9](EncodeVP9.html)
+    8. [DNxHD](EncodeDNXHD.html)
+    9. [OpenAPV](EncodeOpenAPV.html)
+    10. [JPEG2000 - HTJ2K](EncodeHTJ2K.html)
 7. [Metadata NCLC/NCLX](ColorPreservation.html#nclc)
-	1. [Gamut - colorprimaries](ColorPreservation.html#gamut)
-	2. [Color Range](ColorPreservation.html#range)
+    1. [Gamut - colorprimaries](ColorPreservation.html#gamut)
+    2. [Color Range](ColorPreservation.html#range)
 8. [Web Review](ColorPreservation.html#webreview)
 
 ### Acknowledgements  <a name="Acknowledgements"></a>
@@ -72,6 +71,6 @@ This document and project is still a work in progress. We are working on buildin
 
 This document is primarily the work of Sam Richards. The test suite was developed by Daniel Flehner Heen.
 
-### Feedback and error reporting.
+### Feedback and error reporting
 
-We welcome feedback on this document, please report any errors or suggestions to the [github issues](https://github.com/AcademySoftwareFoundation/EncodingGuidelines/issues) page. 
+We welcome feedback on this document, please report any errors or suggestions to the [github issues](https://github.com/AcademySoftwareFoundation/EncodingGuidelines/issues) page.

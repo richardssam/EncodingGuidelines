@@ -7,11 +7,11 @@ parent: Codec Comparisons
 
 # HTJ2K - High Throughput JPEG 2000
 
-HTJ2K is an extremely interesting extension of the JPEG-2000 standard that is widely used in digital cinema, which promises significantly faster encoding and decoding for a small hit to compression efficiency. 
+HTJ2K is an extremely interesting extension of the JPEG-2000 standard that is widely used in digital cinema, which promises significantly faster encoding and decoding for a small hit to compression efficiency.
 
 The key advantages of HTJ2K include:
 
-1. Visually lossless compression with high throughput.   
+1. Visually lossless compression with high throughput.
 2. 10x-30x faster than Jpeg2000.  
 3. Resolution scalability, lower resolutions extracted without needing to fully decode the file.  
 4. Frame-based (intra-frame) compression. Each frame is encoded independently, which is ideal for random-access playback and scrubbing. Since each frame is encoded separately, and then stitched together into a container the compression can easily be parallelized.  
@@ -31,7 +31,7 @@ The rate control has limited support in the open-source tools.
 
 [HTJ2K](https://lists.aswf.io/g/openexr-dev/attachment/5389/0/openexr+ht-v10.pdf) is now available in OpenEXR as a lossless compression option, which offers better compression sizes and faster encoding and decoding than PIZ. This is an example of HTJ2K usage with floating point, which is supported by the format, but not widely used.
 
-See - 
+See -
 
 * [https://github.com/chafey/HTJ2KResources](https://github.com/chafey/HTJ2KResources)  
 * [https://htj2k.com/](https://htj2k.com/)  
@@ -66,8 +66,9 @@ Commercial Decoders
 
 Ojph_compress is part of the OpenJPH library. It can read pgm, ppm, pfm, dpx, tif and raw files, and generate j2c compressed files. But it can only do a single frame at a time.
 
-An example:  
-```
+An example:
+
+```console
 ojph_compress -i INPUTFRAME.0001.tif -o OUTPUTFRAME.0001.j2c -qstep 0.001 
 ```
 
@@ -80,11 +81,13 @@ The advantage of using OIIO over ojph_compress are:
 * Built in batch-conversion.  
 * More options for image source, including OpenEXR.
 
-Creating HTJ2K files can be done on the command line with oiiotool, e.g.:  
-```
+Creating HTJ2K files can be done on the command line with oiiotool, e.g.:
+
+```console
 oiiotool -t STARTFRAME-ENDFRAME –parallel-frames -i INPUTFRAMESEQ.%05d.tif \
      –compression htj2k --attrib jph:qstep 0.001 -o OUTPUTFRAMESEQ.%05d.j2c
 ```
+
 Without the jph:qstep flag, lossless mode is used, which is typically quite a bit smaller than many other compression schemes, but not typically small enough for reviews.
 
 | *–attrib jph:qstep 0.0001* | Interval size used to quantize wavelet coefficients. There is a rough mapping between this and the meaningful bit-depth of the resulting picture, qstep \= 2^(- bit-depth)   If this is not defined, lossless compression is used. (See below). |
@@ -101,8 +104,9 @@ There are a number of advantages to having the J2C files in a container:
 * Allows additional metadata to be stored in the container header.  
 * In some cases seek time could be improved with the right container by creating an index table to seek into the container faster, although this may require additional development to support it.
 
-FFMPEG provides the ability to add j2c files to a container with the following command:  
-```
+FFMPEG provides the ability to add j2c files to a container with the following command:
+
+```console
 ffmpeg -f image2 -r 24 -i JPEGFILES.%05d.j2c -vcodec copy outputfile.mov
 ```
 
@@ -115,13 +119,13 @@ Below are some charts showing how different qstep values affect, encode time, fi
 | ![](enctests/reference-results/htj2k-qstep-test-vmaf_harmonic_mean.png) This is showing Qstep values against VMAF harmonic mean |
 | ![](enctests/reference-results/htj2k-qstep-test-psnr_y_harmonic_mean.png) This is showing Qstep values against PSNR |
 
-NOTE - qstep default = 1/(2^bit-depth) so default for above 8-bit 0.00390625, 10-bit image would be 0.000976562 and 12-bits it would need to be 0.000244. So you really want to have at least a value of .002 or less. 
+NOTE - qstep default = 1/(2^bit-depth) so default for above 8-bit 0.00390625, 10-bit image would be 0.000976562 and 12-bits it would need to be 0.000244. So you really want to have at least a value of .002 or less.
 
 So we probably want something close to or below 0.001 as a starting value for 10-bit data or at least between 0.001 and 0.003.
 
 ## QFactor
 
-As an alternative to setting the qstep, with the [https://github.com/osamu620/OpenHTJ2K](https://github.com/osamu620/OpenHTJ2K) encoder you also have the option of setting the quality with a [QFactor](https://ds.jpeg.org/documents/jpeg2000/wg1n100430-098-COM-Guideline_on_controlling_JPEG_2000_image_quality_using_a_single_parameter.pdf) flag. This is closer to the Jpeg 0-100 quality flag. It is also a little more refined than setting qstep allowing it to use different qsteps for different sub-bands of the image. 
+As an alternative to setting the qstep, with the [https://github.com/osamu620/OpenHTJ2K](https://github.com/osamu620/OpenHTJ2K) encoder you also have the option of setting the quality with a [QFactor](https://ds.jpeg.org/documents/jpeg2000/wg1n100430-098-COM-Guideline_on_controlling_JPEG_2000_image_quality_using_a_single_parameter.pdf) flag. This is closer to the Jpeg 0-100 quality flag. It is also a little more refined than setting qstep allowing it to use different qsteps for different sub-bands of the image.
 
 In testing it with OpenHTJ2K and it does feel nicer than the fractional qstep. However, for our needs we typically would want something between 99 and 100.
 
@@ -135,7 +139,7 @@ See  - [Controlling JPEG 2000 image quality using a single parameter (Qfactor)](
 ## Progression Order {#progression-order}
 
 The progression order (typically a prog_order flag in openjph, or jph:prog_order  
- In OIIO) defines how the compressed image data is organized in the code-stream. 
+ In OIIO) defines how the compressed image data is organized in the code-stream.
 
 | Flag | Meaning | When to use it |
 | :---- | :---- | :---- |
@@ -168,7 +172,7 @@ The test was to pick a frame rate where openRV is able to load a buffer at a rat
 Note, the higher performance on windows is from the additional optimization on windows hardware, having said that the performance for 4k playback is acceptable for cinema content and does have quite a bit of optimization compared to OpenJPEG and FFMPEG.  
 It's also worth pointing out that improved playback performance can be achieved using [Kakadu](https://kakadusoftware.com/) and [Comprimato](https://comprimato.com/) commercial decoders, although pure GPU based ones may not perform too well within openRV.
 
-[Blackmagic Resolve](https://www.blackmagicdesign.com/uk/products/davinciresolve) can also playback HTJ2K J2C image sequence files. It does not appear to be able to recognise J2C files in containers though. 
+[Blackmagic Resolve](https://www.blackmagicdesign.com/uk/products/davinciresolve) can also playback HTJ2K J2C image sequence files. It does not appear to be able to recognise J2C files in containers though.
 
 ## Future work
 
@@ -177,4 +181,3 @@ It's also worth pointing out that improved playback performance can be achieved 
 * Auto switching resolutions based on playback performance.  
 * Floating point support, and HDR support. (Good to get feedback on this).  
 * Being able to load HTJ2K files from a S3 bucket, contained in a MXF file.
-

@@ -8,10 +8,10 @@ has_children: true
 
 {: .no_toc }
 
-
 # Media Encoding with ffmpeg  <a name="encodestart"></a>
 
 We will break the encoding process into three parts:
+
 1. [The RGB to YCrCb conversion](#Color-space-conversion)
 2. [The encoding process itself](Encoding.html)
 3. [Metadata tagging for web browsers](WebColorPreservation.html)
@@ -26,20 +26,22 @@ Hint: by default the nuke PNG writer will have the slow compression enabled, thi
 
 ## Easy install of OCIO/OIIO/FFmpeg
 
-Different approaches for getting started include: [anaconda](https://www.anaconda.com/) you will also need to download the ACES OCIO configuration files from: https://github.com/colour-science/OpenColorIO-Configs
-```
+Different approaches for getting started include: [anaconda](https://www.anaconda.com/) you will also need to download the ACES OCIO configuration files from: <https://github.com/colour-science/OpenColorIO-Configs>
+
+```console
 conda create --name aswf-ffmpeg
 conda activate aswf-ffmpeg
 conda install -c conda-forge py-openimageio
 pip install PyYAML pillow
 ```
+
 This should give you py-openimageio, openimageio and ffmpeg-4.4
 
 TODO - Provide other approaches for quickly getting going (e.g. vcpkg)
 
 ## Quick introduction to color conversion using oiiotool
 
-```
+```console
 export OCIO=ocio://studio-config-v1.0.0_aces-v1.3_ocio-v2.1 # Or wherever your OCIO is, this is using a builtin OCIO config, with OCIO 2.2 or newer.
 oiiotool --framepadding 5 --frames 1-100 sourcefilename_acescg.#.exr --resize 1920x0 \
        --colorconvert acescg srgb --dither -o outputimage.#.png
@@ -52,7 +54,6 @@ oiiotool --framepadding 5 --frames 1-100 sourcefilename_acescg.#.exr --resize 19
 | --colorconvert acescg srgb | Do a colorspace convert from ACEScg to sRGB. (See the autocc flag below)|
 | --dither |  Adding a dither process when writing to an 8-bit file |
 
-
 Other flags you might want to use include:
 
 | --- | --- |
@@ -61,7 +62,8 @@ Other flags you might want to use include:
 | --autocc | Turns on automatic color space conversion,
 
 The above will work well for many of the h264 files, but for generating movies with an extended bit depth (8-16), you may want to do:
-```
+
+```console
 export OCIO=~/git/OpenColorIO-Configs/aces_1.2/config.ocio # Or wherever your OCIO is.
 oiiotool --framepadding 5 --frames 1-100 sourcefilename_acescg.#.exr --resize 1920x0
          --colorconvert acescg srgb -d uint16 -o outputimage.#.png
@@ -69,14 +71,15 @@ oiiotool --framepadding 5 --frames 1-100 sourcefilename_acescg.#.exr --resize 19
 
 Adding the `-d uint16` flag forces the intermediate file format to be 16-bit, rather than the 8-bit default. Note, we have also removed the dither flag.
 
-## Image resizing.
+## Image resizing
 
 There are a couple of gotchas with image resizing to watch out for:
-   * A number of the encoders require that the resulting movie file be a factor of 2, there isn't a direct way to do this in oiiotool, you would need to read the source image file to determine the right output scale.
-   * Watch for filter options, if you choose to do the filtering in ffmpeg, it defaults to bicubic, which is not a great choice for downrezing image formats. For reasons why lancozs is preferred, see:
-      * [https://legacy.imagemagick.org/Usage/filter/](https://legacy.imagemagick.org/Usage/filter/)
-      * [https://www.cambridgeincolour.com/tutorials/image-resize-for-web.htm](https://www.cambridgeincolour.com/tutorials/image-resize-for-web.htm)
 
+* A number of the encoders require that the resulting movie file be a factor of 2, there isn't a direct way to do this in oiiotool, you would need to read the source image file to determine the right output scale.
+* Watch for filter options, if you choose to do the filtering in ffmpeg, it defaults to bicubic, which is not a great choice for downrezing image formats. For reasons why lancozs is preferred, see:
+  * [https://legacy.imagemagick.org/Usage/filter/](https://legacy.imagemagick.org/Usage/filter/)
+  * [https://www.cambridgeincolour.com/tutorials/image-resize-for-web.htm](https://www.cambridgeincolour.com/tutorials/image-resize-for-web.htm)
 
-## See Also.
+## See Also
+
 The following utility - [https://github.com/jedypod/generate-dailies](https://github.com/jedypod/generate-dailies) calls openimageio directly in python to do the image conversion, exporting the resulting file directly to ffmpeg. It has a nice configuration file for text overlays and ffmpeg configuration that is worth looking at too.

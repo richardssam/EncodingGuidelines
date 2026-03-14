@@ -9,6 +9,7 @@ parent: Encoding Overview
 
 
 # RGB to YCrCb Conversion <a name="yuv"></a>
+
 We would like ffmpeg to do as little as possible in terms of color space conversion. i.e. what comes in, goes out. The problem is that most of the codecs prefer to convert from RGB to YUV conversion (technically YCrCb). Do be aware that a number of codecs do support native RGB encoding (including h264, hevc, vp9, av1), but they are not typically supported in web browsers.
 
 The main problem is that ffmpeg by default assumes that any unknown still image format has a color space of [rec601](https://en.wikipedia.org/wiki/Rec._601) which is very unlikely to be the color space your source media was generate in. So unless you tell it otherwise it will attempt to convert from that colorspace producing a color shift.
@@ -22,9 +23,11 @@ For more information, see: [https://trac.ffmpeg.org/wiki/colorspace](https://tra
 For examples comparing these see: [here](https://academysoftwarefoundation.github.io/EncodingGuidelines/tests/chip-chart-yuvconvert/compare.html)
 
 ## colormatrix filter
-```
+
+```console
 -vf "colormatrix=bt470bg:bt709"
 ```
+
 This is the most basic colorspace filtering. bt470bg is essentially part of the bt601 spec.  See: [https://www.ffmpeg.org/ffmpeg-filters.html#colormatrix](https://www.ffmpeg.org/ffmpeg-filters.html#colormatrix)
 
 Example:
@@ -46,7 +49,7 @@ comparisontest:
        value: max_error
        between: 0.37125, 0.37126
 -->
-```
+```console
 ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
     -pix_fmt yuv444p10le -vf "colormatrix=bt470bg:bt709" \
     -c:v libx264 -preset placebo -qp 0 -x264-params "keyint=15:no-deblock=1" \
@@ -55,13 +58,16 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
 ```
 
 There are a couple of issues with this filter:
-   * only supports 8bpc (8-bit per component) pixel formats
-   * Its slower than the alternatives.
+
+* only supports 8bpc (8-bit per component) pixel formats
+* Its slower than the alternatives.
 
 ## colorspace filter
-```
+
+```console
  -vf "colorspace=bt709:iall=bt601-6-625:fast=1"
  ```
+
 Using colorspace filter, better quality filter, SIMD so faster too, can support 10-bit too.  The second part `-vf "colorspace=bt709:iall=bt601-6-625:fast=1"` encodes for the output being bt709, rather than the default bt601 matrix. iall=bt601-6-625 says to treat all the input (colorspace, primaries and transfer function) with the bt601-6-625 label). fast=1 skips gamma/primary conversion in a mathematically correct way.  See:  [https://ffmpeg.org/ffmpeg-filters.html#colorspace](https://ffmpeg.org/ffmpeg-filters.html#colorspace)
 
 Example:
@@ -78,7 +84,7 @@ comparisontest:
        value: max_error
        less: 0.00195
 -->
-```
+```console
 ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    -pix_fmt yuv444p10le -vf "colorspace=bt709:iall=bt601-6-625:fast=1" \
    -c:v libx264 -preset placebo -qp 0 -x264-params "keyint=15:no-deblock=1" \
@@ -86,10 +92,9 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    ./chip-chart-yuvconvert/spline444colorspace.mp4
 ```
 
-
 ## zscale filter
 
-```
+```console
 -vf "zscale=m=709:min=709:rangein=full:range=limited"
 ```
 
@@ -111,7 +116,7 @@ comparisontest:
        value: max_error
        less: 0.00195
 -->
-```
+```console
 ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    -pix_fmt yuv444p10le -vf "zscale=m=709:min=709:rangein=full:range=limited" \
    -c:v libx264 -preset placebo -qp 0 -x264-params "keyint=15:no-deblock=1" \
@@ -121,9 +126,10 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
 
 ## libswscale filter
 
-```
+```console
 -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"
 ```
+
 Using the libswscale library. Seems similar to colorspace, but with image resizing, and levels built in.  [https://www.ffmpeg.org/ffmpeg-filters.html#scale-1](https://www.ffmpeg.org/ffmpeg-filters.html#scale-1)
 
 This is the recommended filter.
@@ -142,7 +148,7 @@ comparisontest:
        value: max_error
        less: 0.00195
 -->
-```
+```console
 ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    -pix_fmt yuv444p10le \
    -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
@@ -150,6 +156,5 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc iec61966-2-1  \
    ./chip-chart-yuvconvert/spline444out_color_matrix.mp4
 ```
-
 
 Note, there are a lot of other flags often used with the swscale filter (such as -sws_flags spline+full_chroma_int+accurate_rnd ) which really have minimal impact in the RGB to YCrCb conversion, if you are not resizing the image. For more details on this see [SWS Flags](EncodeSwsScale.html) section.

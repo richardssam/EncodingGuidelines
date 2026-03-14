@@ -5,7 +5,7 @@ title: HDR Encoding
 parent: Encoding Overview
 ---
 
-# HDR Encoding.
+# HDR Encoding
 
 <details open markdown="block">
   <summary>
@@ -74,7 +74,6 @@ There is also a 4000 nit max and P3 target gamuts available in the OCIO config m
 
 PQ10 is a simplified HDR format essentially HDR10 without the metadata. It uses the [PQ EOTF](https://en.wikipedia.org/wiki/Perceptual_quantizer) aka SMPTE ST 2084 otherwise is somewhat similar to create as HLG, but there may be different reasons for choosing each.
 
-
 <!---
 name: test_pq10
 sources: 
@@ -93,13 +92,11 @@ ffmpeg  \
     -r 30 -start_number 6700 -i sparks2_pq1000/sparks2_pq1000.%05d.png   \
     -c:v libx265   \
     -vf "scale=in_range=full:in_color_matrix=bt2020:out_range=tv:out_color_matrix=bt2020" \
-	-tag:v hvc1  \
+ -tag:v hvc1  \
     -color_range tv   -color_trc smpte2084   -color_primaries bt2020   -colorspace bt2020nc  \
     -pix_fmt yuv444p10le  -tag:v hvc1 \
     sparks2_pq1000_444.mov
 ```
-
-
 
 | :---- | :---- |
 | \-c:v libx265 | Use the h265 encoder |
@@ -110,7 +107,6 @@ ffmpeg  \
 | \-color\_primaries bt2020 | Use the bt2020 color primaries |
 | \-colorspace bt2020nc | Tagging the YcBCr as being encoded using the BT-2020 non-constant luminance. |
 | \-pix\_fmt yuv444p10le | YCrCb 444, although 422 in many cases is also fine. |
-
 
 In many cases this may be sufficient, particularly if you are using the ACES transforms that closely map to the maximum luminance of the review monitor (e.g. the 1000 nit view-transforms). It depends on how much the monitor can take advantage of the master-display parameters (see below).
 
@@ -139,7 +135,7 @@ ffmpeg  \
     -c:v libx265   \
     -vf "scale=in_range=full:in_color_matrix=bt2020:out_range=tv:out_color_matrix=bt2020" \
     -color_range tv   -color_trc smpte2084   -color_primaries bt2020   -colorspace bt2020nc  \
-    -pix_fmt yuv422p10le 	-tag:v hvc1  \
+    -pix_fmt yuv422p10le  -tag:v hvc1  \
     -x265-params "hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:range=limited:master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1):max-cll=1000,400" \
     sparks2_pq1000_422.mov
 ```
@@ -159,32 +155,32 @@ It's extremely rare to be doing the final color-correct on a monitor that fully 
 
 The display volume can be controlled with the [master-display](https://x265.readthedocs.io/en/stable/cli.html#cmdoption-master-display) x265 parameter, that can be passed through ffmpeg. We commonly see P3 values defined in a SEI info block (Supplemental Enhancement Information):
 
-```
+```console
 master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1)
 ```
 
 This maps to:
 
-```
+```console
 master-display=G( Gx, Gy )B( Bx, By )R( Rx, Ry )WP( Wx, Wy )L( max_nits, min_nits )
 ```
 
 Where (Gx, Gy), (Bx, By) and r(Rx, Ry) define the primaries of the color volume, so [P3](https://en.wikipedia.org/wiki/DCI-P3) has a color primaries:
 
-|  | Rx | Ry | Gx | Gy | Bx | By |
+| | Rx | Ry | Gx | Gy | Bx | By |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | Primary Colors | 0.680 | 0.320 | 0.265 | 0.690 | 0.150 | 0.060 |
-| x 50000  | 34000 | 16000 | 13250 | 34500 | 7500 | 3000 |
+| x 50000 | 34000 | 16000 | 13250 | 34500 | 7500 | 3000 |
 
 This defines the x, y primaries, but you need to multiply the fractional value with "50000" to get the integer value.
 
-The whitepoint is also defined with the same multiplication, which typically would be a D65 whitepoint (0.3127 ,	0.3290	) \= WP(15635,16450).
+The whitepoint is also defined with the same multiplication, which typically would be a D65 whitepoint (0.3127 , 0.3290 ) \= WP(15635,16450).
 
 Lastly, the Luminance is defined as L(MAX\_NITS\*10000, MIN\_NITS\*10000) so for a typical 1000 nit display would be L(10000000,1). For Max luminance values are expected to be in the 50000 to 100000000 range, otherwise the value is considered unknown. 0 is also considered unknown. Similarly for the min luminance the range is considered to be in the 1-50000 range other values (including 0\) are considered unknown.
 
 For reference the full rec2020 display values would be:
 
-```
+```console
 master-display=G(8500,39850)B(6550,2300)R(35400,14600)WP(15635,16450)L(10000000,1)
 ```
 
@@ -215,7 +211,7 @@ ffmpeg \
 
 The parameters are similar but the units are quite different. The mastering-display are in the original 0-1 primary values, with the Luminance in nits. It's also worth noting that SVT-AV1 only supports 4:2:0.
 
-See: 
+See:
 
 * [svt-av1 parameters](https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Docs/Parameters.md#2-av1-metadata)
 
@@ -231,11 +227,10 @@ ProRes does have the ability to add the Mastering Display Metadata, and while it
 
 An example of this file is the [NAS Sole Mates ASWF DPEL HDR Production Sample](https://dpel-assets.aswf.io/solemates/quicktime_media-sdr_hdr-v1.0.0.zip), and if you look at the file with ffprobe, you will see:
 
-```
+```console
     Side data:
       Mastering Display Metadata, has_primaries:1 has_luminance:1 r(0.6800,0.3200) g(0.2650,0.6900) b(0.1500 0.0600) wp(0.3127, 0.3290) min_luminance=0.000100, max_luminance=1000.000000
 ```
-
 
 ## HLG
 
@@ -247,7 +242,6 @@ It is also designed to adapt to the surrounding room light levels, unlike PQ whi
 
 We take advantage of ACES to do the initial conversion to an intermediate format, which we are using png as the container.
 
-
 ```console
 # Assuming we are using OCIO 2.1 or higher
 export OCIO=ocio://studio-config-v1.0.0_aces-v1.3_ocio-v2.1
@@ -255,11 +249,9 @@ oiiotool -v --framepadding 5 --frames 6700-6899 sparks2/SPARKS_ACES_#.exr --resi
       ---ociodisplay "Rec.2100-HLG - Display" "ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim)" -d uint16 -o sparks2_hlg/sparks2_hlg.#.png
 ```
 
-
 | --- | --- |
 |--ociodisplay "Rec.2100-HLG - Display" "ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim)" | This is the core colorspace conversion, out_rec2020hlg1000nits is an output colorspace conversion for rec2020 HLG at 1000 nit display |
 | -d uint16 | Output as 16-bit file format |
-
 
 ### HLG 444 FFMPEG encoding
 
@@ -286,12 +278,11 @@ ffmpeg -r 30 -start_number 6700 -i sparks2_hlg/sparks2_hlg.%05d.png   \
     sparks2_hlg_444.mov
 ```
 
-
 #### Overall encode params
 
 | --- | --- |
 | -c:v libx265 | Use the h265 encoder |
-| -tag:v hvc1 | Tag the file for playback on mac | 
+| -tag:v hvc1 | Tag the file for playback on mac |
 
 #### Encode media definition
 
@@ -311,7 +302,6 @@ We explicitly define the X265 parameters (see [x265](https://x265.readthedocs.io
 | transfer=arib-std-b67 | Set the ETOF to HLG (aka. arib-std-bt67 ) |
 | colormatrix=bt2020nc | UTagging the YcBCr as being encoded using the BT-2020 non-constant luminance. |
 | range=limited | Set the source range to be tv range. |
-
 
 ### cICP/mDCV/cLLI in PNG
 

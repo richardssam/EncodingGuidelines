@@ -4,6 +4,8 @@ nav_order: 2
 title: Encoding Cheatsheet
 ---
 
+# Encoding Cheatsheet
+
 This is a cheatsheet for encoding best practices for VFX/Animation production. For each section there are more detailed sections on why these settings are picked, and notes on what parameters you may want to change.
 
 This document is based on results from ffmpeg 6.0.

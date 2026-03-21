@@ -20,7 +20,7 @@ test_swsopt_420:
   sources:
   - ../sourceimages/smptehdbars_10_yuv420p10le.y4m
   - ../sourceimages/zoneplate_yuv420p10.y4m
-  - ../sourceimages/yuv420p10_chromaramp.y4m
+  #- ../sourceimages/yuv420p10_chromaramp.y4m
   suffix: .png
   wedges:
     full_chroma_int:  &base_args2

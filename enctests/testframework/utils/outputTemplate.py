@@ -7,6 +7,7 @@ import plotly.express as px
 import opentimelineio as otio
 import pandas as pd
 import jinja2
+import json
 from pathlib import Path
 from ..test_suite import TestSuite, SourceConfig
 
@@ -97,10 +98,10 @@ def processTemplate(config, timeline):
             merge_test_info['vmaf_mean'] = float(merge_test_info['vmaf']['mean'])
             merge_test_info['vmaf_harmonic_mean'] = float(merge_test_info['vmaf']['harmonic_mean'])
             if 'psnr_y' in merge_test_info:
-              merge_test_info['psnr_y_harmonic_mean'] = float(merge_test_info['psnr_y'].get('harmonic_mean', -1))
+              merge_test_info['psnr_y_harmonic_mean'] = float(merge_test_info.get('psnr_y', {}).get('harmonic_mean', -1))
             if "cambi" in merge_test_info:
-              merge_test_info['cambi_harmonic_mean'] = float(merge_test_info['cambi']['harmonic_mean'])
-              merge_test_info['float_ms_ssim_harmonic_mean'] = float(merge_test_info['float_ms_ssim']['harmonic_mean'])
+              merge_test_info['cambi_harmonic_mean'] = float(merge_test_info.get('cambi', {}).get('harmonic_mean', -1))
+              merge_test_info['float_ms_ssim_harmonic_mean'] = float(merge_test_info.get('float_ms_ssim', {}).get('harmonic_mean', -1))
           else:
             merge_test_info['psnr_y'] = {}
             merge_test_info['psnr_cr'] = {}
@@ -187,8 +188,13 @@ def outputSummaryIndex(output_dir):
                 configfile = timeline.metadata['config_file']
 
                 #Load the test 
+                config_path = Path(configfile)
+                if not config_path.exists():
+                    # Try prepending enctests if we are at root
+                    config_path = Path("enctests") / configfile
+
                 try:
-                  testsuite = TestSuite(Path(configfile))
+                  testsuite = TestSuite(config_path)
                 except FileNotFoundError:
                    print(f"Warning: config file {configfile} is missing, skipping report.")
                    continue
@@ -197,14 +203,16 @@ def outputSummaryIndex(output_dir):
                    continue
                 htmlreport = path.parent / (reportconfig['name']+".html")
                 results = {'title': reportconfig["title"],
+                           'suite_id': reportconfig['name'],
                            'description': reportconfig['description'],
-                           'relativeurl': htmlreport.relative_to(output_dir),
+                           'relativeurl': str(htmlreport.relative_to(output_dir)),
                            'error_tests': 0,
                            'success_tests': 0,
                            'test_start': timeline.metadata.get("test_start", "unknown"),
-                           'platform': timeline.metadata.get("platform", path.parent.parent.parent.name),
-                           'applicationVersion': timeline.metadata.get("applicationVersion", path.parent.parent.name),
-                           'test_duration': timeline.metadata.get("test_duration", "unknown")
+                           'platform': timeline.metadata.get("platform", path.parent.parent.name),
+                           'applicationVersion': timeline.metadata.get("applicationVersion", path.parent.parent.parent.name),
+                           'test_duration': timeline.metadata.get("test_duration", "unknown"),
+                           'sub_tests': []
                            }
                 for trackitem in track:
                   for ref_name, test_info in trackitem.media_references().items():
@@ -215,11 +223,27 @@ def outputSummaryIndex(output_dir):
                        results['success_tests'] += 1
                     else:
                        results['error_tests'] += 1
+                       
+                    # Collect detailed sub-test metrics
+                    sub_test_data = {
+                        'name': f"{ref_name} ({trackitem.name})",
+                        'success': merge_test_info.get('success', True),
+                        'encode_time': merge_test_info.get('encode_time', -1),
+                        'filesize': merge_test_info.get('filesize', -1)
+                    }
+                    if 'vmaf' in merge_test_info and merge_test_info.get('vmaf') is not None:
+                        sub_test_data['vmaf_harmonic_mean'] = merge_test_info.get('vmaf', {}).get('harmonic_mean', -1)
+                    if 'psnr_y' in merge_test_info and merge_test_info.get('psnr_y') is not None:
+                        sub_test_data['psnr_y_harmonic_mean'] = merge_test_info.get('psnr_y', {}).get('harmonic_mean', -1)
+                    
+                    results['sub_tests'].append(sub_test_data)
+
                 test_results.append(results)
 
-    environment = jinja2.Environment(loader=jinja2.FileSystemLoader("testframework/templates/"))
+    template_dir = os.path.join(os.path.dirname(__name__ if __name__ == '__main__' else __file__), "..", "templates")
+    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir))
 
     template = environment.get_template('index.html.jinja')
     htmlreport = Path(output_dir) / "index.html"
     with htmlreport.open("w") as f:
-      f.write(template.render(results=test_results))
+      f.write(template.render(results=test_results, results_json=json.dumps(test_results)))

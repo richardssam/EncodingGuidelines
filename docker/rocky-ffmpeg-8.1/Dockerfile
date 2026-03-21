@@ -4,7 +4,7 @@ FROM    nvidia/cuda:12.2.0-devel-rockylinux9 AS base
 #RUN     dnf -y install s3cmd libgomp httpd24-libcurl icc-profiles-openicc imagemagick python-pip && \
 RUN     dnf install epel-release -y && \
         dnf --enablerepo=crb -y install xorg-x11-util-macros libgomp python3-pip ninja-build ImageMagick s3cmd yaml-cpp \
-                python3-devel clang git-clang-format libtiff libtiff-devel bzip2 bzip2-devel bzip2-libs tbb tbb-devel libwebp giflib patch vim && \
+        python3-devel clang git-clang-format libtiff libtiff-devel bzip2 bzip2-devel bzip2-libs tbb tbb-devel libwebp giflib patch vim && \
         dnf clean all;
 
 RUN pip install six testresources recommonmark sphinx-press-theme sphinx-tabs breathe pyseq  pillow PyYAML meson kaleido plotly pandas jinja2 OpenTimelineIO
@@ -17,57 +17,57 @@ FROM        base AS build
 
 WORKDIR     /tmp/workdir
 
-ENV         FFMPEG_VERSION=8.0 \
-    AOM_VERSION=v3.12.1 \
-    CHROMAPRINT_VERSION=1.5.0 \
-    FDKAAC_VERSION=0.1.5 \
-    FONTCONFIG_VERSION=2.12.4 \
-    FREETYPE_VERSION=2.13.3 \
-    FRIBIDI_VERSION=0.19.7 \
-    KVAZAAR_VERSION=2.0.0 \
-    LAME_VERSION=3.100 \
-    LIBASS_VERSION=0.13.7 \
-    LIBPTHREAD_STUBS_VERSION=0.4 \
-    LIBVIDSTAB_VERSION=1.1.0 \
-    LIBXCB_VERSION=1.15 \
-    XCBPROTO_VERSION=1.15 \
-    OGG_VERSION=1.3.2 \
-    OPENCOREAMR_VERSION=0.1.5 \
-    OPUS_VERSION=1.5.2 \
-    OPENJPEG_VERSION=2.5.2 \
-    THEORA_VERSION=1.1.1 \
-    VORBIS_VERSION=1.3.5 \
-    VPX_VERSION=1.8.0 \
-    WEBP_VERSION=1.4.0 \
-    X264_VERSION=20191217-2245-stable \
-    X265_VERSION=4.1 \
-    XAU_VERSION=1.0.9 \
-    XORG_MACROS_VERSION=1.19.2 \
-    XPROTO_VERSION=7.0.31 \
-    XVID_VERSION=1.3.7 \
-    LIBSVT_AV1_VERSION=3.1.0 \
-    LIBXML2_VERSION=2.9.12 \
-    LIBBLURAY_VERSION=1.3.4 \
-    LIBZMQ_VERSION=4.3.5 \
-    LIBSRT_VERSION=1.5.3 \
-    LIBARIBB24_VERSION=1.0.3 \
-    LIBPNG_VERSION=1.6.9 \
-    LIBVMAF_VERSION=3.0.0 \
-    OPENJPH_VERSION=0.21.5 \
-    OPENAPV_VERSION=0.2.0.1 \
-    LIBZIMG_VERSION=3.0.5 \ 
-    VMAF_MODEL_DIR=/usr/share/vmaf/model \
-    SRC=/usr/local
+ENV         FFMPEG_VERSION=8.1 \
+        AOM_VERSION=v3.12.1 \
+        CHROMAPRINT_VERSION=1.5.0 \
+        FDKAAC_VERSION=0.1.5 \
+        FONTCONFIG_VERSION=2.12.4 \
+        FREETYPE_VERSION=2.13.3 \
+        FRIBIDI_VERSION=0.19.7 \
+        KVAZAAR_VERSION=2.0.0 \
+        LAME_VERSION=3.100 \
+        LIBASS_VERSION=0.13.7 \
+        LIBPTHREAD_STUBS_VERSION=0.4 \
+        LIBVIDSTAB_VERSION=1.1.0 \
+        LIBXCB_VERSION=1.15 \
+        XCBPROTO_VERSION=1.15 \
+        OGG_VERSION=1.3.2 \
+        OPENCOREAMR_VERSION=0.1.5 \
+        OPUS_VERSION=1.5.2 \
+        OPENJPEG_VERSION=2.5.2 \
+        THEORA_VERSION=1.1.1 \
+        VORBIS_VERSION=1.3.5 \
+        VPX_VERSION=1.8.0 \
+        WEBP_VERSION=1.4.0 \
+        X264_VERSION=20191217-2245-stable \
+        X265_VERSION=4.1 \
+        XAU_VERSION=1.0.9 \
+        XORG_MACROS_VERSION=1.19.2 \
+        XPROTO_VERSION=7.0.31 \
+        XVID_VERSION=1.3.7 \
+        LIBSVT_AV1_VERSION=4.0.1 \
+        LIBXML2_VERSION=2.9.12 \
+        LIBBLURAY_VERSION=1.3.4 \
+        LIBZMQ_VERSION=4.3.5 \
+        LIBSRT_VERSION=1.5.3 \
+        LIBARIBB24_VERSION=1.0.3 \
+        LIBPNG_VERSION=1.6.9 \
+        LIBVMAF_VERSION=3.0.0 \
+        OPENJPH_VERSION=0.26.3 \
+        OPENAPV_VERSION=0.2.1.2 \
+        LIBZIMG_VERSION=3.0.5 \ 
+        VMAF_MODEL_DIR=/usr/share/vmaf/model \
+        SRC=/usr/local
 
 # OCIO and OIIO
 ENV         LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/rh/httpd24/root/usr/lib64/ \
-            OCIO=ocio://studio-config-v1.0.0_aces-v1.3_ocio-v2.1 \
-            VMAF_MODEL_DIR=${VMAF_MODEL_DIR} \
-            ASWF_OIIO_VERSION=3.0.9.1 \
-            ASWF_OCIO_VERSION=2.4.2 \
-            ASWF_BOOST_VERSION=1.82.0 \
-            ASWF_PYTHON_MAJOR_MINOR_VERSION=3.11 \
-            ASWF_OPENEXR_VERSION=3.3.5
+        OCIO=ocio://studio-config-v1.0.0_aces-v1.3_ocio-v2.1 \
+        VMAF_MODEL_DIR=${VMAF_MODEL_DIR} \
+        ASWF_OIIO_VERSION=3.0.9.1 \
+        ASWF_OCIO_VERSION=2.4.2 \
+        ASWF_BOOST_VERSION=1.82.0 \
+        ASWF_PYTHON_MAJOR_MINOR_VERSION=3.11 \
+        ASWF_OPENEXR_VERSION=3.3.5
 
 ARG         FREETYPE_SHA256SUM="5eab795ebb23ac77001cfb68b7d4d50b5d6c7469247b0b01b2c953269f658dac freetype-2.10.4.tar.gz"
 ARG         FRIBIDI_SHA256SUM="3fc96fa9473bd31dcb5500bdf1aa78b337ba13eb8c301e7c28923fea982453a8 0.19.7.tar.gz"
@@ -93,25 +93,25 @@ ARG         LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64"
 
 
 RUN     buildDeps="autoconf \
-                   automake \
-		   cmake \
-                   bzip2 \
-                   diffutils \
-                   expat-devel \
-                   file \
-                   gcc \
-                   gcc-c++ \
-                   git \
-                   gperf \
-                   libtool \
-                   make \
-                   perl \
-                   python3 \
-                   openssl-devel \
-                   tar \
-                   yasm \
-                   which \
-                   zlib-devel" && \
+        automake \
+        cmake \
+        bzip2 \
+        diffutils \
+        expat-devel \
+        file \
+        gcc \
+        gcc-c++ \
+        git \
+        gperf \
+        libtool \
+        make \
+        perl \
+        python3 \
+        openssl-devel \
+        tar \
+        yasm \
+        which \
+        zlib-devel" && \
         echo "${SRC}/lib" > /etc/ld.so.conf.d/libc.conf && \
         yum --enablerepo=extras install -y epel-release && \
         yum --enablerepo=epel install -y ${buildDeps} 
@@ -120,38 +120,38 @@ RUN     buildDeps="autoconf \
 RUN     #alternatives --install /usr/bin/cmake cmake /usr/bin/cmake3 0 && \
         # Install the tools required to build nasm 2.14.02 \
         nasmDeps="asciidoc \
-                  perl-Font-TTF \
-                  perl-Sort-Versions \
-                  xmlto"  \
+        perl-Font-TTF \
+        perl-Sort-Versions \
+        xmlto"  \
         yum --enablerepo=epel install -y ${nasmDeps} 
 
-        # Compile and install nasm 2.14.02 \
+# Compile and install nasm 2.16.03 \
 RUN        DIR=/tmp/nasm && \
         mkdir -p ${DIR} && \
-        curl -LSs https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.gz | \
+        curl -LSs https://www.nasm.us/pub/nasm/releasebuilds/2.16.03/nasm-2.16.03.tar.gz | \
         tar xzC ${DIR} --strip-components=1 && \
         pushd ${DIR} && \
         ./configure --host=x86_64-redhat-linux-gnu \
-                    --build=x86_64-redhat-linux-gnu \
-                    --prefix=/usr/local \
-                    --exec-prefix=/usr/local \
-                    --bindir=/usr/local/bin \
-                    --sbindir=/usr/local/sbin \
-                    --sysconfdir=/usr/local/etc \
-                    --datadir=/usr/local/share \
-                    --includedir=/usr/local/include \
-                    --libdir=/usr/local/lib \
-                    --libexecdir=/usr/local/libexec \
-                    --enable-sections && \
+        --build=x86_64-redhat-linux-gnu \
+        --prefix=/usr/local \
+        --exec-prefix=/usr/local \
+        --bindir=/usr/local/bin \
+        --sbindir=/usr/local/sbin \
+        --sysconfdir=/usr/local/etc \
+        --datadir=/usr/local/share \
+        --includedir=/usr/local/include \
+        --libdir=/usr/local/lib \
+        --libexecdir=/usr/local/libexec \
+        --enable-sections && \
         make all && \
         make install && \
-        make install_rdf && \
+        #make install_rdf && \
         popd && rm -rf ${DIR} && \
         alternatives --install /usr/bin/nasm nasm /usr/local/bin/nasm 0 
-        # Now that we have a modern nasm build and available, we can undo the last \
-        # yum transaction as none of those packages are required for the rest of the build \
-        #yum history undo $(yum history info | grep 'Transaction ID' | awk -F: '{print$2}' | tr -d ' ') -y && \
-        #yum autoremove -y
+# Now that we have a modern nasm build and available, we can undo the last \
+# yum transaction as none of those packages are required for the rest of the build \
+#yum history undo $(yum history info | grep 'Transaction ID' | awk -F: '{print$2}' | tr -d ' ') -y && \
+#yum autoremove -y
 
 ## libvmaf https://github.com/Netflix/vmaf
 RUN \
@@ -169,7 +169,7 @@ RUN \
         mkdir -p ${PREFIX}/share/model/ && \
         cp -r ${DIR}/model/* ${PREFIX}/share/model/ && \
         mkdir -p ${VMAF_MODEL_DIR} && \
-	echo "Creating VMAF DIRECTORY:" ${VMAF_MODEL_DIR} && \
+        echo "Creating VMAF DIRECTORY:" ${VMAF_MODEL_DIR} && \
         cp -vr ${DIR}/model/* ${VMAF_MODEL_DIR} && \
         rm -rf ${DIR}; \
         else \
@@ -217,7 +217,7 @@ RUN \
         #./make-Makefiles.bash && \
         cmake -G "Unix Makefiles" -DHIGH_BIT_DEPTH=ON -DENABLE_CLI=OFF -DMAIN12=ON -DCMAKE_INSTALL_PREFIX="${PREFIX}" ../../source && \
         make  && \
-         make install && \
+        make install && \
         rm -rf ${DIR}
 
 ### libogg https://www.xiph.org/ogg/
@@ -627,7 +627,7 @@ RUN \
         make install && \
         rm -rf ${DIR}
 
- RUN  \
+RUN  \
         DIR=/opt/openexr && mkdir -p ${DIR} && cd ${DIR} && \
         curl -sLO "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v${ASWF_OPENEXR_VERSION}.tar.gz" && \
         # echo ${LIBARIBB24_SHA256SUM} | sha256sum --check && \
@@ -635,23 +635,23 @@ RUN \
         mkdir build && \
         cd build && \
         cmake \
-                -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
-                -DOPENEXR_BUILD_PYTHON_LIBS="on" \
-                .. && \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
+        -DOPENEXR_BUILD_PYTHON_LIBS="on" \
+        .. && \
         make && \
         make install
 
- RUN \
-         DIR=/tmp/svtav1 && \
-         mkdir -p ${DIR} && \
-         cd ${DIR} && \
-         curl -sLO https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v1.8.0/SVT-AV1-v${LIB_SVT_AV1_VERSION}.tar.gz && \
-         tar -xz --strip-components=1 -f SVT-AV1-v${LIB_SVT_AV1_VERSION}.tar.gz && \
-         cd Build && \
-         cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${PREFIX}"  && \
-         make && \
-         make install && \
-         rm -rf ${DIR}
+RUN \
+        DIR=/tmp/svtav1 && \
+        mkdir -p ${DIR} && \
+        cd ${DIR} && \
+        curl -sLO https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v${LIBSVT_AV1_VERSION}/SVT-AV1-v${LIBSVT_AV1_VERSION}.tar.gz && \
+        tar -xz --strip-components=1 -f SVT-AV1-v${LIBSVT_AV1_VERSION}.tar.gz && \
+        cd Build && \
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${PREFIX}"  && \
+        make && \
+        make install && \
+        rm -rf ${DIR}
 
 run \
         DIR=/tmp/nvcodec && \
@@ -659,70 +659,6 @@ run \
         cd ${DIR} && \
         git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
         cd nv-codec-headers && make install
-
-# ## Download ffmpeg https://ffmpeg.org/
-RUN  \
-        DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
-        curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
-        tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2 
-
-## Build ffmpeg https://ffmpeg.org/
-RUN  \
-        DIR=/tmp/ffmpeg && cd ${DIR} && \
-        ./configure \
-        --disable-debug \
-        --disable-doc \
-        # --enable-cuda-nvcc \
-        --enable-libnpp \
-        --disable-ffplay \
-        --enable-fontconfig \
-        --enable-cuda-nvcc \
-        --enable-gpl \
-        --enable-libaom \
-        --enable-libsvtav1 \
-        --enable-libaribb24 \
-        --enable-libass \
-        --enable-libbluray \
-        --enable-libfdk_aac \
-        --enable-libfreetype \
-        --enable-libkvazaar \
-        --enable-libmp3lame \
-        --enable-libopencore-amrnb \
-        --enable-libopencore-amrwb \
-        --enable-libopenjpeg \
-        # --enable-libopus \
-        --enable-libsrt \
-        --enable-libvmaf \
-        --enable-libtheora \
-        --enable-libvidstab \
-        --enable-libvorbis \
-        --enable-libvpx \
-        --enable-libwebp \
-        --enable-libx264 \
-        --enable-libx265 \
-        # --enable-libxcb \
-        # --enable-libxvid \
-        --enable-libzmq \
-        --enable-nonfree \
-        --enable-openssl \
-        --enable-liboapv \
-        --enable-shared \
-        --enable-small \
-        --enable-version3 \
-        --enable-libzimg \
-        --extra-cflags="-I${PREFIX}/include -I/usr/local/cuda/include" \
-        --extra-ldflags="-L${PREFIX}/lib -L/usr/local/cuda/lib64" \
-        --extra-libs=-ldl \
-        --extra-libs=-lpthread \
-        --prefix="${PREFIX}" && \
-        make clean && \
-        make -j 8 && \
-        make install && \
-        make tools/zmqsend && cp tools/zmqsend ${PREFIX}/bin/ && \
-        make distclean && \
-        hash -r && \
-        cd tools && \
-        make qt-faststart && cp qt-faststart ${PREFIX}/bin/
 
 RUN DIR=/tmp/boost  && mkdir -p ${DIR} && cd ${DIR} && \
         BOOST_MAJOR_MINOR=$(echo "${ASWF_BOOST_VERSION}" | cut -d. -f-2) && \
@@ -772,17 +708,84 @@ RUN  \
         mkdir build && \
         cd build && \
         cmake \
-    -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
-    -DOCIO_BUILD_STATIC=OFF \
-    -DOCIO_BUILD_TRUELIGHT=OFF \
-    -DOCIO_BUILD_APPS=OFF \
-    -DOCIO_BUILD_NUKE=OFF -DPython_EXECUTABLE=`which python3` \
-    -DOCIO_INSTALL_EXT_PACKAGES=MISSING \
-    -DCMAKE_CXX_FLAGS="-Wno-error=unused-function -Wno-error=deprecated-declarations"\
-    .. && \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
+        -DOCIO_BUILD_STATIC=OFF \
+        -DOCIO_BUILD_TRUELIGHT=OFF \
+        -DOCIO_BUILD_APPS=OFF \
+        -DOCIO_BUILD_NUKE=OFF -DPython_EXECUTABLE=`which python3` \
+        -DOCIO_INSTALL_EXT_PACKAGES=MISSING \
+        -DCMAKE_CXX_FLAGS="-Wno-error=unused-function -Wno-error=deprecated-declarations"\
+        .. && \
         make  && \
         make install && \
         rm -rf ${DIR}
+
+# ## Download ffmpeg https://ffmpeg.org/
+RUN  \
+        DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
+        curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
+        tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2 
+
+## Build ffmpeg https://ffmpeg.org/
+RUN  \
+        DIR=/tmp/ffmpeg && cd ${DIR} && \
+        ./configure \
+        --disable-debug \
+        --disable-doc \
+        # --enable-cuda-nvcc \
+        --enable-libnpp \
+        --disable-ffplay \
+        --enable-fontconfig \
+        --enable-cuda-nvcc \
+        --enable-gpl \
+        --enable-libaom \
+        --enable-libsvtav1 \
+        --enable-libaribb24 \
+        --enable-libass \
+        --enable-libbluray \
+        --enable-libfdk_aac \
+        --enable-libfreetype \
+        --enable-libkvazaar \
+        --enable-libmp3lame \
+        --enable-libopencore-amrnb \
+        --enable-libopencore-amrwb \
+        --enable-libopenjpeg \
+        --enable-libopencolorio \
+        # --enable-libopus \
+        --enable-libsrt \
+        --enable-libvmaf \
+        --enable-libtheora \
+        --enable-libvidstab \
+        --enable-libvorbis \
+        --enable-libvpx \
+        --enable-libwebp \
+        --enable-libx264 \
+        --enable-libx265 \
+        # --enable-libxcb \
+        # --enable-libxvid \
+        --enable-libzmq \
+        --enable-nonfree \
+        --enable-openssl \
+        --enable-liboapv \
+        --enable-shared \
+        --enable-small \
+        --enable-version3 \
+        --enable-libzimg \
+        --extra-cflags="-I${PREFIX}/include -I/usr/local/cuda/include" \
+        --extra-ldflags="-L${PREFIX}/lib -L/usr/local/cuda/lib64" \
+        --extra-libs=-ldl \
+        --extra-libs=-lpthread \
+        --prefix="${PREFIX}" && \
+        make clean && \
+        make -j 8 && \
+        make install && \
+        make tools/zmqsend && cp tools/zmqsend ${PREFIX}/bin/ && \
+        make distclean && \
+        hash -r && \
+        cd tools && \
+        make qt-faststart && cp qt-faststart ${PREFIX}/bin/
+
+
 
 # RUN \
 #         DIR=/tmp/libsquish && mkdir -p ${DIR} && cd ${DIR} && \
@@ -806,8 +809,8 @@ RUN  \
         cp -rp ext/dist/* /usr/local && \
         #src/build-scripts/build_gif.bash  && \
         make -j 4 INSTALL_PREFIX=/usr/local OIIO_BUILD_TESTS=0 USE_QT=0 USE_NUKE=0 ENABLE_Libsquish=0 ENABLE_OpenGL=0 \
-                ENABLE_OpenCV=0 ENABLE_QT5=0 ENABLE_OpenVDB=0 ENABLE_LibRaw=0 \
-                ENABLE_Libheif=0 ENABLE_FFmpeg=0 install
+        ENABLE_OpenCV=0 ENABLE_QT5=0 ENABLE_OpenVDB=0 ENABLE_LibRaw=0 \
+        ENABLE_Libheif=0 ENABLE_FFmpeg=0 install
 
 WORKDIR     /test
 

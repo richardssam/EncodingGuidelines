@@ -1,6 +1,6 @@
 GITROOT=`git rev-parse --show-toplevel`
 docker run \
   -it \
-  --name rocky-ffmpeg-8.0  --gpus=all,capabilities=video \
+  --name rocky-ffmpeg-8.1  --gpus=all,capabilities=video \
   --mount type=bind,source=${GITROOT},target=/test \
-  rocky-ffmpeg-8.0
+  rocky-ffmpeg-8.1

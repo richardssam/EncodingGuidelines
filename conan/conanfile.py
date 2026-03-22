@@ -17,7 +17,7 @@ class EncodingGuidelines(ConanFile):
             # OpenAPV is a specific requirement for ASWF
             self.requires("openapv/[>=0.2.0.4]")
             self.requires("openjpeg/2.5.2", run=True)
-            self.requires("libx265/4.1", run=True)
+            self.requires("opencolorio/2.5.1", run=True, force=True)
         elif self.options.ffmpeg_version == "6.1.1":
             self.requires("ffmpeg/6.1.1")
             self.requires("libx264/cci.20240224", run=True)
@@ -72,12 +72,13 @@ class EncodingGuidelines(ConanFile):
         ffmpeg.with_libvmaf = True         # --enable-libvmaf
         ffmpeg.with_svtav1 = True       # --enable-libsvtav1
         ffmpeg.with_libx264 = True      # --enable-libx264
-        ffmpeg.with_libx265 = True      # --enable-libx265
+        ffmpeg.with_libx265 = False      # --enable-libx265
         ffmpeg.with_libaom = False       # --enable-libaom
         ffmpeg.with_libzimg = True      # --enable-libzimg
         ffmpeg.with_libvpx = True
-        ffmpeg.with_dav1d = False
+        ffmpeg.with_dav1d = True
         self.options["dav1d"].assembly = False
+        self.options["libx265"].assembly = False
         
         # Enable 8.1 specific features
         if self.options.ffmpeg_version == "8.1":

@@ -25,13 +25,8 @@ tools.microsoft.bash:subsystem=msys2
 #tools.microsoft.bash:active=True
 # This injects -DXZ_NLS=OFF directly into the CMake configuration for xz_utils
 xz_utils/*:tools.cmake.cmaketoolchain:extra_variables={"XZ_NLS": "OFF"}
-
+libx265/*:tools.cmake.cmaketoolchain:extra_variables={"X265_VERSION": "3.6", "X265_LATEST_TAG": "3.6"}
 [buildenv]
 PATH+=(path)C:/msys64/mingw64/bin
 CPATH+=(path)C:/msys64/mingw64/include
 LIBRARY_PATH+=(path)C:/msys64/mingw64/lib
-
-[platform_tool_requires]
-yasm/1.3.0
-nasm/2.15.05
-make/4.4.1

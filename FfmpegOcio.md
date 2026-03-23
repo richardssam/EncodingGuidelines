@@ -81,12 +81,22 @@ If your viewer supported HDR, this shows that you could internally convert it to
 | format | Allow you to specify the output pix_fmt of the OCIO filter. This *has* to be a RGB colorspace, so you really are limited to rgb24, rgba, rgb48, rgba48, gbrp10, gbrp12, gbrpf32le, gbrapf32le, for most encoding we would recommend rgb48. By default this is the pix_fmt of the input with the exception of gbrpf16le which we automatically convert to a 32bit version (half float is not fully supported by ffmpeg, swscale in particular). |
 | context_params | Allow you to specify additional context parameters for the OCIO filter. This is a list of key=value pairs, separated by colons. |
 
+## Building ffmpeg with OCIO support
+
+If you are already manually building ffmpeg, you can enable OCIO support by adding the following flag to the configure script:
+
+```console
+--enable-libopencolorio
+```
+
+If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory.
+
 ## Timing Tests
 
 For some simple timing tests, we are comparing oiiotool using --parallel-frames (meaning the initial conversion is run in as many threads as possible) and ffmpeg (both single threaded and with 4 threads). This is a 4 second 4k exr image sequence of 200 frames (sparks) and we are encoding to prores_videotoolbox 422 HQ on a M2 Macbook Pro. We picked this particular codec since its fast, and works at high bit-depths (10 and 12-bit).
 
 | Task | Elapsed time Seconds | Notes |
-| ------ | ----------- :| ---- |
+| :--- | ---: | :--- |
 | oiiotool | 101.46 | Media conversion to PNG serially. |
 | oiiotool with parallel-frames | 44.91 | Media conversion to PNG with --parallel-frames |
 | basic ffmpeg | 2.87 | Just converting the resulting frames from PNG to a quicktime |
@@ -98,8 +108,12 @@ For some simple timing tests, we are comparing oiiotool using --parallel-frames 
 | ffmpeg with 6 threads | 23.74 | |
 | ffmpeg with 8 threads | 37.75 | |
 
-We recommend leaving it with the default of 0 threads (i.e. dont specify anything). It is worth noting that OCIO using the CPU is not super fast, we will explore using vulkan to accelerate this in the future.
+We recommend leaving it with the default of 0 threads (i.e. dont specify anything). It is worth noting that OCIO using the CPU is not super fast (although clearly faster than the alternative), we will explore using vulkan to accelerate this in the future.
 
 ## Slate and burn-in generation
 
 By Adding OCIO to ffmpeg it allows us to generate slates and burn-ins in the correct colorspace without needing to create an intermediate file. Good examples of the need for this are documented by Netflix in their [Netflix Post Production Guide](https://partnerhelp.netflixstudios.com/hc/en-us/articles/360057627293-VFX-Slates-Overlays-Guidelines) post.
+
+TODO Provide an extreme example of slate creation and text overlays.
+
+## Highlight places it might give errors

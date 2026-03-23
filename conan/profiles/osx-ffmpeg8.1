@@ -1,0 +1,13 @@
+[settings]
+os=Macos
+compiler=apple-clang
+compiler.version=15
+arch=armv8
+build_type=Release
+compiler.libcxx=libc++
+compiler.cppstd=gnu17
+
+[options]
+# Force the stable version
+EncodingGuidelines/*:ffmpeg_version=8.1
+#libx265/*:bit_depth=12

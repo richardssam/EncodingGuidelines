@@ -1,0 +1,46 @@
+import os
+from conan import ConanFile
+from conan.tools.meson import Meson, MesonToolchain
+from conan.tools.apple import fix_apple_shared_install_name
+from conan.tools.files import get
+from conan.tools.layout import basic_layout
+
+class LibVmafRecipe(ConanFile):
+    name = "libvmaf"
+    version = "3.0.0"
+    settings = "os", "compiler", "build_type", "arch"
+    
+    def layout(self):
+        basic_layout(self, src_folder="src")
+        # Tell Conan the actual meson.build is inside the 'libvmaf' subfolder
+        self.folders.source = "src/libvmaf"
+
+    def source(self):
+        url = f"https://github.com/Netflix/vmaf/archive/refs/tags/v{self.version}.tar.gz"
+        # We MUST extract into the parent folder ('src') so the 'libvmaf' 
+        # directory inside the tarball lands perfectly at 'src/libvmaf'.
+        base_src = os.path.join(self.source_folder, "..")
+        get(self, url, destination=base_src, strip_root=True)
+
+    def generate(self):
+        tc = MesonToolchain(self)
+        tc.generate()
+        
+    def build_requirements(self):
+        self.tool_requires("meson/1.6.0")
+    
+    def build(self):
+        meson = Meson(self)
+        meson.configure()
+        meson.build()
+
+    def package(self):
+        meson = Meson(self)
+        meson.install()
+        fix_apple_shared_install_name(self)
+
+    def package_info(self):
+        self.cpp_info.libs = ["vmaf"]
+        self.cpp_info.includedirs = ["include", os.path.join("include", "libvmaf")]
+        # This ensures FFmpeg's ./configure finds it easily
+        self.cpp_info.set_property("pkg_config_name", "libvmaf")

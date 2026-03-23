@@ -1,0 +1,15 @@
+[settings]
+arch=armv8
+build_type=Release
+compiler=msvc
+compiler.cppstd=14
+compiler.runtime=dynamic
+compiler.version=194
+os=Windows
+
+[options]
+# Force the stable version
+EncodingGuidelines/*:ffmpeg_version=8.1
+libx265/*:bit_depth=12
+[conf]
+tools.microsoft.msbuild:vs_version=194

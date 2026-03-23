@@ -1,0 +1,33 @@
+[settings]
+
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=14
+os=Windows
+
+[options]
+# Force the stable version
+#EncodingGuidelines/*:ffmpeg_version=8.1
+opencolorio/*:version=2.5.1
+libx265/*:bit_depth=12
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja
+tools.build:compiler_executables={'c': 'gcc', 'cpp': 'g++'}
+tools.build:cflags=["-Wno-error=incompatible-pointer-types", "-Wno-error=int-conversion"]
+tools.build:cxxflags=["-Wno-error=incompatible-pointer-types", "-Wno-error=int-conversion"]
+tools.build:cflags+=["-D_GL_CONDITION_HEADER_FREE", "-D_CRT_DECLARE_NONSTDC_NAMES=1"]
+tools.build:cxxflags+=["-D_GL_CONDITION_HEADER_FREE", "-D_CRT_DECLARE_NONSTDC_NAMES=1"]
+tools.microsoft.bash:path=C:\\msys64\\usr\\bin\\bash.exe
+tools.microsoft.bash:subsystem=msys2
+#tools.microsoft.bash:active=True
+# This injects -DXZ_NLS=OFF directly into the CMake configuration for xz_utils
+xz_utils/*:tools.cmake.cmaketoolchain:extra_variables={"XZ_NLS": "OFF"}
+libx265/*:tools.cmake.cmaketoolchain:extra_variables={"X265_VERSION": "4.1", "X265_LATEST_TAG": "4.1"}
+[buildenv]
+PATH+=(path)C:/msys64/mingw64/bin
+CPATH+=(path)C:/msys64/mingw64/include
+LIBRARY_PATH+=(path)C:/msys64/mingw64/lib

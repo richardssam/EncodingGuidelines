@@ -6,4 +6,4 @@ conan install . \
   -pr:b=profiles/msys2-ffmpeg8.1 \
   --output-folder=build-windows \
   -o ffmpeg_version=8.1 \
-  --build=missing
+  --build=missing --deployer=full_deploy

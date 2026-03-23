@@ -7,37 +7,46 @@ parent: Encoding Overview
 
 # Conan Build System
 
-On windows:
-We are using msys2, but using the mingw toolchain so the resulting app is native.
+## Windows
 
-For now, even though my OS is actually arm I'm actually going to run as x86_64 just to get a build.
+Windows is the more complex install since ffmpeg requires so many different libraries that require different build environments.
+What we have found that works is using the [msys2](https://www.msys2.org/) environment with the mingw toolchain.
 
-export CONAN_HOME="/c/.c2"
+Start by downloading msys2, once its installed, you will be presented with a number of different launch environments. You want to use the one that has "mingw" in the name, e.g. "MSYS2 MinGW 64-bit".
 
-# This installs the native Windows 64-bit toolchain
+Its worth noting, that the this process works with x86_64, but not with arm64 (although that is something I'm hoping to eventually get working).
 
-wxmingw-w64-x86_64-gdb mingw-w64-x86_64-make
-pacman -S mingw-w64-x86_64-python-pip mingw-w64-x86_64-python-ninja
-pacman -S mingw-w64-x86_64-nasm mingw-w64-x86_64-yasm
-pacman -S base-devel
-pip install conan
+I would recommend checking out the [Encoding Guidelines](https://github.com/AcademySoftwareFoundation/EncodingGuidelines) and then going to the conan folder.
 
-Install C++ v14 redist library - <https://www.microsoft.com/en-gb/download/details.aspx?id=48145>
+There you can run windows_setup.sh to install the required tools and conan.
 
-cd /z/cci/recipes/ffmpeg/all
-conan export . --name ffmpeg --version 8.1
-cd /z/libvmaf_recipe
-conan export . --version 3.0.0
+Once you have that running, you want to run:
 
-# Set this first to prevent path errors
+```bash
+cd EncodingGuidelines/conan
+source windows_setup.sh
+```
 
-export MSYS2_ARG_CONV_EXCL="*"
+You can then run windows_ffmpeg_build.sh to build ffmpeg with conan, this will install ffmpeg in the conan/build-windows/full_deploy/host/ffmpeg/ folder.
+You can do an initial test of the code by running the build-windows/conanrun.bat script in a shell. This will set up the environment variables so that you can run the ffmpeg executables.
 
-# Its possible that we really need to set it to this
+## OSX/Linux
 
-export MSYS2_ARG_CONV_EXCL=""
-conan install . \
-  -pr:h=profiles/msys2-ffmpeg8.1 \
-  -pr:b=default \
-  --output-folder=build-msys2 \
-  --build=missing
+```bash
+cd EncodingGuidelines/conan
+source windows_setup.sh  # or linux-osx-setup.sh
+chmod +x ffmpeg-8.1-osx-build.sh
+./ffmpeg-8.1-osx-build.sh
+```
+
+### Creating a Standalone Bundle (macOS)
+
+If you want to create a portable folder containing FFmpeg and all its dependencies:
+
+```bash
+cd EncodingGuidelines/conan
+chmod +x create_bundle.sh
+./create_bundle.sh
+```
+
+This will create an `ffmpeg-standalone` folder with `bin/ffmpeg` and all required `.dylib` files. You can move this folder anywhere and run FFmpeg from it.

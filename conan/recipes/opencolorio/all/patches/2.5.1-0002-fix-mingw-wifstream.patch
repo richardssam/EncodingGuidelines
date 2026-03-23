@@ -1,0 +1,12 @@
+--- src/OpenColorIO/transforms/FileTransform.cpp
++++ src/OpenColorIO/transforms/FileTransform.cpp
+@@ -217,8 +217,7 @@
+     }
+ 
+     // Default behavior. Return file stream.
+-    return std::unique_ptr<std::istream>(new std::ifstream(
+-        Platform::filenameToUTF(filepath), mode));
++    return std::unique_ptr<std::istream>(new std::ifstream(Platform::CreateInputFileStream(filepath.c_str(), mode)));
+ }
+ 
+ bool CollectContextVariables(const Config &, 

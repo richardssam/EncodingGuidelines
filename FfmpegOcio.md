@@ -5,6 +5,8 @@ nav_order: 5.5
 parent: Encoding Overview
 ---
 
+# FFmpeg OCIO Filter
+
 With the introduction of ffmpeg 8.1 a [OCIO](https://ocio.readthedocs.io/en/latest/) [filter](https://ffmpeg.org/ffmpeg-filters.html#ocio) has been added. This allows you to convert from EXR files directly to encoded media using an OCIO filter to convert the colorspace correctly without needing an intermediate file.
 
 If you are encoding to YCrCb you need to convert to an RGB colorspace first, and then convert to YCrCb. This is because OCIO doesn't know how to convert to YCrCb out of the box, and Ffmpeg handles the variants like 420, 422, and 444.
@@ -46,15 +48,23 @@ ffmpeg -y -framerate 24 -start_number <STARTFRAME> -i SOURCEFRAMES.%04d.exr -c:v
 
 ## Converting from an HDR movie to a ACEScg image sequence
 
-There is nothing stopping you from converting from a encoded movie using OCIO, e.g.:
+An interesting version of this is to do the above conversion at a higher quality:
 
 ```console
-ffmpeg -y -i INPUTMOVIE.mov -threads 0 -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):inverse=1:format=gbrpf32le,scale=out_range=full:out_color_matrix=bt2020"  testoutput/testoutput.%04d.exr
+ffmpeg -y -framerate 24 -start_number 6100 -i /Users/sam/git/EncodingGuidelines/enctests/sources/hdr_sources/sparks/SPARKS_ACES_%05d.exr -c:v libx265 -pix_fmt yuv444p12le -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):format=rgb48,scale=in_range=full:in_color_matrix=bt2020:out_range=tv:out_color_matrix=bt2020" -color_range tv -color_trc smpte2084 -color_primaries bt2020 -colorspace bt2020nc -tag:v hvc1      -x265-params "lossless=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:range=limited:master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1):max-cll=1000,400" sparks_lossless_h265.mov
 ```
 
+Note this is both 12-bit 444 and lossless.
+
+We are going to convert it back to EXR's:
+
 ```console
-ffmpeg -y -i sparks2_pq1000_prores10bit_threads0.mov -threads 0 -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):inverse=1:format=gbrpf32le,scale=out_range=full:out_color_matrix=bt2020"  testoutput/testoutput.%04d.exr
+ffmpeg -y -i sparks_lossless_h265.mov -threads 0 -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):inverse=1:format=gbrpf32le,scale=out_range=full:out_color_matrix=bt2020"  testoutput/testoutput.%04d.exr
 ```
+
+So while this will limit the max luminance to 1000 nits, it will give you a wide gamut with an higher dynamic range that you can convert back into a linear range which will be hugely superior to rec709 or g24p3.
+
+If your viewer supported HDR, this shows that you could internally convert it to ACEScg, so that any test color correction you might be doing in the viewer would be fairly representative of what it would be like if you were reading from an openEXR frame. Obviously the best results would be to use the EXR frames, but its certainly an improvement over rec709.
 
 ## Converting from HDR image sequence to ACEScg
 

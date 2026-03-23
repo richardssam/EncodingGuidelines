@@ -74,12 +74,12 @@ class EncodingGuidelines(ConanFile):
         ffmpeg.with_libx264 = True      # --enable-libx264
         ffmpeg.with_libx265 = False      # --enable-libx265
         ffmpeg.with_libaom = False       # --enable-libaom
-        ffmpeg.with_libzimg = True      # --enable-libzimg
+        ffmpeg.with_libzimg = False      # --enable-libzimg
         ffmpeg.with_libvpx = True
         ffmpeg.with_dav1d = True
         self.options["dav1d"].assembly = False
         self.options["libx265"].assembly = False
         
         # Enable 8.1 specific features
-        if self.options.ffmpeg_version == "8.1":
+        if self.options.ffmpeg_version in ["8.1", "8.1.1"]:
             ffmpeg.with_opencolorio = True  # --enable-libopencolorio

@@ -1,3 +1,10 @@
+---
+layout: default
+nav_order: 5.7
+title: Building FFmpeg with Conan
+parent: Encoding Overview
+---
+
 # Conan Build System
 
 On windows:

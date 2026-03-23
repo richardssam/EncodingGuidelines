@@ -24,13 +24,19 @@ Once you have that running, you want to run:
 
 ```bash
 cd EncodingGuidelines/conan
-source windows_setup.sh
+source windows-setup.sh
 ```
 
-You can then run windows_ffmpeg_build.sh to build ffmpeg with conan, this will install ffmpeg in the conan/build-windows/full_deploy/host/ffmpeg/ folder.
+You can then run:
+
+```bash
+source windows_ffmpeg_build.sh
+```
+
+to build ffmpeg with conan, this will install ffmpeg in the conan/build-windows/full_deploy/host/ffmpeg/ folder.
 You can do an initial test of the code by running the build-windows/conanrun.bat script in a shell. This will set up the environment variables so that you can run the ffmpeg executables.
 
-## OSX/Linux
+## OSX
 
 ```bash
 cd EncodingGuidelines/conan
@@ -50,3 +56,5 @@ chmod +x create_bundle.sh
 ```
 
 This will create an `ffmpeg-standalone` folder with `bin/ffmpeg` and all required `.dylib` files. You can move this folder anywhere and run FFmpeg from it.
+
+## Linux

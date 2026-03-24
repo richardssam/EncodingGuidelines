@@ -4,4 +4,4 @@
   --output-folder=build-osx \
   -o ffmpeg_version=8.1 \
   --build=missing \
-  --build=ffmpeg
+  --deployer=full_deploy

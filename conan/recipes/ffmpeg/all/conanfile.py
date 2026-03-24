@@ -510,11 +510,26 @@ class FFMpegConan(ConanFile):
                                     f"check_lib openssl openssl/ssl.h OPENSSL_init_ssl {openssl_libs} || ")
 
         # Fix conflict with C++20 <version> header on macOS
-        version_file = os.path.join(self.source_folder, "version")
-        if os.path.exists(version_file) and self.version != "8.1":
-            rename(self, version_file, os.path.join(self.source_folder, "FFMPEG_VERSION_FILE"))
-            replace_in_file(self, os.path.join(self.source_folder, "configure"),
-                            'cat "$source_path/version"', 'cat "$source_path/FFMPEG_VERSION_FILE"')
+        # FFmpeg has a file named 'version' (or 'VERSION') which conflicts with C++ standard library header <version>
+        source_version_file = os.path.join(self.source_folder, "version")
+        if not os.path.exists(source_version_file):
+            source_version_file = os.path.join(self.source_folder, "VERSION")
+            
+        if os.path.exists(source_version_file):
+            new_version_file = "FFMPEG_VERSION_FILE"
+            rename(self, source_version_file, os.path.join(self.source_folder, new_version_file))
+            
+            # Patch configure if it uses the version file
+            configure_path = os.path.join(self.source_folder, "configure")
+            version_filename = os.path.basename(source_version_file)
+            replace_in_file(self, configure_path, f'cat "$source_path/{version_filename}"', f'cat "$source_path/{new_version_file}"', strict=False)
+            
+            # Patch ffbuild/version.sh if it exists
+            version_sh = os.path.join(self.source_folder, "ffbuild", "version.sh")
+            if os.path.exists(version_sh):
+                replace_in_file(self, version_sh, f'cat {version_filename}', f'cat {new_version_file}', strict=False)
+                # Some versions specify more explicitly
+                replace_in_file(self, version_sh, f'"$1" && cat {version_filename}', f'"$1" && cat {new_version_file}', strict=False)
 
         replace_in_file(self, os.path.join(self.source_folder, "configure"), "echo libx264.lib", "echo x264.lib")
 
@@ -1048,6 +1063,8 @@ class FFMpegConan(ConanFile):
                 avfilter.requires.append("libvmaf::libvmaf")
             if self.options.get_safe("with_opencolorio"):
                 avfilter.requires.append("opencolorio::opencolorio")
+            if self.options.get_safe("with_libzimg"):
+                avfilter.requires.append("zimg::zimg")
 
         if self.options.get_safe("with_libdrm"):
             avutil.requires.append("libdrm::libdrm_libdrm")

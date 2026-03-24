@@ -20,3 +20,8 @@ patches:
       patch_description: "Compatibility with shared libaom"
       patch_type: "portability"
       patch_source: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d92fdc714496d43234733c315894abe0beeb3529"
+  "8.1":
+    - patch_file: "patches/opencolorio-patch-21799.patch"
+      patch_description: "Updating query_formats to FILTER_QUERY_FUNC2 The format parameter within the filter was specifying the output filter, but doing it too late, so some filters were getting a different value for the output pix_fmt (e.g. zscale). Separately there are enough issues with outputting half-floats (since negative numbers get truncated) that we are better off saying that we dont support outputs of half floats. However, I do still want to support half floats as inputs without forcing them to use a format string (so in that case, the output is forced to be AV_PIX_FMT_GBRAPF32 if nothing is defined."
+      patch_type: "bugfix"
+      patch_source: "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/21799"

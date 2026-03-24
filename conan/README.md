@@ -40,7 +40,7 @@ You can do an initial test of the code by running the build-windows/conanrun.bat
 
 ```bash
 cd EncodingGuidelines/conan
-source windows_setup.sh  # or linux-osx-setup.sh
+source linux-osx-setup.sh
 chmod +x ffmpeg-8.1-osx-build.sh
 ./ffmpeg-8.1-osx-build.sh
 ```

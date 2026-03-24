@@ -10,8 +10,11 @@ FROM    aswf/ci-vfxall:2026-clang20.3 AS base
 RUN     yum -y install s3cmd libgomp ImageMagick && \
         yum clean all;
 
-RUN pip install six testresources recommonmark sphinx-press-theme sphinx-tabs breathe pyseq pillow PyYAML meson kaleido plotly pandas jinja2 OpenTimelineIO
-RUN pip install awscli
+RUN python3 -m pip install six testresources recommonmark sphinx-press-theme sphinx-tabs breathe pyseq pillow PyYAML meson kaleido plotly pandas jinja2 OpenTimelineIO
+RUN python3 -m pip install awscli
+
+# Create OpenColorIO.pc since it is missing in the base image but libraries are present in /usr/local
+RUN echo -e 'prefix=/usr/local\nlibdir=${prefix}/lib\nincludedir=${prefix}/include\n\nName: OpenColorIO\nDescription: OpenColorIO color management library\nVersion: 2.5.1\nLibs: -L${libdir} -lOpenColorIO\nCflags: -I${includedir}' > /usr/local/lib/pkgconfig/OpenColorIO.pc
 
 FROM        base AS build
 
@@ -113,11 +116,11 @@ RUN     #alternatives --install /usr/bin/cmake cmake /usr/bin/cmake3 0 && \
         xmlto" && \
         yum --enablerepo=epel install -y ${nasmDeps}
 
-# Compile and install nasm 2.14.02  
+# Compile and install nasm 2.16.03  
 
 RUN    DIR=/tmp/nasm && \
         mkdir -p ${DIR} && \
-        curl -LSs https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.gz | \
+        curl -LSs https://www.nasm.us/pub/nasm/releasebuilds/2.16.03/nasm-2.16.03.tar.gz | \
         tar xzC ${DIR} --strip-components=1 && \
         pushd ${DIR} && \
         ./configure --host=x86_64-redhat-linux-gnu \
@@ -130,11 +133,9 @@ RUN    DIR=/tmp/nasm && \
         --datadir=/usr/local/share \
         --includedir=/usr/local/include \
         --libdir=/usr/local/lib \
-        --libexecdir=/usr/local/libexec \
-        --enable-sections && \
+        --libexecdir=/usr/local/libexec && \
         make all && \
         make install && \
-        make install_rdf && \
         popd && rm -rf ${DIR} && \
         alternatives --install /usr/bin/nasm nasm /usr/local/bin/nasm 0
 # Now that we have a modern nasm build and available, we can undo the last \
@@ -162,7 +163,7 @@ RUN \
         rm -rf CMakeCache.txt CMakeFiles ; \
         mkdir -p ./aom_build ; \
         cd ./aom_build ; \
-        cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_SHARED_LIBS=1 ..; \
+        cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_SHARED_LIBS=1 ..; \
         make ; \
         make install ; \
         rm -rf ${DIR}
@@ -197,9 +198,12 @@ RUN \
         cd ${DIR} && \
         curl -sL https://bitbucket.org/multicoreware/x265_git/downloads/x265_${X265_VERSION}.tar.gz | \
         tar -zx --strip-components=1 && \
+        sed -i 's/cmake_minimum_required (VERSION 2.8.8)/cmake_minimum_required (VERSION 3.5)/' source/CMakeLists.txt && \
+        sed -i 's/SET CMP0025 OLD/SET CMP0025 NEW/' source/CMakeLists.txt && \
+        sed -i 's/SET CMP0054 OLD/SET CMP0054 NEW/' source/CMakeLists.txt && \
         cd build/linux && \
         sed -i "/-DEXTRA_LIB/ s/$/ -DCMAKE_INSTALL_PREFIX=\${PREFIX}/" multilib.sh && \
-        sed -i "/^cmake/ s/$/ -DENABLE_CLI=OFF/" multilib.sh && \
+        sed -i "/^cmake/ s/$/ -DENABLE_CLI=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5/" multilib.sh && \
         ./multilib.sh && \
         make -C 8bit install && \
         rm -rf ${DIR}
@@ -321,7 +325,7 @@ RUN \
         cd ${DIR} && \
         curl -sL https://github.com/uclouvain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz | \
         tar -zx --strip-components=1 && \
-        cmake -DBUILD_THIRDPARTY:BOOL=ON -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
+        cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DBUILD_THIRDPARTY:BOOL=ON -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
         make && \
         make install && \
         rm -rf ${DIR}
@@ -331,8 +335,8 @@ RUN  \
         DIR=/tmp/freetype && \
         mkdir -p ${DIR} && \
         cd ${DIR} && \
-        curl -sLO https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
-        tar -zx --strip-components=1 -f freetype-${FREETYPE_VERSION}.tar.gz && \
+        curl -sL https://downloads.sourceforge.net/project/freetype/freetype2/${FREETYPE_VERSION}/freetype-${FREETYPE_VERSION}.tar.gz | \
+        tar -zx --strip-components=1 && \
         ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
         make && \
         make install && \
@@ -345,7 +349,7 @@ RUN  \
         curl -sLO https://github.com/georgmartius/vid.stab/archive/v${LIBVIDSTAB_VERSION}.tar.gz && \
         echo ${LIBVIDSTAB_SHA256SUM} | sha256sum --check &&  \
         tar -zx --strip-components=1 -f v${LIBVIDSTAB_VERSION}.tar.gz && \
-        cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
+        cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
         make && \
         make install && \
         rm -rf ${DIR}
@@ -518,7 +522,7 @@ RUN \
         cd ${DIR} && \
         curl -sLO https://github.com/Haivision/srt/archive/v${LIBSRT_VERSION}.tar.gz && \
         tar -xz --strip-components=1 -f v${LIBSRT_VERSION}.tar.gz && \
-        cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
+        cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
         make && \
         make install && \
         rm -rf ${DIR}
@@ -551,7 +555,7 @@ RUN  \
         make install && \
         rm -rf ${DIR}
 
-RUN pip install pyseq awscli pillow PyYAML meson kaleido plotly pandas jinja2 OpenTimelineIO
+RUN python3 -m pip install pyseq awscli pillow PyYAML meson kaleido plotly pandas jinja2 OpenTimelineIO
 
 ## libvmaf https://github.com/Netflix/vmaf
 RUN \
@@ -580,7 +584,7 @@ RUN \
         curl -sLO https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v${LIBSVT_AV1_VERSION}/SVT-AV1-v${LIBSVT_AV1_VERSION}.tar.gz && \
         tar -xz --strip-components=1 -f SVT-AV1-v${LIBSVT_AV1_VERSION}.tar.gz && \
         cd Build && \
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${PREFIX}"  && \
+        cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${PREFIX}"  && \
         make && \
         make install && \
         rm -rf ${DIR}
@@ -630,7 +634,6 @@ RUN  \
         --enable-libzmq \
         --enable-nonfree \
         --enable-openssl \
-        --enable-postproc \
         --enable-shared \
         --enable-small \
         --enable-version3 \
@@ -656,9 +659,9 @@ RUN \
         cp ${PREFIX}/bin/* /usr/local/bin/ && \
         cp -r ${PREFIX}/share/ffmpeg /usr/local/share/ && \
         LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib ffmpeg -buildconf && \
-        cp -r ${PREFIX}/include/libav* ${PREFIX}/include/libpostproc ${PREFIX}/include/libsw* /usr/local/include && \
+        cp -r ${PREFIX}/include/libav* ${PREFIX}/include/libsw* /usr/local/include && \
         mkdir -p /usr/local/lib64/pkgconfig && \
-        for pc in ${PREFIX}/lib/pkgconfig/libav*.pc ${PREFIX}/lib/pkgconfig/libpostproc.pc ${PREFIX}/lib/pkgconfig/libsw*.pc; do \
+        for pc in ${PREFIX}/lib/pkgconfig/libav*.pc ${PREFIX}/lib/pkgconfig/libsw*.pc; do \
         sed "s:${PREFIX}:/usr/local:g" <"$pc" >/usr/local/lib64/pkgconfig/"${pc##*/}"; \
         done
 
@@ -678,7 +681,7 @@ ENV         LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/rh/httpd24/root
         OCIO=ocio://studio-config-v1.0.0_aces-v1.3_ocio-v2.1 \
         VMAF_MODEL=${VMAF_LIB_DIR}
 
-RUN pip install OpenTimelineIO
+RUN python3 -m pip install OpenTimelineIO
 
 WORKDIR     /test
 # ENTRYPOINT  ["ffmpeg"]

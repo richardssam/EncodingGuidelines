@@ -9,6 +9,14 @@ class LibVmafRecipe(ConanFile):
     name = "libvmaf"
     version = "3.0.0"
     settings = "os", "compiler", "build_type", "arch"
+    options = {
+        "shared": [True, False],
+        "fPIC": [True, False],
+    }
+    default_options = {
+        "shared": False,
+        "fPIC": True,
+    }
     
     def layout(self):
         basic_layout(self, src_folder="src")
@@ -24,6 +32,8 @@ class LibVmafRecipe(ConanFile):
 
     def generate(self):
         tc = MesonToolchain(self)
+        # libvmaf meson.build uses 'default_library' standard meson option
+        # which MesonToolchain handles automatically from self.options.shared
         tc.generate()
         
     def build_requirements(self):

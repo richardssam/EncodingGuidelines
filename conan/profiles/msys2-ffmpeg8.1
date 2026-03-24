@@ -10,7 +10,11 @@ os=Windows
 
 [options]
 # Force the stable version
-#EncodingGuidelines/*:ffmpeg_version=8.1
+EncodingGuidelines/*:ffmpeg_version=8.1
+*:shared=False
+EncodingGuidelines/*:with_x265=True
+EncodingGuidelines/*:with_libaom=True
+EncodingGuidelines/*:with_zimg=True
 opencolorio/*:version=2.5.1
 libx265/*:bit_depth=12
 

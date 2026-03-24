@@ -36,6 +36,8 @@ source windows_ffmpeg_build.sh
 to build ffmpeg with conan, this will install ffmpeg in the conan/build-windows/full_deploy/host/ffmpeg/ folder.
 You can do an initial test of the code by running the build-windows/conanrun.bat script in a shell. This will set up the environment variables so that you can run the ffmpeg executables.
 
+Note, this build does not include x265, aom, or zimg. These are not built by default with conan, there are unresolved issues with building them with conan on windows.
+
 ## OSX
 
 ```bash

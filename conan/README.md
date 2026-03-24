@@ -47,14 +47,22 @@ chmod +x ffmpeg-8.1-osx-build.sh
 
 ### Creating a Standalone Bundle (macOS)
 
-If you want to create a portable folder containing FFmpeg and all its dependencies:
+```bash
+cd EncodingGuidelines/conan
+chmod +x create-osx-bundle.sh
+./create-osx-bundle.sh
+```
+
+## Linux
+
+If you are building for RHEL 9 / Rocky 9:
 
 ```bash
 cd EncodingGuidelines/conan
-chmod +x create_bundle.sh
-./create_bundle.sh
+# Ensure patchelf is installed
+# sudo dnf install patchelf
+chmod +x create-linux-bundle.sh
+./create-linux-bundle.sh
 ```
 
-This will create an `ffmpeg-standalone` folder with `bin/ffmpeg` and all required `.dylib` files. You can move this folder anywhere and run FFmpeg from it.
-
-## Linux
+This will create an `ffmpeg-linux-standalone` folder from the `build-rhel9/full_deploy` output.

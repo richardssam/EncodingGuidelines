@@ -1,11 +1,20 @@
 ---
 layout: default
-nav_order: 4.2
+nav_order: 4.3
 title: ProRes Encoding
 parent: Codec Comparisons
 ---
 
 # ProRes <a name="prores"></a>
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based MacOS M1 encoder/decoder (ffmpeg version 5 or higher).
 

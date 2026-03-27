@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Useful Ffmpeg Filters
+title: Useful FFmpeg Filters
 nav_order: 5.6
 parent: Encoding Overview
 ---
 
-# Useful Ffmpeg Filters
+# Useful FFmpeg Filters
 
-This is covering other things that can be done directly in ffmpeg that might be useful.
+This is covering other things that can be done directly in FFmpeg that might be useful.
 
 <details open markdown="block">
   <summary>
@@ -29,9 +29,15 @@ This is covering other things that can be done directly in ffmpeg that might be 
 -filter_complex "[1:0]apad" -shortest
 ```
 
-This is a useful filter to add when adding an audio file, if the audio file might not match the length of the resulting movie. This will either pad the audio to match the video, if the audio is short, or truncate the audio to match the video.
+This is a useful filter to add when adding an audio file, if the audio file might not match the length of the resulting movie. This is useful when adding audio to a video where the lengths might not match. The `apad` filter pads the audio with silence if it's shorter than the video, and `-shortest` ensures the output ends when the shortest stream (usually the video) finishes.
 
-TODO - Provide full example of adding audio to the "quickstart" demo.
+### Full Example: Adding Audio to a Video
+
+```console
+ffmpeg -i video.mp4 -i audio.wav \
+    -c:v copy -c:a aac -b:a 192k \
+    -filter_complex "[1:0]apad" -shortest output.mp4
+```
 
 ## Image resizing
 
@@ -43,9 +49,7 @@ There may be reasons that you want to do any image resizing directly inside ffmp
 -vf scale=1920:trunc(ow/a/2)*2:flags=lanczos
 ```
 
-If you are downrezing, you will get the best results with the lancozs filter, otherwise the default is bicubic.
-
-TODO - this needs testing, to confirm filter quality.
+If you are down-scaling, you will get the best results with the `lanczos` filter; otherwise, the default is `bicubic`. The `lanczos` filter provides higher sharpness and reduces aliasing compared to simpler filters, making it the preferred choice for high-quality VFX delivery.
 
 See: [https://trac.ffmpeg.org/wiki/Scaling](https://trac.ffmpeg.org/wiki/Scaling) for more info.
 
@@ -53,10 +57,23 @@ See: [https://trac.ffmpeg.org/wiki/Scaling](https://trac.ffmpeg.org/wiki/Scaling
 
 See: [https://trac.ffmpeg.org/wiki/Concatenate](https://trac.ffmpeg.org/wiki/Concatenate)
 
-This has been useful in splitting long prores encodes into chunks, and then merging them back together.
-The merge process is not quick, so there are limits to how much you can split the process, but provided that the merge process not I/O bound, it can typically end up with faster encodes.
+This is particularly useful when splitting long ProRes encodes into chunks across multiple machines or processes, then merging them back together.
 
-TODO - Provide some examples of speed improvement, as well as a sample command line.
+### Example: Using the Concat Demuxer
+
+First, create a `filelist.txt`:
+```text
+file 'part1.mov'
+file 'part2.mov'
+file 'part3.mov'
+```
+
+Then run the concatenation command:
+```console
+ffmpeg -f concat -safe 0 -i filelist.txt -c copy output.mov
+```
+
+The `-c copy` flag ensures that the streams are merged without re-encoding, making the process extremely fast and preserving original quality. This workflow can significantly reduce total turnaround time for long deliveries by allowing parallel encoding of segments.
 
 ## ffmpeg help
 

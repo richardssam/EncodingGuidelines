@@ -7,6 +7,15 @@ parent: Codec Comparisons
 
 # H264 <a name="h264"></a>
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
 This is the workhorse encoder for web review, its well supported by ffmpeg, and there is a lot of support for both encoding and decoding in hardware.
 
 There are several h264 encoders available:
@@ -49,22 +58,24 @@ ffmpeg -r 24 -start_number 100 -i inputfile.%04d.png -frames:v 200 -c:v libx264 
         -movflags faststart -y outputfile.mp4
 ```
 
+| Flag | Description |
 | --- | --- |
-| **-crf 18** | This is the constant rate factor, controlling the default quality (see: [https://slhck.info/video/2017/02/24/crf-guide.html](https://slhck.info/video/2017/02/24/crf-guide.html) ) where -crf 0 is uncompressed. By default this is set to 23, which is a little on the low quality side, using values closer to 18 is recommended, but this does come at the expense of file-size. For more on this see the [CRF comparison](#crf-comparison) below. |
+| **-crf 18** | This is the constant rate factor, controlling the default quality (see: [https://slhck.info/video/2017/02/24/crf-guide.html](https://slhck.info/video/2017/02/24/crf-guide.html) ) where -crf 0 is uncompressed. By default this is set to 23, which is a little on the low quality side; using values closer to 18 is recommended, but this does come at the expense of file-size. For more on this see the [CRF comparison](#crf-comparison) below. |
 | **-qp 23** | Quantization Parameter - it is recommended that you do not use this, in preference to -crf above (see: [https://slhck.info/video/2017/03/01/rate-control.html](https://slhck.info/video/2017/03/01/rate-control.html) ) |
 | **-preset slow** | [https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ](https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ) |
-| **-qscale:v 9** | Generic quality scale flag: [https://www.ffmpeg.org/ffmpeg.html#toc-Main-options](https://www.ffmpeg.org/ffmpeg.html#toc-Main-options) - TODO experiment with this. |
+| **-qscale:v 9** | Generic quality scale flag: [https://www.ffmpeg.org/ffmpeg.html#toc-Main-options](https://www.ffmpeg.org/ffmpeg.html#toc-Main-options). This is typically used for fixed-quality encoding in some codecs, but CRF is preferred for H.264. |
 | **-tune film** | See below. |
-**-movflags faststart** | This re-organises the mp4 file, so that it doesnt have to read the whole file to start playback, useful for streaming. It can add a second or so to do this, since it does require re-writing the file. |
+| **-movflags faststart** | This re-organizes the mp4 file, so that it doesn't have to read the whole file to start playback, useful for streaming. It can add a second or so to do this, since it does require re-writing the file. |
 
 ### Tune Parameter
 
 Optionally use the tune option to change settings based on specific inputs - [https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ](https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ)
 
-| --- | --- |
-| **-tune film** | good for live action content. |
-| **-tune animation** | good for animated content with areas of flat colors. |
-| **-tune grain** |  good for live action content where you want to preserve the grain as much as possible. |
+| Tuning | Description |
+| :--- | :--- |
+| **-tune film** | Good for live action content. |
+| **-tune animation** | Good for animated content with areas of flat colors. |
+| **-tune grain** | Good for live action content where you want to preserve the grain as much as possible. |
 
 see also: [https://superuser.com/questions/564402/explanation-of-x264-tune](https://superuser.com/questions/564402/explanation-of-x264-tune)
 
@@ -89,16 +100,36 @@ Its showing that you really can just encode with -preset medium or -preset slow 
 
 By default, h264 is created as a yuv420p file format. This is the recommended format for web playback and also playback with the quicktime player on MacOS and other apple devices, but the h264 codec can support other formats that are modified with the `-pix_fmt` flag.
 
-TODO Needs more investigation, e.g. do you set pix_fmt and profile, or will one set the other?
+Setting `-pix_fmt` to 10-bit or high-chroma formats usually auto-selects the appropriate H.264 profile. However, explicitly setting `-profile:v` is recommended for ensuring compatibility with specific hardware decoders.
 
-|---|---|
-|-pix_fmt yuv444p10le| Defines a YUV 444 image at 10bits per component.|
-|-profile:v high10 | Support for bit depth 8-10. |
-|-profile:v high422 | Support for bit depth 8-10. Support for 4:2:0/4:2:2 chroma subsampling.|
-|-profile:v high444 | Support for bit depth 8-10. for 4:2:0/4:2:2/4:4:4 chroma subsampling.|
+| Pixel Format | Recommended Profile | Supported Features |
+| :--- | :--- | :--- |
+| **yuv420p10le** | `high10` | 10-bit color, 4:2:0 subsampling. |
+| **yuv422p10le** | `high422` | 10-bit color, 4:2:2 subsampling. |
+| **yuv444p10le** | `high444` | 10-bit color, 4:4:4 subsampling. |
 
-### TODO
+### Hardware Acceleration
 
-* Document usage on MacOS hardware
-* Document Nvidia encoders
-* Document lossless encoding
+#### macOS VideoToolbox
+
+Uses the Apple hardware encoder. Ideal for fast proxies and web review on Apple Silicon.
+
+```console
+ffmpeg -i input.mov -c:v h264_videotoolbox -profile:v high -pix_fmt yuv420p -b:v 10M output.mp4
+```
+
+#### NVIDIA NVENC
+
+Uses NVIDIA's dedicated hardware encoder (available on Windows/Linux).
+
+```console
+ffmpeg -i input.mov -c:v h264_nvenc -preset slow -rc vbr -cq 19 -pix_fmt yuv420p output.mp4
+```
+
+### Lossless Encoding
+
+To achieve mathematically lossless encoding with `libx264`, use `-crf 0` or `-qp 0`. Note that lossless files can be extremely large and may not play back in standard web browsers.
+
+```console
+ffmpeg -i input.exr -c:v libx264 -crf 0 -pix_fmt yuv444p output_lossless.mp4
+```

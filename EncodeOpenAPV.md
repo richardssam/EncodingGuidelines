@@ -86,8 +86,6 @@ For the current version of ffmpeg, an additional parameter is required to be pas
 | -pix_fmt yuv422p12le | -oapv-params profile=422-12 | YCbCr422 12-bit |
 | -pix_fmt yuv444p10le | -oapv-params profile=444-10 | YCbCr444 10-bit |
 | -pix_fmt yuv444p12le | -oapv-params profile=444-12 | YCbCr444 12-bit |
-| -pix_fmt yuv444p10le | -oapv-params profile=444-10 | YCbCr444 10-bit |
-| -pix_fmt yuv444p12le | -oapv-params profile=444-12 | YCbCr444 12-bit |
 | -pix_fmt yuva444p10le | -oapv-params profile=4444-10 | YCbCr444 10-bit |
 | -pix_fmt yuva444p12le | -oapv-params profile=4444-12 | YCbCr444 12-bit |
 
@@ -133,7 +131,7 @@ There are presets of:
 * Slow  
 * Placebo
 
-Presets affect the file-size and quality results suprisingly little, other than varying how long the encode takes.
+Presets affect the file-size and quality results surprisingly little, other than varying how long the encode takes.
 
 Fastest and Fast are fairly similar, they have a higher quality than medium, and are twice as fast and better quality than medium, at the expense of a 3-5% increase in disk space.
 
@@ -186,7 +184,7 @@ These benchmarks were for HD versions of the netflix chimera media (200 frame cl
 | ![](enctests/reference-results/intra-test422-encode_time.png)  This is showing different intraframe codecs against encoding time. | ![](enctests/reference-results/intra-test422-filesize.png) This is showing different intraframe codecs against file size. |
 | ![](enctests/reference-results/intra-test422-vmaf_harmonic_mean.png) This is showing different intraframe codecs against VMAF harmonic mean | ![](enctests/reference-results/intra-test422-psnr_y_harmonic_mean.png) This is showing different intraframe codecs against psnr y harmonic mean |
 
-The APV encoder is compariable in this case to ffmpeg with video-toolbox on an M2 Max (with encoder hardware), it is unknown how optimal the ffmpeg wrapper is. But there are definately improvements over DNxHD. HTJ2K is a little unfair in this context since it is a full RGB image, but clearly is slower at encoding. Also worth noting prores_ks is quite a bit slower.
+The APV encoder is comparable in this case to ffmpeg with video-toolbox on an M2 Max (with encoder hardware), it is unknown how optimal the ffmpeg wrapper is. But there are definitely improvements over DNxHD. HTJ2K is a little unfair in this context since it is a full RGB image, but clearly is slower at encoding. Also worth noting prores_ks is quite a bit slower.
 
 For 444 testing:  
 Note, dnxhr and prores_ks are both encoding only to 10-bit, since they do not support 12-bit in ffmpeg.
@@ -200,7 +198,7 @@ For playback you need to at least be on ffmpeg 8.0. OpenRV does have a [Pull-req
 
 ## Playback performance
 
-This is measuring playback performance using /Users/sam/git/ffapv/ffmpeg -hide_banner -benchmark -stream_loop 4 -i \<FILENAME\> as a way to test FPS without the display factor to compare one codec to another.
+This is measuring playback performance using ffmpeg -hide_banner -benchmark -stream_loop 4 -i \<FILENAME\> as a way to test FPS without the display factor to compare one codec to another.
 
 TODO Need to clean this data up….
 

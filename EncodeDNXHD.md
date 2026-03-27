@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 4.6
+nav_order: 4.4
 title: DNxHD Encoding
 parent: Codec Comparisons
 ---
@@ -173,9 +173,8 @@ comparisontest:
 -->
 ```console
 ffmpeg -y -r 24 -i inputfile.%04d.png -frames:v 100 \
-    -vf "in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
+    -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
     -pix_fmt yuv422p10 -c:v dnxhd -b:v 175M \
-     -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \
      -color_primaries bt709 -color_range tv -color_trc bt709 -colorspace bt709 \
       outputfile.mov
 ```

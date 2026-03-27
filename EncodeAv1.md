@@ -124,7 +124,7 @@ Libaom has an aggressive denoiser, which can be pretty good for animated media, 
 
 ### cpu-speed Comparison for libaom-av1
 
-To help pick appropriate values with the cpu-speed flag, we have run the [Test Framework](enctests/README.html) through one of the test media. You can see that values are
+To help pick appropriate values with the cpu-speed flag, we have run the [Test Framework](enctests/README.html) through one of the test media. You can see those values below.
 
 | ![](enctests/reference-results/aomav1-crf-test-encode_time.png)  | ![](enctests/reference-results/aomav1-crf-test-encode_time_zoom.png) |
 | This is showing cpu-speed values against encoding time. You can see that values of 1 and 2 are more than 15 minutes, where most other encoders are closer to the 30 second range. | Same graph of cpu-speed value against encoding time a 0-500 scale. This is showing cpu-used 5 is now just twice as slow, as Libsvtav1, but at 422 vs. 420 |
@@ -146,4 +146,4 @@ See Also - note these are all guides for AOMENC (the AOM encoder that is part of
 Supported pixel formats:
 yuv420p yuvj420p yuv420p10le yuv420p12le yuv422p yuvj422p yuv422p10le yuv422p12le yuv444p yuvj444p yuv444p10le yuv444p12le
 
-There is no CRF flag, so you use the -gp flag, the recommended starting point is about 100. However, we have been unable to get an substantial speed improvement over AOM.
+There is no CRF flag, so you use the -qp flag, the recommended starting point is about 100. However, we have been unable to get an substantial speed improvement over AOM.

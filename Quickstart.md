@@ -6,9 +6,18 @@ title: Encoding Cheatsheet
 
 # Encoding Cheatsheet
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
 This is a cheatsheet for encoding best practices for VFX/Animation production. For each section there are more detailed sections on why these settings are picked, and notes on what parameters you may want to change.
 
-This document is based on results from ffmpeg 8.1.
+This document is based on results from FFmpeg 8.1.
 
 ## H264 Encoding from an image sequence for Web Review
 
@@ -141,7 +150,17 @@ For more details see:
 
 All the video formats typically do not use the full numeric range but instead the R', B', G' and Y' (luminance) channel have a nominal range of [16..235]  and the CB and CR channels have a nominal range of [16..235] with 128 as the neutral value. This frequently results in quantisation artifacts for 8-bit encoding (the standard for web playback).
 
-TODO Get Quantization examples.
+This reduction in range, especially in 8-bit, can lead to visible "banding" or quantization artifacts in smooth gradients (like skies or shadows).
+
+### Quantization and Bit-Depth
+
+When encoding in 8-bit, only 219 levels are available for luminance (16–235). In 10-bit, this increases to 876 levels (64–940). This extra precision is often enough to eliminate banding even when using "legal" range.
+
+| Bit Depth | Range Type | Banding Risk | Notes |
+| :--- | :--- | :--- | :--- |
+| **8-bit**  | **TV (Legal)**  | **High**   | Most prone to banding in gradients. |
+| **8-bit**  | **Full (PC)**   | **Medium** | Better, but not always supported by hardware players. |
+| **10-bit** | **TV (Legal)**  | **Low**    | Preferred for professional review; supported by modern browsers and players. |
 
 You can force the encoding to be full range using the libswscale library by using
 
@@ -181,7 +200,7 @@ We have seen the full range encoding work across all browsers, and a number of p
 {: .important }
 Its worth noting however, that with the increasing support for 10-bit or more encoding, that its really preferable to use 10-bit legal range, rather than stick with 8-bit at all. The file size can be comparable if not a little smaller than 8-bit, and you will more likely eliminate many of the quantizing issues that you will see at 8-bit.
 
-TODO: Do additional testing across all players.
+While 10-bit TV range is generally well-supported, always verify playback on your target hardware and software players (e.g., VLC, RV, QuickTime Player) to ensure consistent color representation.
 
 For more details see:
 

@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 4.5
+nav_order: 4.7
 title: JPEG2000 HTJ2K Encoding
 parent: Codec Comparisons
 ---
@@ -84,8 +84,8 @@ The advantage of using OIIO over ojph_compress are:
 Creating HTJ2K files can be done on the command line with oiiotool, e.g.:
 
 ```console
-oiiotool -t STARTFRAME-ENDFRAME –parallel-frames -i INPUTFRAMESEQ.%05d.tif \
-     –compression htj2k --attrib jph:qstep 0.001 -o OUTPUTFRAMESEQ.%05d.j2c
+oiiotool -t STARTFRAME-ENDFRAME --parallel-frames -i INPUTFRAMESEQ.%05d.tif \
+     --compression htj2k --attrib jph:qstep 0.001 -o OUTPUTFRAMESEQ.%05d.j2c
 ```
 
 Without the jph:qstep flag, lossless mode is used, which is typically quite a bit smaller than many other compression schemes, but not typically small enough for reviews.
@@ -144,14 +144,14 @@ The progression order (typically a prog_order flag in openjph, or jph:prog_order
 | Flag | Meaning | When to use it |
 | :---- | :---- | :---- |
 | LRCP | Layer -\> Resolution -\> Component -\> Position | Good for progressive quality over full image, particularly useful if you have multiple layers (not currently supported by OIIO). |
-| RLCP | Resolution -\> Layer -\> Component -\> Position | Prioritizes lower resolutions first, allows you to load all of the layers at a lower resolution and then  |
+| RLCP | Resolution -\> Layer -\> Component -\> Position | Prioritizes lower resolutions first, allows you to load all of the layers at a lower resolution and then load in the higher resolutions |
 | RPCL | Resolution -\> Position -\> Component -\> Layer | Optimized for random access and tiling. |
 | PCRL | Position -\> Component -\> Resolution -\> Layer | Less common, spatial prioritisation, good for large images where you are viewing zoomed in sections of it. |
 | CPRL | Component -\> Position -\> Resolution -\> Layer | Used when components are needed separately, e.g. YUV where you might just want Y first, rarely used in VFX. |
 
 Of these settings picking either RPCL or LRCP are the two most common progression orders. OIIO does not currently support layers, so really LRCP and RLCP are very similar.
 
-For many cases position can be ignored, unless you start generating particularly large images where you are only interested in part of that large picture. For example having a 360-video where you are only viewing part of the overall picture. This may be where you would also want to tweak the precincts parameters of the codec. This is definately an area that JPEG2000 comes into its own, since
+For many cases position can be ignored, unless you start generating particularly large images where you are only interested in part of that large picture. For example having a 360-video where you are only viewing part of the overall picture. This may be where you would also want to tweak the precincts parameters of the codec. This is definitely an area where JPEG 2000 shines, as its wavelet-based architecture allows for efficient resolution scalability and partial decoding, which is ideal for massive image datasets.
 
 ## HTJ2K Decoding and Playback
 

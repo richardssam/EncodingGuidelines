@@ -7,9 +7,18 @@ parent: Encoding Overview
 
 # FFmpeg OCIO Filter
 
-With the introduction of ffmpeg 8.1 a [OCIO](https://ocio.readthedocs.io/en/latest/) [filter](https://ffmpeg.org/ffmpeg-filters.html#ocio) has been added. This allows you to convert from EXR files directly to encoded media using an OCIO filter to convert the colorspace correctly without needing an intermediate file.
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
-If you are encoding to YCbCr you will need to do the OCIO conversion in RGB colorspace first, and then convert to YCbCr. This is because OCIO doesn't know how to convert to YCbCr out of the box, and Ffmpeg handles the variants like 420, 422, and 444.
+With the introduction of FFmpeg 8.1 a [OCIO](https://ocio.readthedocs.io/en/latest/) [filter](https://ffmpeg.org/ffmpeg-filters.html#ocio) has been added. This allows you to convert from EXR files directly to encoded media using an OCIO filter to convert the colorspace correctly without needing an intermediate file.
+
+If you are encoding to YCbCr, you should perform the OCIO conversion in an RGB colorspace first, and then convert to YCbCr using the `scale` filter. FFmpeg's `scale` filter automatically handles the conversion from RGB formats (like `rgb48`) to YCbCr variants (like `yuv420p10le`), ensuring correct chroma subsampling and range mapping.
 
 ## Example Usage
 
@@ -35,9 +44,11 @@ ffmpeg -y  -framerate 24 -start_number <STARTFRAME> -i SOURCEFRAMES.%05d.exr \
 
 The format parameter that's part of the OCIO filter allows you to specify an output pixel_format that OCIO will be converting to. This has to be an RGB colorspace since OCIO doesn't know how to convert to YCbCr. If you do not supply the format, the output will match the input with the exception of half-floats which will be converted to full floats (due to poor support for half-floats).
 
-Note, you can also specify the OCIO config file as a “config” parameter, but otherwise it will default to the OCIO environment variable.
+Note, you can also specify the OCIO config file as a "config" parameter; otherwise, it will default to the `OCIO` environment variable.
 
-## Converting to a HDR image sequence
+## Creating an HDR movie from ACEScg
+
+This example demonstrates how to convert an ACEScg EXR image sequence to a 10-bit HDR10 (PQ) QuickTime movie.
 
 This is converting from a ACEScg image sequence to a HDR PQ quicktime.
 
@@ -46,7 +57,9 @@ ffmpeg -y -framerate 24 -start_number <STARTFRAME> -i SOURCEFRAMES.%04d.exr -c:v
     -x265-params "hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:range=limited:master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1):max-cll=1000,400" OUTPUTFILE.mov
 ```
 
-## Converting from an HDR movie to a ACEScg image sequence
+## Converting an HDR movie back to ACEScg EXRs
+
+To demonstrate converting from an HDR movie back to ACEScg, we first create a high-quality (lossless 12-bit 4:4:4) HDR movie:
 
 To test converting from an HDR movie, we are going to create an HDR movie first:
 
@@ -66,7 +79,13 @@ So while this will limit the max luminance to 1000 nits, it will give you a wide
 
 If your viewer supported HDR, this shows that you could internally convert it to ACEScg, so that any test color correction you might be doing in the viewer would be fairly representative of what it would be like if you were reading from an openEXR frame. Obviously the best results would be to use the EXR frames, but its certainly an improvement over rec709.
 
-## Converting from HDR image sequence to ACEScg
+## Converting from HDR (Rec.2100) image sequence to ACEScg
+
+If you have an image sequence that is already in an HDR space (like Rec.2100 PQ) and want to convert it to ACEScg EXRs, you can use the `inverse=1` parameter with the appropriate display and view:
+
+```console
+ffmpeg -y -i INPUT_REC2100.%04d.exr -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):inverse=1:format=gbrpf32le" testoutput_acescg.%04d.exr
+```
 
 ## Filter Arguments
 
@@ -91,7 +110,7 @@ If you are already manually building ffmpeg, you can enable OCIO support by addi
 
 This does require opencolorio to be installed on the system, and be found by pkgconfig.
 
-If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory. There is also a conan recipe in the [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on MacOS, linux and windows.
+If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory. There is also a conan recipe in the [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on macOS, linux and windows.
 
 We do also want to flag a patch that didnt make it into the ffmpeg 8.1 release - <https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/21799>. This patch fixes an issue where the ocio filter was not able to output half-float formats and also can crash filters like zscale. Hopefully this will make it into the following release. The above build recipes do include this patch.
 
@@ -116,8 +135,25 @@ We recommend leaving it with the default of 0 threads (i.e. dont specify anythin
 
 ## Slate and burn-in generation
 
-By Adding OCIO to ffmpeg it allows us to generate slates and burn-ins in the correct colorspace without needing to create an intermediate file. Good examples of the need for this are documented by Netflix in their [Netflix Post Production Guide](https://partnerhelp.netflixstudios.com/hc/en-us/articles/360057627293-VFX-Slates-Overlays-Guidelines) post.
+By adding OCIO to FFmpeg, we can generate slates and burn-ins in the correct colorspace without needing to create an intermediate file. This is critical for VFX pipelines where metadata must be overlaid on color-corrected plates.
 
-TODO Provide an extreme example of slate creation and text overlays.
+### Example: ACEScg Slate with SDR View
 
-## Highlight places it might give errors
+This example adds a text overlay to an ACEScg plate, converting the result to an SDR sRGB view for web review:
+
+```console
+ffmpeg -y -start_number 1001 -i input.%04d.exr \
+    -vf "drawtext=text='SHOT: test_01':fontcolor=white:fontsize=48:x=100:y=100, \
+         ocio=input=ACEScg:display=sRGB - Display:view=ACES 1.0 - SDR Video:format=rgb48, \
+         scale=out_color_matrix=bt709:out_range=tv,format=yuv420p10le" \
+    -c:v libx264 -crf 18 -pix_fmt yuv420p10le output_slate.mp4
+```
+
+## Potential Errors and Troubleshooting
+
+| Error | Cause/Solution |
+| :--- | :--- |
+| **"Could not find OCIO config"** | Ensure the `OCIO` environment variable is set or use the `config` parameter. |
+| **"Colorspace 'XXX' not found"** | Check that the colorspace/display/view names exactly match your OCIO config. |
+| **"Pixel format mismatch"** | Ensure the `format` parameter in the OCIO filter matches the expectations of the next filter in the chain (e.g., `rgb48` before `scale`). |
+| **"OCIO filter fails with half-float"** | Use FFmpeg 8.1+ with the latest patches, or convert to `gbrpf32le` (full float) within the filter. |

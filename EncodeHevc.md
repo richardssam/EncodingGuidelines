@@ -1,11 +1,20 @@
 ---
 layout: default
-nav_order: 4.5
+nav_order: 4.2
 title: HEVC/H.265 Encoding
 parent: Codec Comparisons
 ---
 
 # HEVC/H.265 Encoding
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 H.265 (High Efficiency Video Compression - HEVC) is one of the replacements for H.264. It allows for a reduction of file size compared to H.264 of 25-50% and supports frame formats up to 8K (UHDTV). It also has support for HDR, which we go into more [here](enctests/HDR_Encoding.html).
 
@@ -51,13 +60,13 @@ comparisontest:
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -frames:v 200 -c:v libx265 \
     -pix_fmt yuv420p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int \
     -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
-    -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 2 \
+    -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc iec61966-2-1 \
     -movflags faststart -y outputfile.mp4
 ```
 
 | -- | -- |
 | -preset medium | Can be one of ultrafast, superfast, verfast, faster, fast, medium, slow, slower, and placebo |
-| -crf 22 | Similar to h264, default is 28, but should be similar to crf 22 |
+| -crf 22 | Similar to h264, default is 28 which is on the low quality side |
 | -x265-params lossless=1 | Does lossless encoding, -crf 0 is not required |
 | -tag:v hvc1 | To make it "Apple "Industry standard" compliant |
 | -profile main | Profile can be one of main or main10 or main12 |
@@ -82,9 +91,9 @@ x265_crf(x264_crf) = 1.09 * x264_crf −  4.19
 Below is showing a comparison of different preset values with a crf value of 18.
 Its showing that you really can just encode with -preset medium or -preset slow anything higher is really not gaining you anything.
 
-| ![](enctests/reference-results/hevc-test-encode_time.png)  This is showing CRF values against encoding time. |
-| ![](enctests/reference-results/hevc-test-filesize.png) This is showing CRF values against file size. |
-| ![](enctests/reference-results/hevc-test-vmaf_harmonic_mean.png) This is showing CRF values against VMAF harmonic mean |
+| ![](enctests/reference-results/hevc-test-encode_time.png)  This is showing preset values against encoding time. |
+| ![](enctests/reference-results/hevc-test-filesize.png) This is showing preset values against file size. |
+| ![](enctests/reference-results/hevc-test-vmaf_harmonic_mean.png) This is showing preset values against VMAF harmonic mean |
 
 ## hevc_videotoolbox
 

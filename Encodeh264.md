@@ -13,7 +13,7 @@ There are several h264 encoders available:
 
 * [x264](#x264) - the videolan h264 open source library.
 * [h264_nvenc](#h264_nvenc) - the nvidia hardware encoder.
-* [videotoolbox_h264](#videotoolbox_h264) - osx only apple h264 encoder.
+* [videotoolbox_h264](#videotoolbox_h264) - MacOS only apple h264 encoder.
 
 ## x264
 
@@ -50,7 +50,7 @@ ffmpeg -r 24 -start_number 100 -i inputfile.%04d.png -frames:v 200 -c:v libx264 
 ```
 
 | --- | --- |
-| **-crf 18** | This is the constant rate factor, controlling the default quality (see: [https://slhck.info/video/2017/02/24/crf-guide.html](https://slhck.info/video/2017/02/24/crf-guide.html) ) where -crf 0 is uncompressed. By default this is set to 23, which is a little on the low side, using values closer to 18 is recommended, but this does come at the expense of file-size. For more on this see the [CRF comparison](#crf-comparison) below. |
+| **-crf 18** | This is the constant rate factor, controlling the default quality (see: [https://slhck.info/video/2017/02/24/crf-guide.html](https://slhck.info/video/2017/02/24/crf-guide.html) ) where -crf 0 is uncompressed. By default this is set to 23, which is a little on the low quality side, using values closer to 18 is recommended, but this does come at the expense of file-size. For more on this see the [CRF comparison](#crf-comparison) below. |
 | **-qp 23** | Quantization Parameter - it is recommended that you do not use this, in preference to -crf above (see: [https://slhck.info/video/2017/03/01/rate-control.html](https://slhck.info/video/2017/03/01/rate-control.html) ) |
 | **-preset slow** | [https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ](https://trac.ffmpeg.org/wiki/Encode/H.264#FAQ) |
 | **-qscale:v 9** | Generic quality scale flag: [https://www.ffmpeg.org/ffmpeg.html#toc-Main-options](https://www.ffmpeg.org/ffmpeg.html#toc-Main-options) - TODO experiment with this. |
@@ -87,7 +87,7 @@ Its showing that you really can just encode with -preset medium or -preset slow 
 
 ### H264 Bitdepth
 
-By default, h264 is created as a yuv420p file format. This is the recommended format for web playback and also playback with the quicktime player on OSX and other apple devices, but the h264 codec can support other formats that are modified with the `-pix_fmt` flag.
+By default, h264 is created as a yuv420p file format. This is the recommended format for web playback and also playback with the quicktime player on MacOS and other apple devices, but the h264 codec can support other formats that are modified with the `-pix_fmt` flag.
 
 TODO Needs more investigation, e.g. do you set pix_fmt and profile, or will one set the other?
 
@@ -99,6 +99,6 @@ TODO Needs more investigation, e.g. do you set pix_fmt and profile, or will one 
 
 ### TODO
 
-* Document usage on OSX hardware
+* Document usage on MacOS hardware
 * Document Nvidia encoders
 * Document lossless encoding

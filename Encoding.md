@@ -51,14 +51,14 @@ For details on codec flags, and how we picked the parameters, do goto the page f
 
 ## Uncompressed containers
 
-[Y4m](https://wiki.multimedia.cx/index.php/YUV4MPEG2) is a terrific container for uncompressed media. It allows uncompressed raw YCrCb data to be stored with a simple header.
+[Y4m](https://wiki.multimedia.cx/index.php/YUV4MPEG2) is a terrific container for uncompressed media. It allows uncompressed raw YCbCr data to be stored with a simple header.
 
 ## Uncompressed Codecs
 
 Ffmpeg has support for a small number of uncompressed codecs that are worth using for testing. We don't recommend any of them for day-to-day use.
 
 | Codec | Description | Pix Fmt | Notes |
-|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+|:----------|:-----------|:-----------|:-----------|
 | v410 | 444 10-bit | yuv444p10le | |
 | v408 | 4444 8-bit with alpha | yuva444p | Quicktime compatible |
 | v308 | 444 8-bit packed | yuv444p |
@@ -71,7 +71,7 @@ Ffmpeg has support for a small number of uncompressed codecs that are worth usin
 Below are other codecs that may be worth considering at some point.
 
 | Codec | Profile description | Pix Fmt | Notes |
-|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+|:----------|:-----------|:-----------|:-----------|
 | hap | HAP and HAPQ codec | rgba |  [HAP](https://hap.video/using-hap.html) - Fast GPU decompression, at the expense of file-size |
 | LCEVC | | | [Low Complexity Enhancement Video Coding](https://docs.v-nova.com/v-nova/lcevc/reference-applications/ffmpeg) |
 

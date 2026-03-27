@@ -98,12 +98,12 @@ ffmpeg  \
 | :---- | :---- |
 | \-c:v libx265 | Use the h265 encoder |
 | \-tag:v hvc1 | Tag the file to enable playback with QuickTime Player |
-| \-vf "scale=in\_range=full:in\_color\_matrix=bt2020:out\_range=tv:out\_color\_matrix=bt2020" | Make sure we treat the input and output color primaries to be bt2020. Without this, ffmpeg can assume the source is different, and apply a primary that shouldn't be there. |
+| \-vf "scale=in\_range=full:in\_color\_matrix=bt2020:out\_range=tv:out\_color\_matrix=bt2020" | Make sure we treat the input and output color primaries to be bt2020. Without this, FFmpeg can assume the source is different, and apply a primary that shouldn't be there. |
 | \-color\_range tv | Set the source range to be tv range. |
 | \-color\_trc smpte2084 | smpte2084 is the PQ reference EOTF |
 | \-color\_primaries bt2020 | Use the bt2020 color primaries |
 | \-colorspace bt2020nc | Tagging the YcBCr as being encoded using the BT-2020 non-constant luminance. |
-| \-pix\_fmt yuv444p10le | YCrCb 444, although 422 in many cases is also fine. |
+| \-pix\_fmt yuv444p10le | YCbCr 444, although 422 in many cases is also fine. |
 
 In many cases this may be sufficient, particularly if you are using the ACES transforms that closely map to the maximum luminance of the review monitor (e.g. the 1000 nit view-transforms). It depends on how much the monitor can take advantage of the master-display parameters (see below).
 
@@ -150,7 +150,7 @@ It is possible to create encoded media without additional metadata (essentially 
 
 It's extremely rare to be doing the final color-correct on a monitor that fully supports rec2020, much more typical is one that has a P3 Gamut. The master-display parameter defines the colorimetry of the master display and the luminance range.
 
-The display volume can be controlled with the [master-display](https://x265.readthedocs.io/en/stable/cli.html#cmdoption-master-display) x265 parameter, that can be passed through ffmpeg. We commonly see P3 values defined in a SEI info block (Supplemental Enhancement Information):
+The display volume can be controlled with the [master-display](https://x265.readthedocs.io/en/stable/cli.html#cmdoption-master-display) x265 parameter, that can be passed through FFmpeg. We commonly see P3 values defined in a SEI info block (Supplemental Enhancement Information):
 
 ```console
 master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1)

@@ -48,21 +48,21 @@ ffmpeg -y -framerate 24 -start_number <STARTFRAME> -i SOURCEFRAMES.%04d.exr -c:v
 
 ## Converting from an HDR movie to a ACEScg image sequence
 
-An interesting version of this is to do the above conversion at a higher quality:
+To test converting from an HDR movie, we are going to create an HDR movie first:
 
 ```console
 ffmpeg -y -framerate 24 -start_number 6100 -i /Users/sam/git/EncodingGuidelines/enctests/sources/hdr_sources/sparks/SPARKS_ACES_%05d.exr -c:v libx265 -pix_fmt yuv444p12le -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):format=rgb48,scale=in_range=full:in_color_matrix=bt2020:out_range=tv:out_color_matrix=bt2020" -color_range tv -color_trc smpte2084 -color_primaries bt2020 -colorspace bt2020nc -tag:v hvc1      -x265-params "lossless=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:range=limited:master-display=G(13250,34500)B(7500,3000)R(34000,16000)WP(15635,16450)L(10000000,1):max-cll=1000,400" sparks_lossless_h265.mov
 ```
 
-Note this is both 12-bit 444 and lossless.
+Note this is both 12-bit 444 and lossless, to make the comparison a little easier to rule out any encoding artifacts.
 
-We are going to convert it back to EXR's:
+Then we can convert it back to EXR's:
 
 ```console
 ffmpeg -y -i sparks_lossless_h265.mov -threads 0 -vf "ocio=input=ACEScg:display=Rec.2100-PQ - Display:view=ACES 1.1 - HDR Video (1000 nits & Rec.2020 lim):inverse=1:format=gbrpf32le,scale=out_range=full:out_color_matrix=bt2020"  testoutput/testoutput.%04d.exr
 ```
 
-So while this will limit the max luminance to 1000 nits, it will give you a wide gamut with an higher dynamic range that you can convert back into a linear range which will be hugely superior to rec709 or g24p3.
+So while this will limit the max luminance to 1000 nits, it will give you a wide gamut with an higher dynamic range that you can convert back into a linear range which will be hugely superior to rec709 or g24p3. Obviously this is not as good as using the original EXR files, but it is certainly an improvement over rec709, giving you the ability to change the exposure
 
 If your viewer supported HDR, this shows that you could internally convert it to ACEScg, so that any test color correction you might be doing in the viewer would be fairly representative of what it would be like if you were reading from an openEXR frame. Obviously the best results would be to use the EXR frames, but its certainly an improvement over rec709.
 
@@ -89,7 +89,9 @@ If you are already manually building ffmpeg, you can enable OCIO support by addi
 --enable-libopencolorio
 ```
 
-If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory. There is also a conan recipe in the [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on OSX, linux and windows.
+This does require opencolorio to be installed on the system, and be found by pkgconfig.
+
+If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory. There is also a conan recipe in the [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on MacOS, linux and windows.
 
 We do also want to flag a patch that didnt make it into the ffmpeg 8.1 release - <https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/21799>. This patch fixes an issue where the ocio filter was not able to output half-float formats and also can crash filters like zscale. Hopefully this will make it into the following release. The above build recipes do include this patch.
 

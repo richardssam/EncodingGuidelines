@@ -88,7 +88,7 @@ comparisontest:
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png \
     -pix_fmt yuv422p10le -frames:v 100 \
     -c:v prores_ks -profile:v 3 -qscale:v 9 \
-    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 outputfile.mov
+    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -vendor apl0 outputfile.mov
 ```
 
 | Flag | Description |
@@ -152,7 +152,7 @@ You can force the encoding to be full range using the libswscale library by usin
 Specifying *out_range=full* forces the output range, but you also need to set the NCLX tag:
 
 ```console
--color_range 2
+-color_range pc
 ```
 
 A full example encode would look like:

@@ -61,13 +61,13 @@ oiiotool -v --framepadding 5 --frames 6700-6899 sparks2/SPARKS_ACES_#.exr\
 | --- | --- |
 | \--iscolorspace "ACES2065-1" | Set the input colorspace to ACES2065-1 (or whatever your source imagery is using such as ACEScg) |
 | \--ociodisplay "Rec.2100-PQ \- Display" "ACES 1.1 \- HDR Video (1000 nits & P3 lim)" | This is the core colorspace conversion, This is using a 2100-PQ display, at 1000 nits and while it is a full rec2020 gamut (as defined by the rec.2100 spec) the gamut is limited to P3. Since few displays are currently above P3 gamut, this is a fairly typical. Its also worth noting, P3 does not exist as a "Video Gamut" hence why the larger rec2020 is used. |
-| \-d uint16 | Output as 16-bit file format. Typically you want at least 10-bit encodes, so to get the data to ffmpeg, this is a good start. |
+| \-d uint16 | Output as 16-bit file format. Typically you want at least 10-bit encodes, so to get the data to FFmpeg, this is a good start. |
 
 The other option built in for PQ is a config with 2000 nits \-  
 \--ociodisplay "Rec.2100-PQ \- Display" "ACES 1.1 \- HDR Video (2000 nits & Rec.2020 lim)"  
 There is also a 4000 nit max and P3 target gamuts available in the OCIO config mentioned above. And if you are willing to use OCIO 2.5, there are improved HDR view transforms based on ACES 2.0. This has 500, 1000, 2000, 4000 nit max luminance and P3 and Rec.2020 target gamuts.
 
-### PQ10 FFMPEG H265 encoding
+### PQ10 FFmpeg H265 encoding
 
 PQ10 is a simplified HDR format essentially HDR10 without the metadata. It uses the [PQ EOTF](https://en.wikipedia.org/wiki/Perceptual_quantizer) aka SMPTE ST 2084 otherwise is somewhat similar to create as HLG, but there may be different reasons for choosing each.
 
@@ -109,7 +109,7 @@ In many cases this may be sufficient, particularly if you are using the ACES tra
 
 This will also work for other codecs such as h264, vp9, ProRes, AV1, OpenAPV although you would need to change or remove the -tag:v flag.
 
-### PQ 422 FFMPEG H265 encoding
+### PQ 422 FFmpeg H265 encoding
 
 Here we are going to add the additional Mastering Display metadata, in addition to the parameters used by PQ10.
 
@@ -216,7 +216,7 @@ See:
 
 To specify the display-master parameters with VP9, you need to use the  [mkvmerge](https://mkvtoolnix.download/doc/mkvmerge.html) tool, which is part of [mkvtoolnix](https://mkvtoolnix.download/) to apply the metadata once the file has been created. For more information, please see: [https://developers.google.com/media/vp9/hdr-encoding](https://developers.google.com/media/vp9/hdr-encoding)
 
-It is currently not possible to add this metadata with ffmpeg, but this hopefully will be addressed.
+It is currently not possible to add this metadata with FFmpeg, but this hopefully will be addressed.
 
 ### ProRes
 

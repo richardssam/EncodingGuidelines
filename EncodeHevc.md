@@ -16,7 +16,7 @@ See [ffmpeg h265 docs](https://trac.ffmpeg.org/wiki/Encode/H.265)
 There are four HEVC encoders available to ffmpeg:
 
 * [libx265](#libx265)
-* [hevc_videotoolbox](#hevc_videotoolbox) - Available on OSX via the videotoolbox library.
+* [hevc_videotoolbox](#hevc_videotoolbox) - Available on MacOS via the videotoolbox library.
 * [hevc_nvenc](#hevc_nvenc) - NVIDIA GPU encoder.
 * hevc_qsv - Intel Quick Sync Video Acceleration.
 

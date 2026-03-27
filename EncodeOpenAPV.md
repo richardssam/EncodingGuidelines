@@ -21,7 +21,7 @@ The codec specification allows:
 
 There are three implementations:
 
-* OpenAPV library - [https://github.com/AcademySoftwareFoundation/OpenAPV](https://github.com/AcademySoftwareFoundation/OpenAPV) - which can encode a YCrCb stream to the apv format.  
+* OpenAPV library - [https://github.com/AcademySoftwareFoundation/OpenAPV](https://github.com/AcademySoftwareFoundation/OpenAPV) - which can encode a YCbCr stream to the apv format.  
 * Native ffmpeg - FFmpeg has implemented their own decoder as part of the core ffmpeg app, they also have their own encoder using the OpenAPV library.  
 * Android Open Source Project (AOSP) 16 - Android has added support of APV in v16. [Android 16](https://developer.android.com/about/versions/16/features#apv).
 

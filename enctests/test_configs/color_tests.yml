@@ -76,7 +76,7 @@ test_rgb2yuv:
 
 ---
 reports:
-  description: This is testing the different options for doing RGB to YCrCb and then back to RGB using y4m as an intermediate container of raw YCrCb data. The pass rate for max-error is 0.00195 = 2/1024 = 1/512. So it has to be 1-bit better than 8-bit values.
+  description: This is testing the different options for doing RGB to YCbCr and then back to RGB using y4m as an intermediate container of raw YCbCr data. The pass rate for max-error is 0.00195 = 2/1024 = 1/512. So it has to be 1-bit better than 8-bit values.
   directory: color-encode
   name: color-tests
   templatefile: colorweb.html.jinja

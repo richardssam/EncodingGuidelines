@@ -129,7 +129,7 @@ reports:
       type: bar
     name: rgb-tests
     title: Comparison of different RGB codecs
-    description: This is comparing different codecs with source media encoding directly to RGB rather than YCrCb, with approximately the same tuning factors such that vmaf > 98.
+    description: This is comparing different codecs with source media encoding directly to RGB rather than YCbCr, with approximately the same tuning factors such that vmaf > 98.
     directory: rgb-encode
     templatefile: basicmovie.html.jinja
 

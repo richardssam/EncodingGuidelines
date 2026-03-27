@@ -163,7 +163,7 @@ test_rgb_mov:
       -colorspace: rgb
 ---
 reports:
-  description: Testing different codecs encoding directly to RGB rather than YCrCb. What we see is good color accuracy at the expense of file compression.
+  description: Testing different codecs encoding directly to RGB rather than YCbCr. What we see is good color accuracy at the expense of file compression.
   directory: rgb-color-encode
   name: rgb-color-tests
   templatefile: colorweb.html.jinja

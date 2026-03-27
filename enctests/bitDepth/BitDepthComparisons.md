@@ -11,7 +11,7 @@ Sometimes its useful to know what the actual dynamic range of a particular combi
 
 This work is inspired by [https://github.com/ColorlabMD/Prores-BitDepth](https://github.com/ColorlabMD/Prores-BitDepth).
 
-These tests generate a luminance YCrCb flat image, where each frame increments the luminance by one using the geq ffmpeg filter.
+These tests generate a luminance YCbCr flat image, where each frame increments the luminance by one using the geq FFmpeg filter.
 
 For example for the prores_ks codec we would run:
 

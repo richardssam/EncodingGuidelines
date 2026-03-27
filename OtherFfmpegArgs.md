@@ -122,7 +122,7 @@ Creating it with ffmpeg directly to RGB:
 ffmpeg -f lavfi -i zoneplate=ku=512:kv=100:kt2=0:ky2=256:kx2=556:s=wvga:yo=0:kt=11:duration=1 -pix_fmt rgb48be zoneplate_rgb16.png
 ```
 
-Creating it with ffmpeg directly to YCrCb:
+Creating it with ffmpeg directly to YCbCr:
 
 ```console
 ffmpeg -f lavfi -i zoneplate=ku=512:kv=100:kt2=0:ky2=256:kx2=556:s=wvga:yo=0:kt=11:duration=1 -pix_fmt yuv420p10 -strict -1 zoneplate_yuv420p10.y4m
@@ -177,7 +177,7 @@ Will output a line like:
 
 Where each number is a 0-1 scale, where 1 is identical.
 
-The two images need to be the same resolution and pixel format (at least both RGB or YCrCb).
+The two images need to be the same resolution and pixel format (at least both RGB or YCbCr).
 
 ### lut lutrgb and lutyuv
 

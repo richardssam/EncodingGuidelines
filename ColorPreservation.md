@@ -1,6 +1,6 @@
 ---
 layout: default
-title: RGB to YCrCb Conversion
+title: RGB to YCbCr Conversion
 nav_order: 3
 parent: Encoding Overview
 
@@ -8,9 +8,9 @@ parent: Encoding Overview
 
 
 
-# RGB to YCrCb Conversion <a name="yuv"></a>
+# RGB to YCbCr Conversion <a name="yuv"></a>
 
-We would like ffmpeg to do as little as possible in terms of color space conversion. i.e. what comes in, goes out. The problem is that most of the codecs prefer to convert from RGB to YUV conversion (technically YCrCb). Do be aware that a number of codecs do support native RGB encoding (including h264, hevc, vp9, av1), but they are not typically supported in web browsers.
+We would like ffmpeg to do as little as possible in terms of color space conversion. i.e. what comes in, goes out. The problem is that most of the codecs prefer to convert from RGB to YUV conversion (technically YCbCr). Do be aware that a number of codecs do support native RGB encoding (including h264, hevc, vp9, av1), but they are not typically supported in web browsers.
 
 The main problem is that ffmpeg by default assumes that any unknown still image format has a color space of [rec601](https://en.wikipedia.org/wiki/Rec._601) which is very unlikely to be the color space your source media was generate in. So unless you tell it otherwise it will attempt to convert from that colorspace producing a color shift.
 
@@ -98,7 +98,7 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
 -vf "zscale=m=709:min=709:rangein=full:range=limited"
 ```
 
-[zscale](https://github.com/sekrit-twc/zimg) is an alternative to libswscale, which does produce pretty good results for image resizing, but purely for RGB to YCrCb conversion libswscale appears very slightly better. It is required to be explicitly compiled into ffmpeg.
+[zscale](https://github.com/sekrit-twc/zimg) is an alternative to libswscale, which does produce pretty good results for image resizing, but purely for RGB to YCbCr conversion libswscale appears very slightly better. It is required to be explicitly compiled into ffmpeg.
 
 More detailed docs are: [here](http://underpop.online.fr/f/ffmpeg/help/zscale.htm.gz)
 
@@ -157,4 +157,4 @@ ffmpeg -y -i ../sourceimages/chip-chart-1080-noicc.png \
    ./chip-chart-yuvconvert/spline444out_color_matrix.mp4
 ```
 
-Note, there are a lot of other flags often used with the swscale filter (such as -sws_flags spline+full_chroma_int+accurate_rnd ) which really have minimal impact in the RGB to YCrCb conversion, if you are not resizing the image. For more details on this see [SWS Flags](EncodeSwsScale.html) section.
+Note, there are a lot of other flags often used with the swscale filter (such as -sws_flags spline+full_chroma_int+accurate_rnd ) which really have minimal impact in the RGB to YCbCr conversion, if you are not resizing the image. For more details on this see [SWS Flags](EncodeSwsScale.html) section.

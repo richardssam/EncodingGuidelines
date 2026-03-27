@@ -16,7 +16,7 @@ We are attempting to do all the documentation using markdown, in particular usin
 
 ## Coding Style
 
-The test suite has been developed using python-3, and has been designed to work on windows, osx and linux.
+The test suite has been developed using python-3, and has been designed to work on Windows, MacOS and Linux.
 
 ## How to Contribute a Bug Fix or Change or additional Documentation
 

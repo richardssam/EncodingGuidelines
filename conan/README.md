@@ -7,10 +7,16 @@ parent: Encoding Overview
 
 # Conan Build System
 
+[Conan](https://conan.io) is a multi-platform C/C++ package manager. While its typically used to help build applications, it does provide a nice way to build mutiple versions of applications that can easily be run side by side. For example, you can have multiple versions of ffmpeg installed, and you can switch between them by running the conanrun.bat script in a shell.
+
+We have build profiles for MacOS, Linux and Windows.
+
 ## Windows
 
 Windows is the more complex install since ffmpeg requires so many different libraries that require different build environments.
 What we have found that works is using the [msys2](https://www.msys2.org/) environment with the mingw toolchain.
+
+Note, this build does not include x265, aom (AV1), or zimg (image scaling filter, an alternative to scale). These are not built by default with conan, there are unresolved issues with building them with conan on windows, although they will be built on linux and MacOS.
 
 Start by downloading msys2, once its installed, you will be presented with a number of different launch environments. You want to use the one that has "mingw" in the name, e.g. "MSYS2 MinGW 64-bit".
 

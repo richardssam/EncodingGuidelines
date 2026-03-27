@@ -9,7 +9,7 @@ parent: Encoding Overview
 
 With the introduction of ffmpeg 8.1 a [OCIO](https://ocio.readthedocs.io/en/latest/) [filter](https://ffmpeg.org/ffmpeg-filters.html#ocio) has been added. This allows you to convert from EXR files directly to encoded media using an OCIO filter to convert the colorspace correctly without needing an intermediate file.
 
-If you are encoding to YCrCb you need to convert to an RGB colorspace first, and then convert to YCrCb. This is because OCIO doesn't know how to convert to YCrCb out of the box, and Ffmpeg handles the variants like 420, 422, and 444.
+If you are encoding to YCbCr you will need to do the OCIO conversion in RGB colorspace first, and then convert to YCbCr. This is because OCIO doesn't know how to convert to YCbCr out of the box, and Ffmpeg handles the variants like 420, 422, and 444.
 
 ## Example Usage
 
@@ -33,7 +33,7 @@ ffmpeg -y  -framerate 24 -start_number <STARTFRAME> -i SOURCEFRAMES.%05d.exr \
     -vf "ocio=input=ACEScg:output=ACEScct:format=rgb48,scale=in_color_matrix=bt709:out_color_matrix=bt709,format=yuv444p10"   OUTPUTFILE.mov
 ```
 
-The format parameter that's part of the OCIO filter allows you to specify an output pixel_format that OCIO will be converting to. This has to be an RGB colorspace since OCIO doesn't know how to convert to YCrCb. If you do not supply the format, the output will match the input with the exception of half-floats which will be converted to full floats (due to poor support for half-floats).
+The format parameter that's part of the OCIO filter allows you to specify an output pixel_format that OCIO will be converting to. This has to be an RGB colorspace since OCIO doesn't know how to convert to YCbCr. If you do not supply the format, the output will match the input with the exception of half-floats which will be converted to full floats (due to poor support for half-floats).
 
 Note, you can also specify the OCIO config file as a “config” parameter, but otherwise it will default to the OCIO environment variable.
 

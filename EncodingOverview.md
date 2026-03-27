@@ -12,7 +12,7 @@ has_children: true
 
 We will break the encoding process into three parts:
 
-1. [The RGB to YCrCb conversion](#Color-space-conversion)
+1. [The RGB to YCbCr conversion](#Color-space-conversion)
 2. [The encoding process itself](Encoding.html)
 3. [Metadata tagging for web browsers](WebColorPreservation.html)
 
@@ -29,7 +29,7 @@ Hint: by default the nuke PNG writer will have the slow compression enabled, thi
 Two options for building ffmpeg include:
 
 * [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1).
-* [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on OSX, linux and windows.
+* [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on MacOS, linux and windows.
 
 ## Quick introduction to color conversion using oiiotool
 

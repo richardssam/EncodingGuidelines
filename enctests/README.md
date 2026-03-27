@@ -202,7 +202,7 @@ Also you need to install an earlier version of kaleido since the current one wil
 pip install kaleido==0.1.0post1 
 ```
 
-## OSX Configuration
+## MacOS Configuration
 
 ```console
 brew install openimageio ffmpeg

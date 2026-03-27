@@ -12,7 +12,7 @@ parent: Encoding Overview
 The docker containers provide a standard environment to run the test suites in the git repo. This is also a great way to build ffmpeg from scratch.
 
 Its based on <https://github.com/AcademySoftwareFoundation/aswf-docker/blob/master/ci-vfxall/Dockerfile> - providing the the ASWF environment including OCIO and OIIO.
-Its using the ffmpeg build environment based on <https://github.com/jrottenberg/ffmpeg.git>, but with vmaf compiled in, and also OIIO rebuilt to include OIIO. ACES 1.2 is also checked out, with the python libraries to run the tests.
+Its using the ffmpeg build environment based on <https://github.com/jrottenberg/ffmpeg.git>, but with vmaf compiled in, and also OIIO rebuilt to include OpenJPH. ACES 1.2 is also checked out, with the python libraries to run the tests.
 
 ## Building container
 
@@ -20,7 +20,7 @@ The runme.sh script will mount the git repo as "/test" and create a shell to run
 
 ### Building for rocky-ffmpeg-8.1
 
-Built on top of Rocky linux i9 (identical to RHEL 9).
+Built on top of Rocky Linux 9 (identical to RHEL 9).
 This builds all the components directly not relying on any ASWF containers, including correctly building OCIO and OIIO.
 
 ```

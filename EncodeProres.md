@@ -7,14 +7,14 @@ parent: Codec Comparisons
 
 # ProRes <a name="prores"></a>
 
-There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based OSX M1 encoder/decoder (ffmpeg version 5 or higher).
+There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based MacOS M1 encoder/decoder (ffmpeg version 5 or higher).
 
 If you are doing lighting or compositing reviews the recommendation is to use Prores_ks with -profile:v 3. If you are able we would recommend using [OpenAPV](https://academysoftwarefoundation.github.io/EncodingGuidelines/EncodeOpenAPV.html) or prores_videotoolbox over prores_ks, and look at a 444 10-bit or 12-bit encode, since they both give a superior result.
 
 The two encoders we are reviewing are:
 
 * [Prores_ks](#prores_ks)
-* [videotoolbox_prores](#videotoolbox_prores) - only available on osx.
+* [videotoolbox_prores](#videotoolbox_prores) - only available on MacOS.
 
 ## Prores_ks
 
@@ -100,7 +100,7 @@ To help pick appropriate values with the -qscale:v , we have run the [Test Frame
 
 ## videotoolbox_prores
 
-If you are on a OSX M1 machine and are using ffmpeg 5.0 or higher, you can use the built in libraries to encode to ProRes using:
+If you are on a MacOS M1 machine and are using ffmpeg 5.0 or higher, you can use the built in libraries to encode to ProRes using:
 
 <!---
 name: test_prores_videotoolbox

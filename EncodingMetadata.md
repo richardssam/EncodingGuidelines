@@ -97,8 +97,9 @@ ffmpeg -i input.mp4 -movflags use_metadata_tags -crf 22 output.mp4
 
 Below are suggestions for common metadata fields:
 
+| Field | Type | Description | Notes |
+| ---- | ---- | ---- | ---- |
 | first_frame, last_frame | int | Encoding to movie files typically loses the start frame, making it a pain to identify which frame you are looking at. We could look at doing this with timecode, but sometimes you want both timecode and a frame number. | |
-| :---- | :---- | :---- | :---- |
 | source_filename | string | Something to track where the encoded media came from. | |
 | source_id | string | Unique ID from vendor creating content. - This could be using: [https://proto.school/content-addressing/04](https://proto.school/content-addressing/04) | |
 | source_frame_rate | float | If you are reviewing a proxy, but still want to remap back to the source frame, knowing the source frame rate is required (DO WE NEED THIS AND LAST FRAME?) – useful for high-frame rate media, e.g. 120 fps - (MIGHT MAKE SENSE AS A STRING TO HANDLE 59.94 better?) | |

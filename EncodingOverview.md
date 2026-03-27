@@ -24,20 +24,12 @@ Typically, we would assume that an intermediate file would get written out, such
 
 Hint: by default the nuke PNG writer will have the slow compression enabled, this does add a little time that is unnecessary for the sort of intermediate file we are using. In the nuke SDK they do provide the source for the PNG writer, so it is possible to get this disabled. However, you may find that switching to Tif will have the same result.
 
-## Easy install of OCIO/OIIO/FFmpeg
+## Building OCIO/OIIO/FFmpeg
 
-Different approaches for getting started include: [anaconda](https://www.anaconda.com/) you will also need to download the ACES OCIO configuration files from: <https://github.com/colour-science/OpenColorIO-Configs>
+Two options for building ffmpeg include:
 
-```console
-conda create --name aswf-ffmpeg
-conda activate aswf-ffmpeg
-conda install -c conda-forge py-openimageio
-pip install PyYAML pillow
-```
-
-This should give you py-openimageio, openimageio and ffmpeg-4.4
-
-TODO - Provide other approaches for quickly getting going (e.g. vcpkg)
+* [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1).
+* [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on OSX, linux and windows.
 
 ## Quick introduction to color conversion using oiiotool
 

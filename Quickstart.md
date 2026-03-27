@@ -43,8 +43,8 @@ ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -pix_fmt yuv420p10le \
 | **[-frames:v](https://ffmpeg.org/ffmpeg.html#toc-Video-Options) 100** | is optional, but allows you to specify how many frames to encode, otherwise it will encode the entire frame range. There is an obsolete alias flag `-vframes` which will be retired. |
 | **-c:v libx264** | use the h264 encoding library (libx264) |
 | **-preset slower** | a reasonably high quality preset, which will run slow, but not terribly slow. |
-| **-pix_fmt yuv420p** | use yuv420 video format, which is typical for web playback. If you want a better quality for RV or other desktop tools use -pix_fmt yuv444p10le |
-| **-color_range tv** | mp4 metadata - specifying color range as 16-235 (which is default for web playback). |
+| **-pix_fmt yuv420p10le** | use yuv420 10-bit video format, which is typical for web playback. If you want a better quality for RV or other desktop tools use -pix_fmt yuv444p10le |
+| **-color_range tv** | mp4 metadata - specifying color range as 64-940 (which is default for 10-bit web playback). |
 | **-colorspace bt709** | mp4 metadata - specifying bt709 yuv color pixel format |
 | **-color_primaries bt709** | mp4 metadata - bt709 color gamut primaries |
 | **-color_trc iec61966-2-1** | mp4 metadata color transfer = iec61966-2-1 = sRGB - See [detailed web color preservation tests](WebColorPreservation.html). In some cases, you may also want -color_trc bt709 |

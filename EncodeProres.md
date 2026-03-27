@@ -58,7 +58,7 @@ Using this with the usual color space flags, seems to work well with the excepti
 
 ```console
 ffmpeg -i INPUTFILE.mov -compression_level 10 -pred mixed -pix_fmt rgba64be \
-   -sws_flags spline+accurate_rnd+full_chroma_int -vframes 1 \
+   -sws_flags spline+accurate_rnd+full_chroma_int -frames:v 1 \
    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 OUTPUTFILE.png
 ```
 
@@ -120,7 +120,7 @@ comparisontest:
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png  \
          -pix_fmt yuv422p10le \
         -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \
-        -vframes 100 -c:v prores_videotoolbox -profile:v 3  \
+        -frames:v 100 -c:v prores_videotoolbox -profile:v 3  \
         -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 outputfile.mov
 
 ```

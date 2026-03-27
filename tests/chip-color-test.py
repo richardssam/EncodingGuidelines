@@ -58,7 +58,7 @@ for proc in processes:
     cmd = 'ffmpeg -y -r 1 -i {source_image} {conv} -c:v libx264  -preset placebo -qp {qp} -x264-params "keyint=15:no-deblock=1"  -pix_fmt {pix_fmt} -qscale:v 1  -color_range {color_range} -colorspace 1 -color_primaries 1 -color_trc 13 {rootpath}/{id}.mp4'.format(**proc)
     # cmd = 'ffmpeg -y -r 1 -i {source_image} -c:v prores_ks -profile:v 3 -qscale:v 1  {conv}  -pix_fmt {pix_fmt} {rootpath}/{id}.mov'.format(**proc)
     #1w_GAL_5000_vfx_cmp_colorSpaceTestsam_colorTestAceshprores_p003.3_sRGB.mov']
-    # ('Running:', 'ffmpeg -threads auto -y -r 60 -start_number 89900 -framerate 60 -i {source_image} -vframes 1 -c:v prores_ks -profile:v 3 -qscale:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -pix_fmt yuv422p10le -metadata title=saus01w_GAL_5000_vfx_cmp_colorSpaceTestsam_colorTestAceshprores_p003.3_sRGB.mov I:/jobs/W/EC/FW/ENER/saus01w/shots/GAL_5000/vfx/_pub/cmp/_enc/saus01w_GAL_5000_vfx_cmp_colorSpaceTestsam_colorTestAceshprores_p003.3_sRGB.mov'
+    # ('Running:', 'ffmpeg -threads auto -y -r 60 -start_number 89900 -framerate 60 -i {source_image} -frames:v 1 -c:v prores_ks -profile:v 3 -qscale:v 1 -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -pix_fmt yuv422p10le -metadata title=saus01w_GAL_5000_vfx_cmp_colorSpaceTestsam_colorTestAceshprores_p003.3_sRGB.mov I:/jobs/W/EC/FW/ENER/saus01w/shots/GAL_5000/vfx/_pub/cmp/_enc/saus01w_GAL_5000_vfx_cmp_colorSpaceTestsam_colorTestAceshprores_p003.3_sRGB.mov'
     
     os.system(cmd)
     proc['cmd'] = cmd
@@ -67,7 +67,7 @@ for proc in processes:
     extractfile = os.path.join(rootpath, os.path.basename(source_image[:-4])+"-"+proc['id']+".png")
     if os.path.exists(extractfile):
         os.remove(extractfile)
-    extractcmd = ffmpeg_cmd + " -i " + encodeimage + " " + proc['ffmpeg_extract'] + " -sws_flags spline+accurate_rnd+full_chroma_int -vframes 1 -vf scale=in_range="+proc['out_range']+":in_color_matrix=bt709:out_color_matrix=bt709:out_range=full " + extractfile
+    extractcmd = ffmpeg_cmd + " -i " + encodeimage + " " + proc['ffmpeg_extract'] + " -sws_flags spline+accurate_rnd+full_chroma_int -frames:v 1 -vf scale=in_range="+proc['out_range']+":in_color_matrix=bt709:out_color_matrix=bt709:out_range=full " + extractfile
     print("\nExtractcmd:", extractcmd)
     os.system(extractcmd)
     del proc['video']

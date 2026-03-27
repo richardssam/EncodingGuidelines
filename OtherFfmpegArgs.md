@@ -109,7 +109,7 @@ ffmpeg -re -color_primaries bt709 -colorspace bt709 -color_range tv -color_trc b
 This is a PNG output, warning this would only be to the legal range, so the [pluge](https://en.wikipedia.org/wiki/Picture_line-up_generation_equipment) would be zeroed out:
 
 ```console
-ffmpeg -color_primaries bt709 -colorspace bt709 -color_trc bt709 -re -f lavfi -i smptehdbars=duration=1:size=1920x1080:rate=1 -vframes 1  smptehdbars.png
+ffmpeg -color_primaries bt709 -colorspace bt709 -color_trc bt709 -re -f lavfi -i smptehdbars=duration=1:size=1920x1080:rate=1 -frames:v 1  smptehdbars.png
 ```
 
 ### Zoneplate

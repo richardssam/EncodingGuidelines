@@ -81,7 +81,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libsvtav1 -pix_fmt yuv420p -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libsvtav1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libsvtav1 -pix_fmt yuv420p -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libsvtav1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libsvtav1",
@@ -165,7 +165,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx264 -pix_fmt yuv420p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv420p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -248,7 +248,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx265 -pix_fmt yuv420p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv420p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -332,7 +332,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libvpx -pix_fmt yuv420p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 200M -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-vp8.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libvpx -pix_fmt yuv420p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 200M -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-vp8.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": "200M",
@@ -394,7 +394,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv420p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv420p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_8_420-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -535,7 +535,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libaom-av1 -pix_fmt yuv422p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libaom-av1 -pix_fmt yuv422p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libaom-av1",
@@ -620,7 +620,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx264 -pix_fmt yuv422p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv422p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -703,7 +703,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx265 -pix_fmt yuv422p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv422p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -787,7 +787,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv422p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv422p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_8_422-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -928,7 +928,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libaom-av1 -pix_fmt yuv444p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libaom-av1 -pix_fmt yuv444p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libaom-av1",
@@ -1013,7 +1013,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libx264 -pix_fmt yuv444p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv444p -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -1096,7 +1096,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libx265 -pix_fmt yuv444p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv444p -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -1180,7 +1180,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv444p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv444p -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_8_444-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -1321,7 +1321,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libsvtav1 -pix_fmt yuv420p10le -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libsvtav1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libsvtav1 -pix_fmt yuv420p10le -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libsvtav1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libsvtav1",
@@ -1405,7 +1405,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx264 -pix_fmt yuv420p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv420p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -1488,7 +1488,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx265 -pix_fmt yuv420p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv420p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -1572,7 +1572,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv420p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv420p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_10_420-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -1713,7 +1713,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libaom-av1 -pix_fmt yuv422p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libaom-av1 -pix_fmt yuv422p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libaom-av1",
@@ -1798,7 +1798,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx264 -pix_fmt yuv422p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv422p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -1881,7 +1881,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx265 -pix_fmt yuv422p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv422p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -1965,7 +1965,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv422p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv422p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_10_422-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -2106,7 +2106,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libaom-av1 -pix_fmt yuv444p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libaom-av1 -pix_fmt yuv444p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libaom-av1",
@@ -2191,7 +2191,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libx264 -pix_fmt yuv444p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv444p10le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -2274,7 +2274,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libx265 -pix_fmt yuv444p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv444p10le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -2358,7 +2358,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv444p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv444p10le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_10_444-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -2499,7 +2499,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libsvtav1 -pix_fmt yuv420p12le -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libsvtav1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libsvtav1 -pix_fmt yuv420p12le -crf 18 -preset 9 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -svtav1-params tune=0 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libsvtav1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libsvtav1",
@@ -2583,7 +2583,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx264 -pix_fmt yuv420p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv420p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -2666,7 +2666,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libx265 -pix_fmt yuv420p12le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv420p12le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -2750,7 +2750,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv420p12le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test420.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv420p12le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test420-test_12_420-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -2891,7 +2891,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libaom-av1 -pix_fmt yuv422p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libaom-av1 -pix_fmt yuv422p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -row-mt 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libaom-av1",
@@ -2976,7 +2976,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx264 -pix_fmt yuv422p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libx264.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx264 -pix_fmt yuv422p12le -crf 18 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libx264.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx264",
@@ -3059,7 +3059,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libx265 -pix_fmt yuv422p12le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libx265 -pix_fmt yuv422p12le -crf 20 -preset medium -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-c:v": "libx265",
@@ -3143,7 +3143,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -vframes 1 -c:v libvpx-vp9 -pix_fmt yuv422p12le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test422.png\" -frames:v 1 -c:v libvpx-vp9 -pix_fmt yuv422p12le -crf 22 -preset slow -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -quality good -b:v 0 -row-mt 1 -speed 2 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test422-test_12_422-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -3284,7 +3284,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libaom-av1 -quality good -b:v 0 -crf 18 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-libaom-av1.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libaom-av1 -quality good -b:v 0 -crf 18 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -cpu-used 3 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-libaom-av1.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -3370,7 +3370,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libx265 -quality good -b:v 0 -crf 20 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -preset medium -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-libx265.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libx265 -quality good -b:v 0 -crf 20 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -tag:v hvc1 -preset medium -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-libx265.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,
@@ -3457,7 +3457,7 @@
                                 "OTIO_SCHEMA": "ExternalReference.1",
                                 "metadata": {
                                     "aswf_enctests": {
-                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -vframes 1 -c:v libvpx-vp9 -quality good -b:v 0 -crf 22 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-vp9.mp4\"",
+                                        "command": "ffmpeg  -i \"/Users/sam/git/EncodingGuidelines/sourceimages/test444.png\" -frames:v 1 -c:v libvpx-vp9 -quality good -b:v 0 -crf 22 -row-mt 1 -speed 2 -sws_flags spline+accurate_rnd+full_chroma_int -vf \"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709\" -color_range 1 -colorspace 1 -color_primaries 1 -color_trc 1 -y \"/Users/sam/git/EncodingGuidelines/enctests/wedge_results/ffmpeg_version_7.0.1/darwin-arm64/codec_web_tests-encode/test444-test_12_444-vp9.mp4\"",
                                         "description": "A comparison of different codecs, with VMAF > 98.",
                                         "encode_arguments": {
                                             "-b:v": 0,

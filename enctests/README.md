@@ -82,7 +82,7 @@ test_colorspace_yuv420p:
     description: variations of colorspace yuv420p
     app: ffmpeg
     suffix: .mov
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         slow_crf_23: &base_args
             -c:v: libx264

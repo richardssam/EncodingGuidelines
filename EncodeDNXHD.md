@@ -76,7 +76,7 @@ comparisontest:
        less: 0.00195
 -->
 ```console
-ffmpeg -y -r 24 -i inputfile.%04d.png -vframes 100 \
+ffmpeg -y -r 24 -i inputfile.%04d.png -frames:v 100 \
      -c:v dnxhd -profile:v dnxhr_444 \
      -color_primaries bt709 -color_range tv -color_trc bt709 -colorspace rgb \
      -pix_fmt gbrp10le outputfile.mov
@@ -107,7 +107,7 @@ comparisontest:
        less: 0.00195
 -->
 ```console
-ffmpeg -y -r 24 -start_number 2500 -i inputfile.%04d.png  -vframes 100 \
+ffmpeg -y -r 24 -start_number 2500 -i inputfile.%04d.png  -frames:v 100 \
     -pix_fmt yuv422p \
     -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
     -c:v dnxhd -profile:v dnxhr_sq \
@@ -137,7 +137,7 @@ comparisontest:
        less: 0.00195
 -->
 ```console
-ffmpeg -y -r 24 -i inputfile.%04d.png -vframes 100 -pix_fmt yuv422p \
+ffmpeg -y -r 24 -i inputfile.%04d.png -frames:v 100 -pix_fmt yuv422p \
     -pix_fmt yuv422p \
     -vf "scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" 
     -c:v dnxhd -profile:v dnxhr_sq \
@@ -172,7 +172,7 @@ comparisontest:
        less: 0.00195
 -->
 ```console
-ffmpeg -y -r 24 -i inputfile.%04d.png -vframes 100 \
+ffmpeg -y -r 24 -i inputfile.%04d.png -frames:v 100 \
     -vf "in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709" \
     -pix_fmt yuv422p10 -c:v dnxhd -b:v 175M \
      -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \

@@ -4,7 +4,7 @@ test_scale_yuv444p10le:
     description: scale (yuv444p10le)
     app: ffmpeg
     suffix: .mov
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         wedge0: &base_args
             -c:v: libx264
@@ -26,7 +26,7 @@ test_colorspace_rgb:
     app: ffmpeg
     suffix: .mov
     testmask: ../sourceimages/1920px-SMPTE_Color_Bars_16x9-edges.png
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         wedge0: &base_args
             -c:v: libx264
@@ -40,7 +40,7 @@ test_colorspace_yuv420p:
     description: variations of colorspace yuv420p
     app: ffmpeg
     suffix: .mov
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         slow_crf_23: &base_args
             -c:v: libx264
@@ -80,7 +80,7 @@ test_shotgun_diy_encode:
     app: ffmpeg
     suffix: .mov
     testmask: ../sourceimages/1920px-SMPTE_Color_Bars_16x9-edges.png
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         wedge0: &base_args
             -vcodec: libx264
@@ -97,7 +97,7 @@ test_wdi-mpeg2:
     app: ffmpeg
     suffix: .mov
     testmask: ../sourceimages/1920px-SMPTE_Color_Bars_16x9-edges.png
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         wedge0: &base_args
             -vcodec: mpeg2video
@@ -116,7 +116,7 @@ test_wdi-prores444_scale:
     description: tes_wdi-prores444_scale
     app: ffmpeg
     suffix: .mov
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     wedges:
         wedge0: &base_args
             -c:v: prores_ks

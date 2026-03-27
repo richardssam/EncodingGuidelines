@@ -7,7 +7,7 @@ test_12bit:
     - testtype: yuvdiff
     - testtype: frame_extract
     suffix: .mkv
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     #- sources/enc_sources/chimera_fountains_srgb_dpx_12/chimera_fountains_srgb.05400.dpx
     - sources/enc_sources/chimera_cars_srgb_dpx_12/chimera_cars_srgb.%05d.dpx.yml

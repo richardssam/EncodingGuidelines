@@ -108,7 +108,7 @@ If you are already manually building ffmpeg, you can enable OCIO support by addi
 --enable-libopencolorio
 ```
 
-This does require opencolorio to be installed on the system, and be found by pkgconfig.
+This does require opencolorio to be installed on the system, and be found by pkg-config.
 
 If not, you may want to refer to the docker container build files in the [docker](docker) directory. In particular the [rocky-ffmpeg-8.1](docker/rocky-ffmpeg-8.1) directory. There is also a conan recipe in the [conan](conan/README.md) directory that can be used to build ffmpeg with OCIO support on macOS, linux and windows.
 
@@ -137,23 +137,119 @@ We recommend leaving it with the default of 0 threads (i.e. dont specify anythin
 
 By adding OCIO to FFmpeg, we can generate slates and burn-ins in the correct colorspace without needing to create an intermediate file. This is critical for VFX pipelines where metadata must be overlaid on color-corrected plates.
 
-### Example: ACEScg Slate with SDR View
+For an extreme example of building a slate and burn-in, see the following example, which is generated using the prototype dailies tool [ffmpeg-dailies](https://github.com/richardssam/ffmpeg-dailies).
 
-This example adds a text overlay to an ACEScg plate, converting the result to an SDR sRGB view for web review:
+| Example slate | Example burn-ins |
+| :---: | :---: |
+| <img src="sourceimages/netflix_sparks_slate.jpg" width="80%" alt="Example slate"> | <img src="sourceimages/frame-burn-in.jpg" width="80%" alt="Example burn-ins"> |
+
+this is storing the filter in a separate file, to make it more stable.
 
 ```console
-ffmpeg -y -start_number 1001 -i input.%04d.exr \
-    -vf "drawtext=text='SHOT: test_01':fontcolor=white:fontsize=48:x=100:y=100, \
-         ocio=input=ACEScg:display=sRGB - Display:view=ACES 1.0 - SDR Video:format=rgb48, \
-         scale=out_color_matrix=bt709:out_range=tv,format=yuv420p10le" \
-    -c:v libx264 -crf 18 -pix_fmt yuv420p10le output_slate.mp4
+/Users/sam/roots/ffmpeg-ocio-8.1/bin/ffmpeg -y \
+    -framerate 24 -start_number 1001 \
+    -i tests/data/complex_paths/shots/SH010/v001/SH010_v001.%04d.exr \
+    -i vfx-templates-blank-slate-0.0.6.jpg \
+    -/filter_complex filterfile.txt \
+    -map "[final_v]" \
+    -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p10le \
+    -r 24 \
+    -metadata comment="Sample Note:
+ * did this
+ * Did something else." \
+    -metadata artist="Test Vendor" \
+    -metadata shot_types="2d comp" \
+    -metadata submit_for="richs128" \
+    -metadata scope_of_work="Unknown" \
+    -metadata shot_description="This is the shots description." \
+    -metadata episode="101" \
+    -metadata sequence_name="1" \
+    -metadata scene="1" \
+    -metadata media_color="rec709 with show lut" \
+    -metadata title="Sample Show" \
+    -metadata date="2026-02-27 14:05" \
+    -metadata original_filename="SH010_v001" \
+    -metadata shot="SH010" \
+    -metadata version="v001" \
+    -metadata frame_range="1001-1024" \
+    -metadata source_filename="/Users/sam/git/ffmpeg-dailies/tests/data/complex_paths/shots/SH010/v001/SH010_v001.#.exr" \
+    -metadata first_frame="1001" \
+    -metadata last_frame="1024" \
+    -metadata source_frame_rate="24" \
+    -metadata slate_length="1" \
+    -metadata display_type="sRGB - Display (ACES 1.0 - SDR Video)" \
+    -metadata watermarking="True" \
+    -metadata:s:v:0 reel_name="SH010_v001" \
+    -timecode 00:00:41:16 \
+    -movflags use_metadata_tags \
+    -color_primaries bt709 \
+    -color_trc iec61966-2-1 \
+    -colorspace bt709 \
+    test_output.mov
 ```
 
-## Potential Errors and Troubleshooting
+The filterfile.txt is as follows:
 
-| Error | Cause/Solution |
-| :--- | :--- |
-| **"Could not find OCIO config"** | Ensure the `OCIO` environment variable is set or use the `config` parameter. |
-| **"Colorspace 'XXX' not found"** | Check that the colorspace/display/view names exactly match your OCIO config. |
-| **"Pixel format mismatch"** | Ensure the `format` parameter in the OCIO filter matches the expectations of the next filter in the chain (e.g., `rgb48` before `scale`). |
-| **"OCIO filter fails with half-float"** | Use FFmpeg 8.1+ with the latest patches, or convert to `gbrpf32le` (full float) within the filter. |
+[!IMPORTANT]
+FFmpeg's filtergraph script parser (`-filter_complex_script`) does not support `#` comments or line breaks inside a filter chain. The following example includes comments for documentation purposes; these **must** be removed in the actual file.
+
+ ```
+# Split source for thumbnail extraction
+[0:v]split=2[main_v][thumb_stream];
+# Prepare slate background
+[1:v]scale=1920:1080,setsar=1,trim=end_frame=1[slate_bg];
+# Extract and process thumbnail (frame 12)
+[thumb_stream]select='eq(n\,12)', 
+    scale=681:383:force_original_aspect_ratio=decrease, 
+    ocio=config='../ffmpeg-ocio-test/sourcemedia/studio-config-v1.0.0_aces-v1.3_ocio-v2.1_ns.ocio': 
+    input='ACEScg':display='sRGB - Display':view='ACES 1.0 - SDR Video', 
+    scale=in_color_matrix=bt709:out_color_matrix=bt709, 
+    trim=end_frame=1,setpts=PTS-STARTPTS[pip];
+
+# Overlay thumbnail onto slate
+[slate_bg][pip]overlay=x=1170:y=48[slate_with_pip];
+
+# Slate color space conversion
+[slate_with_pip]scale=in_color_matrix=bt709:out_color_matrix=bt709[slate_vf];
+
+# Draw metadata on slate
+[slate_vf]drawtext=text='Sample Show':x=190:y=21:fontcolor=white:fontsize=58:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='Test Vendor':x=(1363+545-tw):y=502:fontcolor=white:fontsize=29:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='2026-02-27 14\:05':x=193:y=175:fontcolor=white:fontsize=33:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='Sample Note\:':x=191:y=490:fontcolor=white:fontsize=40:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text=' * did this':x=191:y=538:fontcolor=white:fontsize=40:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text=' * Did something else.':x=191:y=586:fontcolor=white:fontsize=40:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='SH010_v001':x=195:y=109:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='v001':x=(780+337-tw):y=106:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='1001-1024':x=(1364+547-tw):y=700:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='SH010':x=(1365+543-tw):y=539:fontcolor=white:fontsize=29:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='2d comp':x=196:y=253:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='101':x=(1364+546-tw):y=579:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='1':x=(1363+546-tw):y=622:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='1':x=(1362+547-tw):y=666:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='rec709 with show lut':x=(1331+576-tw):y=737:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='richs128':x=930:y=36:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='Unknown':x=199:y=428:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc', 
+    drawtext=text='This is the shots description.':x=195:y=312:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc'[slate_out];
+
+# Main video scaling and padding
+[main_v]scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1[v_step_0];
+
+# Main video OCIO color management
+[v_step_0]ocio=config='../ffmpeg-ocio-test/sourcemedia/studio-config-v1.0.0_aces-v1.3_ocio-v2.1_ns.ocio': 
+    input='ACEScg':display='sRGB - Display':view='ACES 1.0 - SDR Video'[v_step_1];
+
+# Main video burn-ins
+[v_step_1]drawtext=text='Sample Note':x=10:y=h-th-10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001, 
+    drawtext=text='Test Vendor':x=(w-tw)/2:y=h-th-10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001, 
+    drawtext=text='%{frame_num}':x=w-tw-10:y=h-th-10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001, 
+    drawtext=text='SH010_v001':x=10:y=10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001, 
+    drawtext=text='Sample Show':x=(w-tw)/2:y=10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001, 
+    drawtext=text='2026-02-27 14\:05':x=w-tw-10:y=10:fontcolor=white:fontsize=30:fontfile='/System/Library/Fonts/Helvetica.ttc':box=1:boxcolor=black@0.5:boxborderw=5:start_number=1001[v_step_2];
+
+# Final format pass
+[v_step_2]scale=in_color_matrix=bt709:out_color_matrix=bt709[video_out];
+
+# Join slate and video
+[slate_out][video_out]concat=n=2:v=1:a=0[final_v]
+```

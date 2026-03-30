@@ -158,9 +158,9 @@ When encoding in 8-bit, only 219 levels are available for luminance (16–235). 
 
 | Bit Depth | Range Type | Banding Risk | Notes |
 | :--- | :--- | :--- | :--- |
-| **8-bit**  | **TV (Legal)**  | **High**   | Most prone to banding in gradients. |
-| **8-bit**  | **Full (PC)**   | **Medium** | Better, but not always supported by hardware players. |
-| **10-bit** | **TV (Legal)**  | **Low**    | Preferred for professional review; supported by modern browsers and players. |
+| **8-bit** | **TV (Legal)** | **High** | Most prone to banding in gradients. |
+| **8-bit** | **Full (PC)** | **Medium** | Better, but not always supported by hardware players. |
+| **10-bit** | **TV (Legal)** | **Low** | Preferred for professional review; supported by modern browsers and players. |
 
 You can force the encoding to be full range using the libswscale library by using
 

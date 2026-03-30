@@ -32,13 +32,15 @@ We are going to focus on codecs that match one of the following conditions:
 | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
 | [h264](Encodeh264.html) | x264 | 8 10 | YUV-4:4:4 yuv-4:2:2 YUV-4:2:0 | All Browsers | HLG |
 | [VP9](EncodeVP9.html) | libvpx-vp9 | 8 10 12 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All Browsers | Yes |
-| [HEVC/H265](EncodeHevc.html) | libx265 | 8 10 12 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All browsers | Yes |
-| [HEVC/H265](EncodeHevc.html) | hevc_videotoolbox | 8 10 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All browsers | Yes |
+| [HEVC/H265](EncodeHevc.html) | libx265 | 8 10 12 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All browsers* | Yes |
+| [HEVC/H265](EncodeHevc.html) | hevc_videotoolbox | 8 10 | yuv-4:2:0 yuv-4:2:2 yuv-4:4:4 rgb rgb-10 rgb-12 | All browsers* | Yes |
 | [AV1](EncodeAv1.html) | libsvtav1 | 8 10 | yuv-4:2:0 | Chrome Firefox Edge | Yes |
 | [Prores](EncodeProres.html) | prores_ks | 10 | yuv-4:4:4:4 yuv-4:4:4 yuv-4:2:2 | Safari | ? |
 | [DNxHD](EncodeDNXHD.html) | dnxhd | 8 10 | yuv-4:2:2 yuv-4:4:4 rgb | no | ? |
 | [Mjpeg](EncodeMJPEG.html) | mjpeg | 8 | yuv-4:2:2 yuv-4:4:4 | no | no |
 | [OpenAPV](EncodeOpenAPV.html) | liboapv | 10 12 | yuv-4:4:4:4 yuv-4:4:4 yuv-4:2:2 | no | yes |
+
+* HEVC support in browsers is a bit of a mess. It works in Safari, Firefox and Chrome on MacOS. It works in Firefox and Chrome on Linux. It works in Firefox on Windows, but not in Chrome on Windows. In many cases it needs to be supported by the GPU though and configured correctly.
 
 For a high level comparison we have encoded 4 sets of media using our recommended settings, all with the aim of getting the VMAF score > 98.  libx264 libstvav1 and vp9 were all encoded 4:2:0 and DNxHD and Prores were at 10-bit 4:2:2.
 
@@ -51,14 +53,14 @@ For details on codec flags, and how we picked the parameters, do goto the page f
 
 ## Uncompressed containers
 
-[Y4m](https://wiki.multimedia.cx/index.php/YUV4MPEG2) is a terrific container for uncompressed media. It allows uncompressed raw YCrCb data to be stored with a simple header.
+[Y4m](https://wiki.multimedia.cx/index.php/YUV4MPEG2) is a terrific container for uncompressed media. It allows uncompressed raw YCbCr data to be stored with a simple header.
 
 ## Uncompressed Codecs
 
 Ffmpeg has support for a small number of uncompressed codecs that are worth using for testing. We don't recommend any of them for day-to-day use.
 
 | Codec | Description | Pix Fmt | Notes |
-|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+|:----------|:-----------|:-----------|:-----------|
 | v410 | 444 10-bit | yuv444p10le | |
 | v408 | 4444 8-bit with alpha | yuva444p | Quicktime compatible |
 | v308 | 444 8-bit packed | yuv444p |
@@ -71,7 +73,7 @@ Ffmpeg has support for a small number of uncompressed codecs that are worth usin
 Below are other codecs that may be worth considering at some point.
 
 | Codec | Profile description | Pix Fmt | Notes |
-|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+|:----------|:-----------|:-----------|:-----------|
 | hap | HAP and HAPQ codec | rgba |  [HAP](https://hap.video/using-hap.html) - Fast GPU decompression, at the expense of file-size |
 | LCEVC | | | [Low Complexity Enhancement Video Coding](https://docs.v-nova.com/v-nova/lcevc/reference-applications/ffmpeg) |
 

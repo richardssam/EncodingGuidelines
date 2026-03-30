@@ -1,16 +1,16 @@
 ---
 layout: default
-title: Ffmpeg Frame Sequences Specification
+title: FFmpeg Frame Sequences Specification
 nav_order: 2
 parent: Encoding Overview
 
 ---
 
-# Ffmpeg Frame Sequences Specification
+# FFmpeg Frame Sequences Specification
 
 Care needs to be taken when specifying frame sequences, since there is additional metadata that would normally be present in a movie container (e.g. mp4 or mov files) that are not present in an image sequence.
 
-Ffmpeg will convert an image sequence using the [image2](https://ffmpeg.org/ffmpeg-formats.html#image2-1) demuxer. This provides the code for determining how to wildcard as well as how to specify the frame-rate.
+FFmpeg will convert an image sequence using the [image2](https://ffmpeg.org/ffmpeg-formats.html#image2-1) demuxer. This provides the code for determining how to wildcard as well as how to specify the frame-rate.
 
 ## Image sequences
 

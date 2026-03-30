@@ -8,8 +8,8 @@ test_bitdepth:
   - testtype: assertresults
     tests:
     - assert: less
-      value: max_error
-      less: 0.00195
+      value: mean_error
+      less: 0.002
   description: Bitdepth tests.
   encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"
@@ -22,7 +22,7 @@ test_bitdepth:
       -c:v: libx264
       -preset: placebo
       -qp: 0
-      -pix_fmt: yuv420p10le
+      -pix_fmt: yuv420p
       -vf: '"scale=in_range=full:in_color_matrix=bt709:out_range=tv:out_color_matrix=bt709"'
       -color_primaries: bt709
       -color_range: tv

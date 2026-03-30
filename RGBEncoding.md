@@ -7,9 +7,9 @@ parent: Encoding Overview
 
 # RGB Encoding <a name="rgbencode"></a>
 
-You do not *have* to encode into YCrCb, there are a number of codecs that support RGB directly.
+You do not *have* to encode into YCbCr, there are a number of codecs that support RGB directly.
 
-It does lower the compression efficiency a little, but eliminates any concern that the YCrCb conversion is affecting the imagery.
+It does lower the compression efficiency a little, but eliminates any concern that the YCbCr conversion is affecting the imagery.
 
 | Codec Family | ffmpeg codec | Bit depth |  pix_fmt | Web Support |
 | ------------ | ------------ | ------------ | ------------ |

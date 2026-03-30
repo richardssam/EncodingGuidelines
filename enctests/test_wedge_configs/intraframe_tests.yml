@@ -7,7 +7,7 @@ test_intra_mov:
     - testtype: yuvdiff
     - testtype: frame_extract
     suffix: .mov
-    encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - sources/enc_sources/chimera_cars_srgb_dpx_12/chimera_cars_srgb.%05d.dpx.yml
     - sources/enc_sources/chimera_coaster_srgb_dpx_12/chimera_coaster_srgb.%06d.dpx.yml
@@ -156,7 +156,7 @@ test_intra_mp4:
     - testtype: ffmpeg_psnr
     - testtype: yuvdiff
     - testtype: frame_extract
-    encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: '{ffmpeg_bin} {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - sources/enc_sources/chimera_cars_srgb/chimera_cars_srgb.%05d.png.yml
     - sources/enc_sources/chimera_coaster_srgb/chimera_coaster_srgb.%06d.png.yml

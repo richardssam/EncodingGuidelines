@@ -69,7 +69,7 @@ This document and project is still a work in progress. We are working on buildin
 
 ### Authors
 
-This document is primarily the work of Sam Richards. The test suite was developed by Daniel Flehner Heen.
+This document is primarily the work of Sam Richards with input from the ASWF community. The test suite was developed by Daniel Flehner Heen.
 
 ### Feedback and error reporting
 

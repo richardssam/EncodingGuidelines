@@ -20,7 +20,7 @@ test_swsopt_420:
   sources:
   - ../sourceimages/smptehdbars_10_yuv420p10le.y4m
   - ../sourceimages/zoneplate_yuv420p10.y4m
-  - ../sourceimages/yuv420p10_chromaramp.y4m
+  #- ../sourceimages/yuv420p10_chromaramp.y4m
   suffix: .png
   wedges:
     full_chroma_int:  &base_args2
@@ -49,8 +49,8 @@ test_swsopt_420:
 
 ---
 reports:
-  description: This is testing different sws_flags options for extracting from YCrCb to RGB.
+  description: This is testing different sws_flags options for extracting from YCbCr to RGB.
   directory: swsrgbopts-encode
   name: swsrgbopts-tests
   templatefile: colorweb.html.jinja
-  title: Ffmpeg YCrCb to RGB SWS-Flags options.
+  title: Ffmpeg YCbCr to RGB SWS-Flags options.

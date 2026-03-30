@@ -4,9 +4,20 @@ nav_order: 2
 title: Encoding Cheatsheet
 ---
 
+# Encoding Cheatsheet
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
 This is a cheatsheet for encoding best practices for VFX/Animation production. For each section there are more detailed sections on why these settings are picked, and notes on what parameters you may want to change.
 
-This document is based on results from ffmpeg 6.0.
+This document is based on results from FFmpeg 8.1.
 
 ## H264 Encoding from an image sequence for Web Review
 
@@ -26,7 +37,7 @@ comparisontest:
        less: 0.00195
 -->
 ```console
-ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -pix_fmt yuv420p \
+ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -pix_fmt yuv420p10le \
         -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \
         -frames:v 100 -c:v libx264 -preset slower -crf 18 \
         -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc iec61966-2-1 \
@@ -41,8 +52,8 @@ ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png -pix_fmt yuv420p \
 | **[-frames:v](https://ffmpeg.org/ffmpeg.html#toc-Video-Options) 100** | is optional, but allows you to specify how many frames to encode, otherwise it will encode the entire frame range. There is an obsolete alias flag `-vframes` which will be retired. |
 | **-c:v libx264** | use the h264 encoding library (libx264) |
 | **-preset slower** | a reasonably high quality preset, which will run slow, but not terribly slow. |
-| **-pix_fmt yuv420p** | use yuv420 video format, which is typical for web playback. If you want a better quality for RV or other desktop tools use -pix_fmt yuv444p10le |
-| **-color_range tv** | mp4 metadata - specifying color range as 16-235 (which is default for web playback). |
+| **-pix_fmt yuv420p10le** | use yuv420 10-bit video format, which is typical for web playback. If you want a better quality for RV or other desktop tools use -pix_fmt yuv444p10le |
+| **-color_range tv** | mp4 metadata - specifying color range as 64-940 (which is default for 10-bit web playback). |
 | **-colorspace bt709** | mp4 metadata - specifying bt709 yuv color pixel format |
 | **-color_primaries bt709** | mp4 metadata - bt709 color gamut primaries |
 | **-color_trc iec61966-2-1** | mp4 metadata color transfer = iec61966-2-1 = sRGB - See [detailed web color preservation tests](WebColorPreservation.html). In some cases, you may also want -color_trc bt709 |
@@ -84,9 +95,9 @@ comparisontest:
 -->
 ```console
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png \
-    -pix_fmt yuv422p10le -vframes 100 \
+    -pix_fmt yuv422p10le -frames:v 100 \
     -c:v prores_ks -profile:v 3 -qscale:v 9 \
-    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 outputfile.mov
+    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 -vendor apl0 outputfile.mov
 ```
 
 | Flag | Description |
@@ -119,7 +130,7 @@ comparisontest:
 -->
 ```console
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png  \
-    -pix_fmt yuv444p10le -vframes 100 \
+    -pix_fmt yuv444p10le -frames:v 100 \
    -c:v prores_ks -profile:v 4444 -qscale:v 9 \
    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 outputfile.mov
 ```
@@ -137,9 +148,19 @@ For more details see:
 
 ## TV vs. Full range. <a name="tvfull"></a>
 
-All the video formats typically do not use the full numeric range but instead the R', B', G' and Y' (luminance) channel have a nominal range of [16..235]  and the CB and CR channels have a nominal range of [16..240] with 128 as the neutral value. This frequently results in quantisation artifacts for 8-bit encoding (the standard for web playback).
+All the video formats typically do not use the full numeric range but instead the R', B', G' and Y' (luminance) channel have a nominal range of [16..235]  and the CB and CR channels have a nominal range of [16..235] with 128 as the neutral value. This frequently results in quantisation artifacts for 8-bit encoding (the standard for web playback).
 
-TODO Get Quantization examples.
+This reduction in range, especially in 8-bit, can lead to visible "banding" or quantization artifacts in smooth gradients (like skies or shadows).
+
+### Quantization and Bit-Depth
+
+When encoding in 8-bit, only 219 levels are available for luminance (16–235). In 10-bit, this increases to 876 levels (64–940). This extra precision is often enough to eliminate banding even when using "legal" range.
+
+| Bit Depth | Range Type | Banding Risk | Notes |
+| :--- | :--- | :--- | :--- |
+| **8-bit** | **TV (Legal)** | **High** | Most prone to banding in gradients. |
+| **8-bit** | **Full (PC)** | **Medium** | Better, but not always supported by hardware players. |
+| **10-bit** | **TV (Legal)** | **Low** | Preferred for professional review; supported by modern browsers and players. |
 
 You can force the encoding to be full range using the libswscale library by using
 
@@ -150,7 +171,7 @@ You can force the encoding to be full range using the libswscale library by usin
 Specifying *out_range=full* forces the output range, but you also need to set the NCLX tag:
 
 ```console
--color_range 2
+-color_range pc
 ```
 
 A full example encode would look like:
@@ -177,9 +198,9 @@ ffmpeg -y -loop 1 -i ../sourceimages/radialgrad.png \
 We have seen the full range encoding work across all browsers, and a number of players including RV.
 
 {: .important }
-Its worth noting however, that with the increasing support for 10-bit or more encoding, that its really preferable to use 10-bit legal range, rather than stick with 8-bit at all. The file size can be compariable if not a little smaller than 8-bit, and you will more likely eliminate many of the quantizing issues that you will see at 8-bit.
+Its worth noting however, that with the increasing support for 10-bit or more encoding, that its really preferable to use 10-bit legal range, rather than stick with 8-bit at all. The file size can be comparable if not a little smaller than 8-bit, and you will more likely eliminate many of the quantizing issues that you will see at 8-bit.
 
-TODO: Do additional testing across all players.
+While 10-bit TV range is generally well-supported, always verify playback on your target hardware and software players (e.g., VLC, RV, QuickTime Player) to ensure consistent color representation.
 
 For more details see:
 

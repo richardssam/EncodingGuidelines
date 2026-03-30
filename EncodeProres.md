@@ -1,20 +1,29 @@
 ---
 layout: default
-nav_order: 4.2
+nav_order: 4.3
 title: ProRes Encoding
 parent: Codec Comparisons
 ---
 
 # ProRes <a name="prores"></a>
 
-There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based OSX M1 encoder/decoder (ffmpeg version 5 or higher).
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
+There are four ProRes encoders, Prores, Prores_ks, Prores_aw and prores_videotoolbox, which is a hardware based MacOS M1 encoder/decoder (ffmpeg version 5 or higher).
 
 If you are doing lighting or compositing reviews the recommendation is to use Prores_ks with -profile:v 3. If you are able we would recommend using [OpenAPV](https://academysoftwarefoundation.github.io/EncodingGuidelines/EncodeOpenAPV.html) or prores_videotoolbox over prores_ks, and look at a 444 10-bit or 12-bit encode, since they both give a superior result.
 
 The two encoders we are reviewing are:
 
 * [Prores_ks](#prores_ks)
-* [videotoolbox_prores](#videotoolbox_prores) - only available on osx.
+* [videotoolbox_prores](#videotoolbox_prores) - only available on MacOS.
 
 ## Prores_ks
 
@@ -58,7 +67,7 @@ Using this with the usual color space flags, seems to work well with the excepti
 
 ```console
 ffmpeg -i INPUTFILE.mov -compression_level 10 -pred mixed -pix_fmt rgba64be \
-   -sws_flags spline+accurate_rnd+full_chroma_int -vframes 1 \
+   -sws_flags spline+accurate_rnd+full_chroma_int -frames:v 1 \
    -vf scale=in_color_matrix=bt709:out_color_matrix=bt709 OUTPUTFILE.png
 ```
 
@@ -100,7 +109,7 @@ To help pick appropriate values with the -qscale:v , we have run the [Test Frame
 
 ## videotoolbox_prores
 
-If you are on a OSX M1 machine and are using ffmpeg 5.0 or higher, you can use the built in libraries to encode to ProRes using:
+If you are on a MacOS M1 machine and are using ffmpeg 5.0 or higher, you can use the built in libraries to encode to ProRes using:
 
 <!---
 name: test_prores_videotoolbox
@@ -120,7 +129,7 @@ comparisontest:
 ffmpeg -r 24 -start_number 1 -i inputfile.%04d.png  \
          -pix_fmt yuv422p10le \
         -vf "scale=in_color_matrix=bt709:out_color_matrix=bt709" \
-        -vframes 100 -c:v prores_videotoolbox -profile:v 3  \
+        -frames:v 100 -c:v prores_videotoolbox -profile:v 3  \
         -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 outputfile.mov
 
 ```

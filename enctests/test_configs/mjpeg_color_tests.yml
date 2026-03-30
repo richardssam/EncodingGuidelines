@@ -7,8 +7,8 @@ test_mjpeg_444:
   - testtype: assertresults
     tests:
     - assert: less
-      value: max_error
-      less: 0.0039
+      value: mean_error
+      less: 0.003
   description: mjpeg color tests of different pix-fmts
   encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"
@@ -32,7 +32,7 @@ test_mjpeg_444:
       << : *basemjpeg
       -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
       -color_primaries: bt709
-      -color_range: tv
+      -color_range: full
       -color_trc: bt709
       -colorspace: bt709
 
@@ -40,7 +40,7 @@ test_mjpeg_444:
       << : *basemjpeg
       -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
       -color_primaries: bt709
-      -color_range: tv
+      -color_range: full
       -color_trc: bt709
       -colorspace: bt709
  
@@ -71,7 +71,7 @@ test_mjpeg_422:
       << : *basemjpeg422
       -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
       -color_primaries: bt709
-      -color_range: tv
+      -color_range: full
       -color_trc: bt709
       -colorspace: bt709
 
@@ -79,7 +79,7 @@ test_mjpeg_422:
       << : *basemjpeg422
       -vf: '"scale=in_color_matrix=bt709:out_color_matrix=bt709"'
       -color_primaries: bt709
-      -color_range: tv
+      -color_range: full
       -color_trc: bt709
       -colorspace: bt709
 

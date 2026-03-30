@@ -3,7 +3,7 @@ test_mp4:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mkv
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - sources/enc_sources/chimera_cars_srgb_dpx_10/chimera_cars_srgb.%05d.dpx.yml
     - sources/enc_sources/chimera_coaster_srgb_dpx_10/chimera_coaster_srgb.%06d.dpx.yml

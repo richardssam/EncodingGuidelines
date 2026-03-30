@@ -95,7 +95,7 @@ def main():
         outputfileext = outputfile.split(".")[-1]
         template = re.sub("\s\S+$", ' {encoding_args} -y "{outfile}"', test['command'])
         template = re.sub("\s-i\s\S+\s", ' {input_args} -i "{source}" ', template)
-        template = re.sub("\s-vframes\s\S+\s", ' -vframes {duration} ', template)
+        template = re.sub("\s-frames:v\s\S+\s", ' -frames:v {duration} ', template)
 
         # input arg flags.
         for arg in ['-r', '-start_number']:
@@ -111,7 +111,7 @@ def main():
             if arg in ["-y"]:
                 newtemplate = newtemplate + arg + " "
                 continue
-            if arg in ["-i", "-vframes"]:
+            if arg in ["-i", "-frames:v"]:
                 # Assume its an argument followed by something.
                 nextarg = templateargs.pop(0)
                 newtemplate = f"{newtemplate}{arg} {nextarg} "

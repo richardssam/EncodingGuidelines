@@ -3,7 +3,7 @@ test_8_420:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test420.png
     wedges:
@@ -57,7 +57,7 @@ test_8_422:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test422.png
     wedges:
@@ -102,7 +102,7 @@ test_8_444:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test444.png
     wedges:
@@ -147,7 +147,7 @@ test_10_420:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test420.png
     wedges:
@@ -191,7 +191,7 @@ test_10_422:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test422.png
     wedges:
@@ -235,7 +235,7 @@ test_10_444:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test444.png
     wedges:
@@ -280,7 +280,7 @@ test_12_420:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test420.png
     wedges:
@@ -324,7 +324,7 @@ test_12_422:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test422.png
     wedges:
@@ -368,7 +368,7 @@ test_12_444:
     description: A comparison of different codecs, with VMAF > 98.
     app: ffmpeg
     suffix: .mp4
-    encoding_template: 'ffmpeg {input_args} -i "{source}" -vframes {duration} {encoding_args} -y "{outfile}"'
+    encoding_template: 'ffmpeg {input_args} -i "{source}" -frames:v {duration} {encoding_args} -y "{outfile}"'
     sources:
     - ../sourceimages/test444.png
     wedges:

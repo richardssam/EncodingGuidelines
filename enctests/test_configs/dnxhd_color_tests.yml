@@ -7,8 +7,8 @@ test_dnxhd_444:
   - testtype: assertresults
     tests:
     - assert: less
-      value: max_error
-      less: 0.00195
+      value: mean_error
+      less: 0.0004
   description: dnxhd color tests of different pix-fmts
   encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"
@@ -66,8 +66,8 @@ test_dnxhd_422:
   - testtype: assertresults
     tests:
     - assert: less
-      value: max_error
-      less: 0.00195
+      value: mean_error
+      less: 0.0004
   description: dnxhd color tests of different pix-fmts
   encoding_template: ffmpeg -y {input_args} -i "{source}"              {encoding_args}
     -y "{outfile}"

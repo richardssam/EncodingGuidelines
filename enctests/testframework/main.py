@@ -280,7 +280,7 @@ def vmaf_compare(source_clip, test_ref, testname, comparisontestinfo, source_pat
 {ffmpeg_bin} \
 {reference} \
 -i "{distorted}" \
--vframes {duration} \
+-frames:v {duration} \
 -lavfi \
 \"[0:v]setpts=PTS-STARTPTS[reference]; \
 [1:v]setpts=PTS-STARTPTS[distorted]; \
@@ -1191,7 +1191,7 @@ def main():
             print("Outputfile:", output_file)
         
         if not args.force and output_file.exists() and output_file.stat().st_mtime > test_config.config_file().stat().st_mtime:
-            print(f"Skipping test {test_config.config_file()}")
+            #print(f"Skipping test {test_config.config_file()}")
             continue
 
         # Want to get the encoder version, we make a dummy encoder-factory.

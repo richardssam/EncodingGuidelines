@@ -1,0 +1,15 @@
+[settings]
+os=Macos
+compiler=apple-clang
+compiler.version=17
+arch=armv8
+build_type=Release
+compiler.libcxx=libc++
+compiler.cppstd=gnu17
+
+[options]
+# Force the bleeding edge
+&:ffmpeg_version=8.1.1
+ffmpeg*:with_opencolorio=True
+ffmpeg*:with_libvmaf=True
+libx265/*:bit_depth=12

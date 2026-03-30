@@ -25,7 +25,6 @@ test_sws:
   - ../sourceimages/bellnuitHDTestchart.tif
   - ../sourceimages/SonyF35.StillLife_srgb.png
   - sources/hdr_sources/sparks_srgb/sparks_srgb.06201.png
-  - /Users/sam/Downloads/mm-test-close3/hcw_mmtest_close.0105.png
   suffix: .y4m
   wedges:
     default:  &base_args2

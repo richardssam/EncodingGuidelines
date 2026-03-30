@@ -60,7 +60,11 @@ class FFmpegEncoder(ABCTestEncoder):
 
             print(f"Creating Wedge: {test_name} from {self.get_source_path()[0].name}")
 
-            fs = fileseq.findSequencesOnDisk(str(self.get_source_path()[0]))[0]
+            fss = fileseq.findSequencesOnDisk(str(self.get_source_path()[0]))
+            if not fss:
+                print(f"ERROR: Could not find source file {self.get_source_path()[0]}")
+                exit(1)
+            fs = fss[0]
             for f in fs:
                 with open(f, 'rb') as file:
                     file.read()
